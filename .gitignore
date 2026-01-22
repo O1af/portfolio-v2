@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 dist
 dist-ssr
+src/routeTree.gen.ts
 *.local
 count.txt
 .env

@@ -1,13 +1,10 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanStackDevtools } from '@tanstack/react-devtools'
-
-import Header from '../components/Header'
 
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
   head: () => ({
+    title: 'Portfolio',
     meta: [
       {
         charSet: 'utf-8',
@@ -15,9 +12,6 @@ export const Route = createRootRoute({
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1',
-      },
-      {
-        title: 'TanStack Start Starter',
       },
     ],
     links: [
@@ -37,20 +31,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        <Header />
-        {children}
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-          ]}
-        />
+      <body className="min-h-screen bg-slate-950 text-slate-100">
+        <main className="min-h-screen">{children}</main>
         <Scripts />
       </body>
     </html>
