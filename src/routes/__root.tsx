@@ -14,7 +14,7 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
-      { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'icon', href: '/pfp.png' },
       { rel: 'canonical', href: siteUrl },
     ],
     scripts: [

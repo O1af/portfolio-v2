@@ -9,7 +9,7 @@ export function Books() {
   const handleScroll = (direction: "left" | "right") => {
     const container = scrollRef.current;
     if (!container) return;
-    const amount = container.clientWidth * 0.8;
+    const amount = container.clientWidth * 0.6;
     container.scrollBy({
       left: direction === "left" ? -amount : amount,
       behavior: "smooth",
@@ -17,92 +17,93 @@ export function Books() {
   };
 
   return (
-    <section className="py-16 px-6 relative">
-      <div className="absolute inset-0 bg-linear-to-b from-background via-muted/30 to-background" />
-
-      <div className="relative z-10 max-w-5xl mx-auto">
+    <section className="py-24 px-6">
+      <div className="max-w-5xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="mb-8 flex items-end justify-between gap-4"
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mb-12"
         >
-          <div>
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-2">
-              Reading List
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              Books I'm currently reading or have finished
-            </p>
-          </div>
-          <div className="hidden md:flex items-center gap-2">
-            <button
-              type="button"
-              aria-label="Scroll books left"
-              onClick={() => handleScroll("left")}
-              className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-card transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              aria-label="Scroll books right"
-              onClick={() => handleScroll("right")}
-              className="p-2 rounded-full border border-border text-muted-foreground hover:text-foreground hover:bg-card transition-colors"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+            Bookshelf
+          </h2>
+          <p className="mt-3 text-base text-muted-foreground">
+            Things I'm currently reading or highly recommend!
+          </p>
         </motion.div>
 
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory"
-        >
-          {books.map((book, index) => (
-            <motion.div
-              key={book.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-              className="shrink-0 w-60 sm:w-64 snap-start"
-            >
-              <div className="h-full rounded-2xl bg-card/60 border border-border overflow-hidden hover:shadow-sm transition-shadow">
-                <div className="aspect-[3/4] bg-muted/30 flex items-center justify-center">
+        <div className="relative group">
+          <button
+            type="button"
+            aria-label="Scroll left"
+            onClick={() => handleScroll("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground hover:border-border transition-all duration-200 opacity-0 group-hover:opacity-100 shadow-sm"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <button
+            type="button"
+            aria-label="Scroll right"
+            onClick={() => handleScroll("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground hover:border-border transition-all duration-200 opacity-0 group-hover:opacity-100 shadow-sm"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
+
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {books.map((book, index) => (
+              <motion.div
+                key={`${book.title}-${index}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.1,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                className="shrink-0 w-44 snap-start group/card"
+              >
+                <div className="relative aspect-2/3 rounded-lg overflow-hidden bg-muted/30 shadow-sm hover:shadow-lg transition-shadow duration-300">
                   <img
                     src={book.cover}
                     alt={`${book.title} cover`}
-                    className="max-w-full max-h-full object-contain"
+                    className="w-full h-full object-cover"
                   />
-                </div>
-                <div className="p-4 space-y-3">
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-sm font-semibold text-foreground leading-snug">
-                      {book.title}
-                    </h3>
-                    {book.status && (
-                      <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                        {book.status === "completed" ? "Done" : "Reading"}
-                      </span>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-2 rounded-full bg-muted/50 overflow-hidden">
+                  {book.status && (
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20">
                       <div
-                        className="h-full bg-primary transition-[width]"
-                        style={{ width: `${book.progressPercent}%` }}
+                        className="h-full bg-blue-500 transition-all duration-500"
+                        style={{
+                          width:
+                            book.status === "completed"
+                              ? "100%"
+                              : `${book.progressPercent}%`,
+                        }}
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      {book.progressLabel}
-                    </p>
-                  </div>
+                  )}
                 </div>
-              </div>
-            </motion.div>
-          ))}
+                <div className="mt-3 space-y-1">
+                  <h3 className="text-sm font-medium text-foreground leading-tight line-clamp-2">
+                    {book.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {book.status === "completed"
+                      ? "Finished"
+                      : book.progressLabel}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

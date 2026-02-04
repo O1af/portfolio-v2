@@ -4,6 +4,7 @@ import { allPosts } from "content-collections";
 import { MDXContent } from "@content-collections/mdx/react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { siteUrl, personalInfo } from "@/components/Info";
@@ -131,6 +132,7 @@ function BlogPost() {
             </div>
           </motion.div>
         </article>
+        <ScrollProgress />
       </main>
       <Footer />
     </>

@@ -12,13 +12,13 @@ export const personalInfo: PersonalInfo = {
   name: "Olaf Dsouza",
   title: "Software Engineer",
   bio: "I'm currently a student at the University of Michigan interested in Operating Systems, LLMs, and Distributed Systems",
-  email: "olafpd@umich.edu",
+  email: "site@olafdsouza.com",
   profileImage: "/pfp.png",
 };
 
 export const siteMetadata = {
   title: `${personalInfo.name} | ${personalInfo.title}`,
-  description: `${personalInfo.bio}. Previously at Netflix, and MeetYourClass.`,
+  description: `${personalInfo.bio}. Previously at Netflix, and a few startups.`,
   blogTitle: `Blog | ${personalInfo.name}`,
   blogDescription: "A collection of my thoughts, stories, and ideas",
 };
@@ -36,7 +36,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     icon: Mail,
-    href: "mailto:olafpd@umich.edu",
+    href: "mailto:site@olafdsouza.com",
     label: "Email",
   },
 ];
@@ -146,37 +146,37 @@ export const projects: Project[] = [
 export const books: Book[] = [
   {
     title: "Designing Data-Intensive Applications",
-    cover: "/covers/pretending-to-know.jpeg",
+    cover: "/covers/ddia.png",
     progressLabel: "100%",
     progressPercent: 100,
     status: "completed",
   },
   {
     title: "Effective Modern C++",
-    cover: "/covers/pretending-to-know.jpeg",
+    cover: "/covers/emcpp.jpg",
     progressLabel: "Page 31",
     progressPercent: 10,
     status: "reading",
   },
-  {
-    title: "Daily C++ Interview",
-    cover: "/covers/pretending-to-know.jpeg",
-    progressLabel: "Page 24",
-    progressPercent: 8,
-    status: "reading",
-  },
-  {
-    title: "Modern Java in Action",
-    cover: "/covers/pretending-to-know.jpeg",
-    progressLabel: "~66%",
-    progressPercent: 66,
-    status: "reading",
-  },
+
   {
     title: "Computer Architecture: A Quantitative Approach",
-    cover: "/covers/pretending-to-know.jpeg",
+    cover: "/covers/caqa.jpg",
     progressLabel: "Page 10",
     progressPercent: 5,
     status: "reading",
+  }, {
+    title: "Modern Java in Action",
+    cover: "/covers/mjia.jpg",
+    progressLabel: "100%",
+    progressPercent: 100,
+    status: "completed",
   },
+  {
+    title: "The Adtech Book",
+    cover: "/covers/tab.webp",
+    progressLabel: "100%",
+    progressPercent: 100,
+    status: "completed",
+  }
 ];
