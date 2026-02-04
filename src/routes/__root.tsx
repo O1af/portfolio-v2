@@ -1,23 +1,37 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import { ThemeProvider } from '@/components/theme/ThemeProvider'
+import { siteUrl, personalInfo, socialUrls } from '@/components/Info'
 
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
   head: () => ({
-    title: 'Portfolio',
     meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'robots', content: 'index, follow' },
+      { name: 'googlebot', content: 'index, follow' },
     ],
     links: [
+      { rel: 'stylesheet', href: appCss },
+      { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'canonical', href: siteUrl },
+    ],
+    scripts: [
       {
-        rel: 'stylesheet',
-        href: appCss,
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          name: personalInfo.name,
+          url: siteUrl,
+          publisher: {
+            '@type': 'Person',
+            name: personalInfo.name,
+            url: siteUrl,
+            sameAs: [socialUrls.github, socialUrls.linkedin],
+          },
+        }),
       },
     ],
   }),
@@ -27,12 +41,14 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-screen bg-slate-950 text-slate-100">
-        <main className="min-h-screen">{children}</main>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <ThemeProvider>
+          <main className="min-h-screen">{children}</main>
+        </ThemeProvider>
         <Scripts />
       </body>
     </html>
