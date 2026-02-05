@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Image } from "@unpic/react";
 import { education } from "@/components/Info";
 
 export function Education() {
@@ -31,9 +32,12 @@ export function Education() {
               <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-all duration-200">
                 <div className="flex gap-4">
                   <div className="shrink-0">
-                    <img
+                    <Image
                       src={edu.logo}
                       alt={`${edu.school} logo`}
+                      width={48}
+                      height={48}
+                      layout="fixed"
                       className="w-12 h-12 rounded-xl object-cover ring-1 ring-border"
                     />
                   </div>

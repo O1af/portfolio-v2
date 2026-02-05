@@ -4,5 +4,6 @@ export interface Experience {
   logo: string;
   period: string;
   description: string;
+  link?: string;
   location?: string;
 }

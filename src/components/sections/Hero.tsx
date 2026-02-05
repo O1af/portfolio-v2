@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { FileText } from "lucide-react";
+import { Image } from "@unpic/react";
 import { personalInfo, socialLinks } from "@/components/Info";
 
 export function Hero() {
@@ -17,9 +18,13 @@ export function Hero() {
         >
           <div className="relative inline-block">
             <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-primary/20 rounded-full blur-lg opacity-50" />
-            <img
+            <Image
               src={personalInfo.profileImage}
               alt={personalInfo.name}
+              width={96}
+              height={96}
+              layout="fixed"
+              priority
               className="relative w-24 h-24 rounded-full object-cover ring-1 ring-border"
             />
           </div>
@@ -31,7 +36,7 @@ export function Hero() {
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
           className="text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-4"
         >
-          Hi, I'm {personalInfo.name.split(' ')[0]}
+          Hi, I'm {personalInfo.name.split(" ")[0]}
         </motion.h1>
 
         <motion.p
@@ -61,15 +66,6 @@ export function Hero() {
               <link.icon className="w-4 h-4" />
             </a>
           ))}
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-secondary/50 border border-border text-muted-foreground hover:text-foreground hover:bg-secondary hover:border-border/80 transition-all duration-200"
-          >
-            <FileText className="w-4 h-4" />
-            <span className="text-sm font-medium">Resume</span>
-          </a>
         </motion.div>
       </div>
     </section>

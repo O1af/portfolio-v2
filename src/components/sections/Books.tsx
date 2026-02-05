@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Image } from "@unpic/react";
 import { books } from "@/components/Info";
 
 export function Books() {
@@ -72,9 +73,12 @@ export function Books() {
                 className="shrink-0 w-44 snap-start group/card"
               >
                 <div className="relative aspect-2/3 rounded-lg overflow-hidden bg-muted/30 shadow-sm hover:shadow-lg transition-shadow duration-300">
-                  <img
+                  <Image
                     src={book.cover}
                     alt={`${book.title} cover`}
+                    width={176}
+                    height={264}
+                    layout="constrained"
                     className="w-full h-full object-cover"
                   />
                   {book.status && (

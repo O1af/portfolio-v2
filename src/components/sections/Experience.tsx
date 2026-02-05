@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { Image } from "@unpic/react";
 import { experiences } from "@/components/Info";
 
 export function Experience() {
@@ -34,9 +35,12 @@ export function Experience() {
               <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-all duration-200">
                 <div className="flex gap-4">
                   <div className="shrink-0">
-                    <img
+                    <Image
                       src={exp.logo}
                       alt={`${exp.company} logo`}
+                      width={48}
+                      height={48}
+                      layout="fixed"
                       className="w-12 h-12 rounded-xl object-cover ring-1 ring-border"
                     />
                   </div>
@@ -64,7 +68,18 @@ export function Experience() {
                     </div>
 
                     <p className="text-sm text-muted-foreground/90 leading-relaxed mt-2">
-                      {exp.description}
+                      {exp.link ? (
+                        <a
+                          href={exp.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-primary hover:text-primary/80 transition-colors"
+                        >
+                          {exp.description}
+                        </a>
+                      ) : (
+                        exp.description
+                      )}
                     </p>
                   </div>
                 </div>

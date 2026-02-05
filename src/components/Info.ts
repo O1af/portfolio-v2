@@ -54,7 +54,7 @@ export const experiences: Experience[] = [
     period: "May 2025 - Aug 2025",
     location: "Los Gatos, CA",
     description:
-      "Expanded Ads Visualization API to improve monitoring of Ad contract performance. Engineered Delivery Obligation Metrics pipeline processing 500M daily events using Kafka, Flink, and Druid.",
+      "Ads Metrics Team.",
   },
   {
     title: "Co-Founder & Engineer",
@@ -63,7 +63,8 @@ export const experiences: Experience[] = [
     period: "Dec 2024 - May 2025",
     location: "Ann Arbor, MI",
     description:
-      "Created AI-Powered SQL Editor and BI Platform with NextJS and TypeScript. Built AI Agent enabling 87% faster database querying with 50+ MAUs.",
+      "ex: quailbi.com",
+    link: "https://quailbi.com",
   },
   {
     title: "Operating Systems TA",
@@ -72,7 +73,7 @@ export const experiences: Experience[] = [
     period: "Aug 2024 - Dec 2024",
     location: "Ann Arbor, MI",
     description:
-      "Taught core OS concepts to 300+ students including concurrency, memory management, and distributed systems. Conducted weekly office hours and lab sessions.",
+      "Taught core OS concepts to 300+ students.",
   },
   {
     title: "Software Engineer Intern",
@@ -81,7 +82,7 @@ export const experiences: Experience[] = [
     period: "May 2024 - Aug 2024",
     location: "Ann Arbor, MI",
     description:
-      "Led migration of entire backend from Google Firestore to NestJS. Reduced cloud costs by 14% through infrastructure consolidation.",
+      "Back-end team.",
   },
   {
     title: "Software Engineer Intern",
@@ -90,7 +91,7 @@ export const experiences: Experience[] = [
     period: "Aug 2022 - Dec 2022",
     location: "Ann Arbor, MI",
     description:
-      "Built data pipeline to scrape and process stats for 200+ athletes. Created internal API endpoints to support data team operations.",
+      "Data Processing Team.",
   },
 ];
 

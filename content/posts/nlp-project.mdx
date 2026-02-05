@@ -1,0 +1,277 @@
+---
+title: "Automatic Frame Classification in U.S. Congressional Speeches Using NLP Models"
+summary: "We build and evaluate automated methods to classify rhetorical frames in U.S. Congressional speeches, comparing a TF–IDF LinearSVC baseline with a fine-tuned DistilBERT model."
+date: 2026-02-04
+author: "Olaf"
+image: /covers/595.png
+---
+
+This is an mdx version of my groups CSE 595 (Natural Language Processing) final project.
+
+[Full PDF](https://www.olafdsouza.com/nlp-project.pdf)
+
+## Abstract
+
+Understanding how politicians frame policy issues is central to analyzing how leaders in the U.S. Congress approach persuasion and agenda-setting on crucial matters in today’s political landscape. However, manually classifying rhetorical frames in thousands of legislative texts is labor-intensive and difficult to scale.
+
+In this project, we develop automated methods to classify rhetorical frames in Congressional speeches. We construct a dataset from the Congressional Record and assign multi-label frame annotations using few-shot LLM prompting with the *Policy Frames Codebook*. We evaluate two models: a TF–IDF LinearSVC classifier capturing lexical features, and a fine-tuned DistilBERT model capturing contextual semantics.
+
+Both models outperform a random baseline, with the SVM achieving the highest macro precision (0.6299) and DistilBERT achieving the highest macro recall (0.8498). These results indicate that Congressional framing exhibits strong stereotypical lexical patterns while also relying on deeper contextual cues. Our findings demonstrate that automated frame classification is feasible even under weak supervision.
+
+---
+
+## 1. Introduction
+
+The goal of this project is to develop a model that can automatically classify rhetorical frames in Congressional speeches. By doing so, we aim to enable large-scale analysis of how politicians across parties and over time strategically emphasize different dimensions of policy issues.
+
+Framing is the process by which speakers highlight certain aspects of an issue while downplaying others. For example, immigration may be framed in terms of humanitarian concerns, national security risks, or economic costs and benefits. Identifying these frames is critical for understanding political persuasion, voter alignment, and agenda-setting.
+
+This work focuses on recorded Congressional speeches and builds computational tools for analyzing rhetorical framing at scale. Prior work has shown that frames can be reliably detected in political and news text. We extend this research to the Congressional Record and compare modern contextual models to transparent lexical baselines.
+
+---
+
+## 2. NLP Task Definition
+
+The task addressed is **multi-sentence, multi-label rhetorical frame classification**.
+
+- **Input**: Multi-sentence text spans from Congressional floor speeches  
+- **Output**: A set of rhetorical frame labels per speech
+
+We adopt the *Policy Frames Codebook*, which defines 15 frames:
+
+- Economics  
+- Capacity & Resources  
+- Morality & Ethics  
+- Fairness & Equality  
+- Legality / Constitutionality  
+- Crime & Punishment  
+- Security & Defense  
+- Health & Safety  
+- Quality of Life  
+- Cultural Identity  
+- Public Sentiment  
+- Political Factors  
+- Policy Description / Prescription / Evaluation  
+- External Regulation / International  
+- Other  
+
+This is a supervised learning task with weak supervision via LLM-generated labels.
+
+---
+
+## 3. Data
+
+Our primary corpus consists of speeches from the **U.S. Congressional Record**, accessed through the GovInfo API. While metadata was readily available, full speech text required recursively resolving internal JSON endpoints. We implemented a Python pipeline to extract and aggregate all relevant speech content.
+
+### 3.1 Cleaning
+
+The raw data contained substantial noise, including:
+
+- Procedural phrases (“I yield,” “Without objection”)  
+- Vote records  
+- Incomplete transcripts  
+
+We applied a cleaning pipeline that:
+
+- Removed entries under 15 tokens  
+- Stripped HTML and formatting artifacts  
+- Normalized whitespace  
+- Deduplicated records by speaker, date, and speech ID  
+- Used an LLM filter to remove purely procedural content  
+
+### 3.2 Dataset Statistics
+
+After cleaning:
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Total entries</td>
+      <td>13,999</td>
+    </tr>
+    <tr>
+      <td>Usable speeches</td>
+      <td>9,933 (71.0%)</td>
+    </tr>
+    <tr>
+      <td>Procedural / discarded</td>
+      <td>4,066 (29.0%)</td>
+    </tr>
+    <tr>
+      <td>Average length</td>
+      <td>2,407 tokens (median 1,208)</td>
+    </tr>
+    <tr>
+      <td>Max length</td>
+      <td>61,740 tokens</td>
+    </tr>
+    <tr>
+      <td>Distinct speakers</td>
+      <td>~980</td>
+    </tr>
+  </tbody>
+</table>
+
+### 3.3 Frame Annotation
+
+Because no labeled frame dataset exists for Congressional speeches, we generated labels using a 20B-parameter open-source GPT model with few-shot prompting. Outputs were standardized to the 15-frame schema.
+
+Manual verification of 15 randomly sampled speeches showed **14/15 exact matches**, with the remaining case being a broader but still valid labeling.
+
+---
+
+## 4. Related Work
+
+### 4.1 Weakly Supervised Frame Tagging
+
+Roy and Goldwasser (2020) demonstrate that weak supervision can recover nuanced framing in news media, showing ideological separation through subframe modeling.
+
+### 4.2 Deep Learning for Frame Classification
+
+Liu et al. (2019) fine-tune BERT on news headlines, outperforming LSTM and lexicon-based methods, validating Transformer-based framing models.
+
+### 4.3 Linguistic Theory Gaps
+
+Otmakhova et al. (2024) caution that many NLP framing studies conflate topic classification with framing, highlighting the need for better integration with linguistic theory.
+
+### 4.4 LLMs as Judges
+
+Elmas and Gul (2023) show that LLMs can generate reliable multi-label frame annotations but should be treated as *silver* rather than gold labels.
+
+### 4.5 Political Actor Modeling
+
+Mou et al. (2023) propose UPPAM, showing that pretrained language models can capture political style and behavior when adapted to domain-specific corpora.
+
+---
+
+## 5. Methodology
+
+### 5.1 TF–IDF + LinearSVC Baseline
+
+- Unigrams and bigrams  
+- Min DF = 5, Max DF = 0.9  
+- Sublinear TF scaling  
+- English stopword removal  
+
+Classification used a **One-vs-Rest LinearSVC**, with class-balanced weights. Since SVMs lack native probabilities, we applied **Platt scaling** via `CalibratedClassifierCV`, tuning per-label thresholds to maximize F1.
+
+### 5.2 DistilBERT Model
+
+We fine-tuned `distilbert-base-uncased` for multi-label classification:
+
+- Linear head with 15 sigmoid outputs  
+- BCEWithLogitsLoss with inverse-frequency class weights  
+- AdamW optimizer  
+- Learning rate: 2e-5  
+- Batch size: 16  
+- Epochs: 3  
+- Dropout: 0.1  
+- Gradient clipping: 1.0  
+
+---
+
+## 6. Evaluation and Results
+
+The dataset was split:
+
+<table>
+  <thead>
+    <tr>
+      <th>Split</th>
+      <th>Percentage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Training</td>
+      <td>70%</td>
+    </tr>
+    <tr>
+      <td>Validation</td>
+      <td>15%</td>
+    </tr>
+    <tr>
+      <td>Test</td>
+      <td>15%</td>
+    </tr>
+  </tbody>
+</table>
+
+### 6.1 Random Baseline
+
+- **Micro-F1**: 0.2923  
+- **Macro-F1**: 0.2538  
+- **Hamming Loss**: 0.4172  
+
+Performance scaled with label frequency, highlighting strong class imbalance.
+
+### 6.2 Model Comparison
+
+| Metric | Random | SVM | DistilBERT |
+|------|-------|-----|------------|
+| F1 (Micro) | 0.2923 | **0.7547** | 0.7424 |
+| F1 (Macro) | 0.2538 | 0.6592 | **0.6609** |
+| Precision (Macro) | 0.3094 | **0.6299** | 0.5748 |
+| Recall (Macro) | 0.2769 | 0.7026 | **0.8498** |
+| Hamming Loss | 0.4172 | **0.1179** | 0.1303 |
+
+Lexical features yield strong precision, while contextual embeddings improve recall on subtle or rare frames.
+
+---
+
+## 7. Discussion
+
+The results highlight complementary strengths between linear and Transformer-based models. Congressional framing exhibits consistent lexical patterns that linear models capture well, but also relies on cross-sentence semantics that benefit from contextual modeling.
+
+Label imbalance and extreme document length remain major challenges. Still, both learned models substantially outperform random prediction, demonstrating that rhetorical framing is learnable even with weak supervision.
+
+---
+
+## 8. Conclusion
+
+This project shows that automated rhetorical frame classification in Congressional speeches is both feasible and informative. Linear SVMs excel at precision via stereotyped lexical cues, while DistilBERT captures nuanced contextual signals with higher recall.
+
+These findings establish a foundation for scalable computational analysis of legislative rhetoric and open avenues for richer political science research.
+
+---
+
+## 9. Other Approaches Explored
+
+We prototyped a hierarchical model combining DistilBERT sentence encoders with a BiLSTM document encoder. Due to complexity and time constraints, this approach was deferred to future work.
+
+---
+
+## 10. Future Work
+
+Promising directions include:
+
+- Long-context Transformers (Longformer, BigBird)  
+- Hierarchical document modeling  
+- Domain-adaptive contrastive pretraining  
+- Longitudinal and cross-party framing analysis  
+
+---
+
+## 11. Group Contributions
+
+- **Olaf Dsouza**: Data collection, API pipeline  
+- **Joshua Hsueh**: Model architecture and design  
+- **Yana Patel**: Results, figures, analysis  
+
+All authors contributed to writing and presentation.
+
+---
+
+## References
+
+- Elmas, T., & Gul, I. (2023). *Opinion mining from YouTube captions using ChatGPT*.  
+- Liu, S. et al. (2019). *Detecting frames in news headlines*. CoNLL.  
+- Mou, X. et al. (2023). *UPPAM: Unified pre-training for political actor modeling*. ACL.  
+- Otmakhova, Y. et al. (2024). *Media framing: A typology and survey*. ACL.  
+- Roy, S., & Goldwasser, D. (2020). *Weakly supervised learning of nuanced frames*. CoRR.

@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { allPosts } from "content-collections";
 import { MDXContent } from "@content-collections/mdx/react";
+import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
@@ -119,9 +120,14 @@ function BlogPost() {
 
             {post.image && (
               <div className="mb-10 bg-muted/30 rounded-2xl ring-1 ring-border overflow-hidden">
-                <img
+                <Image
                   src={post.image}
                   alt={post.title}
+                  width={1200}
+                  height={800}
+                  layout="constrained"
+                  priority
+                  style={{ objectFit: "contain" }}
                   className="w-full max-h-[320px] sm:max-h-[420px] lg:max-h-[520px] object-contain"
                 />
               </div>

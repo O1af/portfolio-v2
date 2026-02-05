@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { allPosts } from "content-collections";
+import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { format } from "date-fns";
@@ -97,9 +98,13 @@ function BlogIndex() {
                   <article className="h-full rounded-xl bg-card/50 border border-border overflow-hidden hover:bg-card hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 transition-all duration-300 hover:-translate-y-0.5">
                     {post.image && (
                       <div className="aspect-[3/2] overflow-hidden bg-muted/30 flex items-center justify-center">
-                        <img
+                        <Image
                           src={post.image}
                           alt={post.title}
+                          width={600}
+                          height={400}
+                          layout="constrained"
+                          style={{ objectFit: "contain" }}
                           className="max-w-full max-h-full object-contain group-hover:scale-[1.02] transition-transform duration-500"
                         />
                       </div>
