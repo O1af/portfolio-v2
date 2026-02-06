@@ -6,8 +6,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { format } from "date-fns";
 import { siteUrl, personalInfo, siteMetadata } from "@/components/Info";
+import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
-const sortedPosts = allPosts.sort(
+const sortedPosts = [...allPosts].sort(
   (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 
@@ -17,46 +18,40 @@ export const Route = createFileRoute("/blog/")({
     meta: [
       { name: "description", content: siteMetadata.blogDescription },
       { name: "author", content: personalInfo.name },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: `${siteUrl}/blog` },
-      { property: "og:title", content: siteMetadata.blogTitle },
-      { property: "og:description", content: siteMetadata.blogDescription },
-      { property: "og:image", content: `${siteUrl}${personalInfo.profileImage}` },
-      { property: "og:site_name", content: personalInfo.name },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:url", content: `${siteUrl}/blog` },
-      { name: "twitter:title", content: siteMetadata.blogTitle },
-      { name: "twitter:description", content: siteMetadata.blogDescription },
-      { name: "twitter:image", content: `${siteUrl}${personalInfo.profileImage}` },
+      ...buildSocialMeta({
+        title: siteMetadata.blogTitle,
+        description: siteMetadata.blogDescription,
+        url: `${siteUrl}/blog`,
+        image: `${siteUrl}${personalInfo.profileImage}`,
+        siteName: personalInfo.name,
+        type: "website",
+      }),
     ],
     links: [{ rel: "canonical", href: `${siteUrl}/blog` }],
     scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Blog",
-          name: `${personalInfo.name}'s Blog`,
-          description: siteMetadata.blogDescription,
-          url: `${siteUrl}/blog`,
+      jsonLd({
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: `${personalInfo.name}'s Blog`,
+        description: siteMetadata.blogDescription,
+        url: `${siteUrl}/blog`,
+        author: {
+          "@type": "Person",
+          name: personalInfo.name,
+          url: siteUrl,
+        },
+        blogPost: sortedPosts.map((post) => ({
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.summary,
+          datePublished: post.date,
           author: {
             "@type": "Person",
-            name: personalInfo.name,
-            url: siteUrl,
+            name: post.author,
           },
-          blogPost: sortedPosts.map((post) => ({
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.summary,
-            datePublished: post.date,
-            author: {
-              "@type": "Person",
-              name: post.author,
-            },
-            url: `${siteUrl}/blog/${post.slug}`,
-          })),
-        }),
-      },
+          url: `${siteUrl}/blog/${post.slug}`,
+        })),
+      }),
     ],
   }),
   component: BlogIndex,
@@ -104,6 +99,8 @@ function BlogIndex() {
                           width={600}
                           height={400}
                           layout="constrained"
+                          loading="lazy"
+                          decoding="async"
                           style={{ objectFit: "contain" }}
                           className="max-w-full max-h-full object-contain group-hover:scale-[1.02] transition-transform duration-500"
                         />

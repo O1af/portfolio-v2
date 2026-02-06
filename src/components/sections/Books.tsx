@@ -42,7 +42,7 @@ export function Books() {
   };
 
   return (
-    <section className="py-24 px-6">
+    <section id="books" className="scroll-mt-24 py-24 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -113,6 +113,8 @@ export function Books() {
                     width={176}
                     height={264}
                     layout="constrained"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover"
                   />
                   {book.status && (

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { personalInfo } from "@/components/Info";
+import { CommandPalette } from "@/components/search/CommandPalette";
 
 export function Header() {
   return (
@@ -19,7 +20,7 @@ export function Header() {
           {personalInfo.name}
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <Link
             to="/"
             className="text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -32,6 +33,7 @@ export function Header() {
           >
             Blog
           </Link>
+          <CommandPalette />
           <ThemeToggle />
         </div>
       </nav>

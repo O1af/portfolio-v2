@@ -3,5 +3,6 @@ export interface PersonalInfo {
   title: string;
   bio: string;
   email: string;
+  avatarImage: string;
   profileImage: string;
 }

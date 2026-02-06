@@ -13,7 +13,8 @@ export const personalInfo: PersonalInfo = {
   title: "Software Engineer",
   bio: "I'm currently a student at the University of Michigan interested in Operating Systems, LLMs, and Distributed Systems",
   email: "site@olafdsouza.com",
-  profileImage: "/pfp.png",
+  avatarImage: "/pfp-avatar.jpg",
+  profileImage: "/pfp-social.jpg",
 };
 
 export const siteMetadata = {
@@ -205,7 +206,7 @@ export const projects: Project[] = [
 export const books: Book[] = [
   {
     title: "Designing Data-Intensive Applications",
-    cover: "/covers/ddia.png",
+    cover: "/covers/ddia.jpg",
     progressLabel: "100%",
     progressPercent: 100,
     status: "completed",

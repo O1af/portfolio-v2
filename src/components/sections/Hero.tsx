@@ -1,11 +1,13 @@
 import { motion } from "motion/react";
-import { FileText } from "lucide-react";
 import { Image } from "@unpic/react";
 import { personalInfo, socialLinks } from "@/components/Info";
 
 export function Hero() {
   return (
-    <section className="min-h-[85vh] flex flex-col items-center justify-center px-6 pt-20 pb-8 relative overflow-hidden">
+    <section
+      id="hero"
+      className="scroll-mt-24 min-h-[85vh] flex flex-col items-center justify-center px-6 pt-20 pb-8 relative overflow-hidden"
+    >
       <div className="absolute inset-0 bg-linear-to-b from-background via-background to-muted/20" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent" />
 
@@ -19,7 +21,7 @@ export function Hero() {
           <div className="relative inline-block">
             <div className="absolute -inset-1 bg-linear-to-r from-primary/30 to-primary/20 rounded-full blur-lg opacity-50" />
             <Image
-              src={personalInfo.profileImage}
+              src={personalInfo.avatarImage}
               alt={personalInfo.name}
               width={96}
               height={96}

@@ -4,7 +4,7 @@ import { experiences } from "@/components/Info";
 
 export function Experience() {
   return (
-    <section className="py-8 px-6 relative">
+    <section id="experience" className="scroll-mt-24 py-8 px-6 relative">
       <div className="absolute inset-0 bg-linear-to-b from-muted/20 via-background to-background" />
 
       <div className="relative z-10 max-w-4xl mx-auto">
@@ -41,6 +41,8 @@ export function Experience() {
                       width={48}
                       height={48}
                       layout="fixed"
+                      loading="lazy"
+                      decoding="async"
                       className="w-12 h-12 rounded-xl object-cover ring-1 ring-border"
                     />
                   </div>

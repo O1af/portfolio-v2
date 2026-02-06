@@ -9,6 +9,7 @@ import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { format } from "date-fns";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { siteUrl, personalInfo } from "@/components/Info";
+import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
@@ -37,44 +38,38 @@ export const Route = createFileRoute("/blog/$slug")({
           property: "article:published_time",
           content: new Date(post.date).toISOString(),
         },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: postUrl },
-        { property: "og:title", content: post.title },
-        { property: "og:description", content: post.summary },
-        { property: "og:image", content: imageUrl },
-        { property: "og:site_name", content: personalInfo.name },
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:url", content: postUrl },
-        { name: "twitter:title", content: post.title },
-        { name: "twitter:description", content: post.summary },
-        { name: "twitter:image", content: imageUrl },
+        ...buildSocialMeta({
+          title: post.title,
+          description: post.summary,
+          url: postUrl,
+          image: imageUrl,
+          siteName: personalInfo.name,
+          type: "article",
+        }),
       ],
       links: [{ rel: "canonical", href: postUrl }],
       scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.summary,
-            image: imageUrl,
-            datePublished: new Date(post.date).toISOString(),
-            author: {
-              "@type": "Person",
-              name: post.author,
-            },
-            publisher: {
-              "@type": "Person",
-              name: personalInfo.name,
-              url: siteUrl,
-            },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": postUrl,
-            },
-          }),
-        },
+        jsonLd({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.summary,
+          image: imageUrl,
+          datePublished: new Date(post.date).toISOString(),
+          author: {
+            "@type": "Person",
+            name: post.author,
+          },
+          publisher: {
+            "@type": "Person",
+            name: personalInfo.name,
+            url: siteUrl,
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": postUrl,
+          },
+        }),
       ],
     };
   },
