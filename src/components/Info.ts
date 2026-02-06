@@ -85,6 +85,14 @@ export const experiences: Experience[] = [
       "Back-end team.",
   },
   {
+    title: "Research Project Lead",
+    company: "University of Michigan",
+    logo: "/logo/umich.jpeg",
+    period: "Apr 2023 - Aug 2024",
+    location: "Ann Arbor, MI",
+    description: "MRAPID Air Quality Monitoring Project.",
+  },
+  {
     title: "Software Engineer Intern",
     company: "Infinite Degrees",
     logo: "/logo/idx.jpeg",
@@ -118,30 +126,80 @@ export const projects: Project[] = [
   {
     title: "Flash Chat",
     description:
-      "Built the world's fastest AI chatbot, benchmarked 10x faster than ChatGPT and DeepSeek. Utilized Cloudflare Workers for minimal latency (60ms) and Groq for maximum inference speed (3000 tokens/s).",
-    tags: ["Remix", "Cloudflare Workers", "Groq", "Vercel AI SDK"],
-    highlight: "10x faster than ChatGPT",
+      "Built the world's fastest AI chatbot. Utilized Cloudflare Workers for minimal latency (60ms) and Groq for maximum inference speed (3000 tokens/s).",
+    tags: ["Remix", "Groq", "Vercel AI SDK"],
+    github: "https://github.com/O1af/flash-chat",
+    date: "Aug 2025",
+    category: "AI / ML",
   },
   {
     title: "Azure AI Adapter",
     description:
-      "Open-source npm package for the Vercel AI SDK with 1500+ weekly downloads. Abstracts the Azure AI API simplifying access to 1,800+ models including DeepSeek-R1 & Meta Llama.",
+      "Open-source npm package for the Vercel AI SDK with 2000+ weekly downloads",
     tags: ["TypeScript", "Azure AI", "Vercel AI SDK", "NPM"],
-    github: "https://github.com/o1af/azure-ai-adapter",
-    highlight: "1500+ weekly downloads",
+    github: "https://github.com/QuailAI/azure-ai-provider",
+    highlight: "2000+ weekly downloads",
+    date: "Jan 2025",
+    category: "AI / ML",
   },
   {
     title: "Distributed Key-Value Stores",
     description:
-      "Five complex distributed key-value stores exploring fault tolerance, replication, and consensus. Implementations include primary-backup, Paxos consensus, and Paxos with dynamic sharding.",
+      "Created 5 complex distributed key-value stores exploring fault tolerance, replication, and consensus.",
     tags: ["Go", "Dafny", "Paxos", "2PC", "Sharding"],
+    category: "Systems",
+    date: "Dec 2024",
   },
   {
     title: "Multithreaded Network File Server",
     description:
       "Heavily concurrent, crash-consistent network fileserver utilizing committing writes, Boost threads, R/W locks for concurrency, and POSIX sockets for network communication.",
-    tags: ["C++", "Threading", "Sockets", "Fault Tolerance"],
+    tags: ["C++", "Fault Tolerance"],
+    category: "Systems",
+    date: "May 2024",
   },
+  {
+    title: "Chrome Counter",
+    description: "A Chrome extension that counts how many tabs you have (and encourages you to cut down :)",
+    github: "https://github.com/O1af/chrome-counter",
+    date: "Jan 2022",
+    category: "Web Development",
+    link: "https://chromewebstore.google.com/detail/mjddiojooncnbaiibiagioncjmabfhfd?utm_source=item-share-cb",
+    tags: ["JavaScript", "HTML", "CSS"],
+  },
+  {
+    title: "IronThief",
+    description: "A minecraft server plugin that tracks the movement of iron in your world.",
+    tags: ["Java"],
+    category: "Games",
+    date: "Feb 2022",
+    github: "https://github.com/O1af/ironThief",
+  },
+  {
+    title: "Gamepigeon Tanks Solver",
+    description: "A solver for the Gamepigeon Tanks game using computer vision.",
+    tags: ["Python", "Computer Vision"],
+    category: "Games",
+    date: "Sep 2021",
+    github: "https://github.com/O1af/gamepigeon",
+  },
+  {
+    title: "SnakeBot",
+    description: "A discord social credit system",
+    github: "https://github.com/O1af/snakeBot",
+    date: "Feb 2021",
+    category: "Games",
+    tags: ["Python"],
+  },
+  {
+    title: "Quail",
+    description: "Quail was an AI Powered BI Platform/ SQL Editor.",
+    github: "https://github.com/O1af/quail",
+    date: "Jan 2025",
+    category: "AI / ML",
+    link: "https://quailbi.com",
+    tags: ["TypeScript", "SQL", "AI"],
+  }
 ];
 
 export const books: Book[] = [

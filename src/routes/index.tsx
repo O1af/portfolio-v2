@@ -5,6 +5,7 @@ import { Education } from "@/components/sections/Education";
 import { Experience } from "@/components/sections/Experience";
 import { Footer } from "@/components/layout/Footer";
 import { Books } from "@/components/sections/Books";
+import { Projects } from "@/components/sections/Projects";
 import {
   siteUrl,
   personalInfo,
@@ -71,6 +72,7 @@ function App() {
       <Experience />
       <Books />
       <Education />
+      <Projects />
       <Footer />
     </>
   );

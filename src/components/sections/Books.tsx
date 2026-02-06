@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Image } from "@unpic/react";
@@ -6,13 +6,37 @@ import { books } from "@/components/Info";
 
 export function Books() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 1);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    updateScrollState();
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      el.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, [updateScrollState]);
 
   const handleScroll = (direction: "left" | "right") => {
     const container = scrollRef.current;
     if (!container) return;
-    const amount = container.clientWidth * 0.6;
+    const firstChild = container.children[0] as HTMLElement | undefined;
+    if (!firstChild) return;
+    const gap = parseFloat(getComputedStyle(container).gap) || 0;
+    const step = firstChild.offsetWidth + gap;
     container.scrollBy({
-      left: direction === "left" ? -amount : amount,
+      left: direction === "left" ? -step : step,
       behavior: "smooth",
     });
   };
@@ -39,8 +63,13 @@ export function Books() {
           <button
             type="button"
             aria-label="Scroll left"
+            disabled={!canScrollLeft}
             onClick={() => handleScroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground hover:border-border transition-all duration-200 opacity-0 group-hover:opacity-100 shadow-sm"
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 transition-all duration-200 shadow-sm ${
+              canScrollLeft
+                ? "text-muted-foreground hover:text-foreground hover:border-border opacity-0 group-hover:opacity-100"
+                : "text-muted-foreground/25 border-border/30 opacity-0 group-hover:opacity-40 cursor-default"
+            }`}
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -48,8 +77,13 @@ export function Books() {
           <button
             type="button"
             aria-label="Scroll right"
+            disabled={!canScrollRight}
             onClick={() => handleScroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 text-muted-foreground hover:text-foreground hover:border-border transition-all duration-200 opacity-0 group-hover:opacity-100 shadow-sm"
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 transition-all duration-200 shadow-sm ${
+              canScrollRight
+                ? "text-muted-foreground hover:text-foreground hover:border-border opacity-0 group-hover:opacity-100"
+                : "text-muted-foreground/25 border-border/30 opacity-0 group-hover:opacity-40 cursor-default"
+            }`}
           >
             <ChevronRight className="w-5 h-5" />
           </button>
