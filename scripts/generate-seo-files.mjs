@@ -1,7 +1,9 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-const siteUrl = process.env.SITE_URL?.trim().replace(/\/+$/, "") ?? "";
+const defaultSiteUrl = "https://olafdsouza.com";
+const siteUrl =
+  process.env.SITE_URL?.trim().replace(/\/+$/, "") || defaultSiteUrl;
 const absolute = (pathname) => (siteUrl ? `${siteUrl}${pathname}` : pathname);
 
 const postsDir = path.resolve("content/posts");
@@ -114,7 +116,9 @@ ${lines.join("\n")}
 }
 
 function renderLlmsTxt(posts) {
-  const postLines = posts.map((post) => `- ${post.url} (${post.title})`).join("\n");
+  const postLines = posts
+    .map((post) => `- ${post.url} (${post.title})`)
+    .join("\n");
 
   return `# Olaf Dsouza
 
@@ -149,7 +153,10 @@ async function main() {
   await fs.writeFile(llmsPath, renderLlmsTxt(posts), "utf8");
   await fs.writeFile(robotsPath, renderRobotsTxt(), "utf8");
   console.log(
-    `Generated ${path.relative(process.cwd(), sitemapPath)}, ${path.relative(process.cwd(), llmsPath)}, and ${path.relative(process.cwd(), robotsPath)}.`
+    `Generated ${path.relative(process.cwd(), sitemapPath)}, ${path.relative(
+      process.cwd(),
+      llmsPath
+    )}, and ${path.relative(process.cwd(), robotsPath)}.`
   );
 }
 

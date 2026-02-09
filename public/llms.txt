@@ -2,14 +2,14 @@
 
 Personal website and blog for Olaf Dsouza, software engineer.
 
-Site: /
-Sitemap: /sitemap.xml
+Site: https://olafdsouza.com
+Sitemap: https://olafdsouza.com/sitemap.xml
 Contact: mailto:site@olafdsouza.com
 
 ## Primary Pages
-- /
-- /blog
+- https://olafdsouza.com/
+- https://olafdsouza.com/blog
 
 ## Blog Posts
-- /blog/nlp-project (Automatic Frame Classification in U.S. Congressional Speeches Using NLP Models)
-- /blog/ulcs-class-reviews-michigan (An Honest Review of Every ULCS Class I Have Taken at Michigan)
+- https://olafdsouza.com/blog/nlp-project (Automatic Frame Classification in U.S. Congressional Speeches Using NLP Models)
+- https://olafdsouza.com/blog/ulcs-class-reviews-michigan (An Honest Review of Every ULCS Class I Have Taken at Michigan)

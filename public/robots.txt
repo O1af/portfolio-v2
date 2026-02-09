@@ -1,5 +1,5 @@
 User-agent: *
 Disallow:
 
-Sitemap: /sitemap.xml
+Sitemap: https://olafdsouza.com/sitemap.xml
 Allow: /llms.txt
