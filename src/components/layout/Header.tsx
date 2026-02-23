@@ -33,6 +33,12 @@ export function Header() {
           >
             Blog
           </Link>
+          <Link
+            to="/connections"
+            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Connections
+          </Link>
           <CommandPalette />
           <ThemeToggle />
         </div>

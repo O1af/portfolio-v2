@@ -26,7 +26,7 @@ export type SearchItem = {
     }
   | {
       type: "route";
-      to: "/" | "/blog" | "/blog/$slug";
+      to: "/" | "/blog" | "/blog/$slug" | "/connections";
       params?: { slug: string };
       hash?: string;
     }
@@ -275,6 +275,16 @@ export function buildSearchIndex(): SearchItem[] {
       group: "Navigate",
       to: "/blog",
       priority: 84,
+    },
+    {
+      id: "nav-connections",
+      type: "route",
+      title: "Connections",
+      subtitle: "Word puzzle game — find four groups of four",
+      keywords: ["connections", "game", "puzzle", "words", "nyt"],
+      group: "Navigate",
+      to: "/connections",
+      priority: 80,
     },
   ];
 

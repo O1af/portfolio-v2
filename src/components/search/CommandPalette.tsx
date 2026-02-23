@@ -73,7 +73,8 @@ export function CommandPalette() {
           item.id === "action-linkedin" ||
           item.id === "nav-home" ||
           item.id === "nav-blog" ||
-          item.id === "nav-projects"
+          item.id === "nav-projects" ||
+          item.id === "nav-connections"
       ),
     [index]
   );
