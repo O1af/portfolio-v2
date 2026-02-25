@@ -9,7 +9,7 @@ import { siteUrl } from "@/components/Info";
 
 export const Route = createFileRoute("/connections")({
   head: () => ({
-    title: "Connections | Olaf D'Souza",
+    title: "Connections | Olaf Dsouza",
     meta: [
       {
         name: "description",
