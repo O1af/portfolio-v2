@@ -3,10 +3,8 @@ import { personalInfo, socialLinks } from "@/components/Info";
 
 export function Footer() {
   return (
-    <footer className="relative py-8 px-6">
-      <div className="absolute inset-0 bg-linear-to-b from-background to-muted/10" />
-
-      <div className="relative z-10 max-w-4xl mx-auto">
+    <footer className="py-8 px-6">
+      <div className="max-w-4xl mx-auto">
         <Separator className="mb-8" />
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
