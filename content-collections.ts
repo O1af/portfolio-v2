@@ -1,6 +1,10 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
 import os from "node:os";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { renderToStaticMarkup } from "react-dom/server";
+import * as _jsx_runtime from "react/jsx-runtime";
 import { z } from "zod";
 
 // for more information on configuration, visit:
@@ -33,11 +37,19 @@ const posts = defineCollection({
     content: z.string(),
   }),
   transform: async (document, context) => {
+    // Render MDX to static HTML here (Node) instead of shipping compiled MDX
+    // code: evaluating it at request time needs `new Function`, which the
+    // Cloudflare Workers runtime forbids — it broke SSR of post bodies.
     const mdx = await compileMDX(context, document);
+    const scope = { React, ReactDOM, _jsx_runtime };
+    const MDXComponent = new Function(...Object.keys(scope), mdx)(
+      ...Object.values(scope)
+    ).default;
+    const html = renderToStaticMarkup(React.createElement(MDXComponent));
     const slug = document._meta.path;
     return {
       ...document,
-      mdx,
+      html,
       slug,
     };
   },

@@ -20,6 +20,12 @@ const colorEmoji: Record<CategoryColor, string> = {
   purple: "🟪",
 };
 
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
+
 export function GameOver({ won, allCategories, guessHistory, onReset }: GameOverProps) {
   const [copied, setCopied] = useState(false);
 
@@ -57,12 +63,6 @@ export function GameOver({ won, allCategories, guessHistory, onReset }: GameOver
     await copyToClipboard(text);
   }
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.15 } },
-  };
-  const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
-
   return (
     <motion.div
       className="w-full max-w-md mx-auto flex flex-col items-center"
@@ -89,8 +89,8 @@ export function GameOver({ won, allCategories, guessHistory, onReset }: GameOver
         </Button>
       </motion.div>
 
-      {allCategories.map((cat, i) => (
-        <motion.div key={i} variants={item} className="w-full">
+      {allCategories.map((cat) => (
+        <motion.div key={cat.name} variants={item} className="w-full">
           <CategoryReveal category={cat} />
         </motion.div>
       ))}

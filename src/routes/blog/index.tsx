@@ -4,23 +4,23 @@ import { allPosts } from "content-collections";
 import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { format } from "date-fns";
 import { siteUrl, personalInfo, siteMetadata } from "@/components/Info";
+import { comparePublishedDatesDesc, formatPublishedDate } from "@/lib/date";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
 const sortedPosts = [...allPosts].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  (a, b) => comparePublishedDatesDesc(a.date, b.date)
 );
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
-    title: siteMetadata.blogTitle,
     meta: [
-      { name: "description", content: siteMetadata.blogDescription },
+      { title: siteMetadata.blogTitle },
+      { name: "description", content: siteMetadata.blogMetaDescription },
       { name: "author", content: personalInfo.name },
       ...buildSocialMeta({
         title: siteMetadata.blogTitle,
-        description: siteMetadata.blogDescription,
+        description: siteMetadata.blogMetaDescription,
         url: `${siteUrl}/blog`,
         image: `${siteUrl}${personalInfo.profileImage}`,
         siteName: personalInfo.name,
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/blog/")({
         "@context": "https://schema.org",
         "@type": "Blog",
         name: `${personalInfo.name}'s Blog`,
-        description: siteMetadata.blogDescription,
+        description: siteMetadata.blogMetaDescription,
         url: `${siteUrl}/blog`,
         author: {
           "@type": "Person",
@@ -61,7 +61,7 @@ function BlogIndex() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20 pb-16 px-6">
+      <main id="main-content" className="min-h-screen pt-20 pb-16 px-6">
         <div className="max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -88,9 +88,9 @@ function BlogIndex() {
                 <Link
                   to="/blog/$slug"
                   params={{ slug: post.slug }}
-                  className="group block h-full"
+                  className="group block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
-                  <article className="h-full rounded-xl bg-card/50 border border-border overflow-hidden hover:bg-card hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 transition-all duration-300 hover:-translate-y-0.5">
+                  <article className="h-full rounded-xl bg-card/50 border border-border overflow-hidden hover:bg-card hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 group-focus-visible:bg-card group-focus-visible:shadow-md group-focus-visible:shadow-black/5 dark:group-focus-visible:shadow-black/20 group-focus-visible:-translate-y-0.5">
                     {post.image && (
                       <div className="aspect-[3/2] overflow-hidden bg-muted/30 flex items-center justify-center">
                         <Image
@@ -101,16 +101,15 @@ function BlogIndex() {
                           layout="constrained"
                           loading="lazy"
                           decoding="async"
-                          style={{ objectFit: "contain" }}
-                          className="max-w-full max-h-full object-contain group-hover:scale-[1.02] transition-transform duration-500"
+                          className="max-w-full max-h-full object-contain group-hover:scale-[1.02] group-focus-visible:scale-[1.02] transition-transform duration-500"
                         />
                       </div>
                     )}
                     <div className="p-4">
                       <time className="text-xs text-muted-foreground/70">
-                        {format(new Date(post.date), "MMM d, yyyy")}
+                        {formatPublishedDate(post.date)}
                       </time>
-                      <h2 className="text-base font-semibold text-foreground mt-1.5 mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                      <h2 className="text-base font-semibold text-foreground mt-1.5 mb-2 group-hover:text-primary group-focus-visible:text-primary transition-colors line-clamp-2">
                         {post.title}
                       </h2>
                       <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">

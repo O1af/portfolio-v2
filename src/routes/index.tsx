@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/sections/Hero";
 import { Footer } from "@/components/layout/Footer";
@@ -10,6 +10,7 @@ import {
   socialUrls,
 } from "@/components/Info";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
+import { scrollToHashTarget } from "@/lib/hash-scroll";
 
 const Experience = lazy(() =>
   import("@/components/sections/Experience").then((module) => ({
@@ -34,8 +35,8 @@ const Projects = lazy(() =>
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    title: siteMetadata.title,
     meta: [
+      { title: siteMetadata.title },
       { name: "description", content: siteMetadata.description },
       { name: "author", content: personalInfo.name },
       ...buildSocialMeta({
@@ -78,22 +79,42 @@ export const Route = createFileRoute("/")({
 });
 
 function App() {
+  useEffect(() => {
+    const scrollToCurrentHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        return;
+      }
+
+      void scrollToHashTarget(hash);
+    };
+
+    scrollToCurrentHash();
+    window.addEventListener("hashchange", scrollToCurrentHash);
+
+    return () => {
+      window.removeEventListener("hashchange", scrollToCurrentHash);
+    };
+  }, []);
+
   return (
     <>
       <Header />
-      <Hero />
-      <Suspense fallback={null}>
-        <Experience />
-      </Suspense>
-      <Suspense fallback={null}>
-        <Education />
-      </Suspense>
-      <Suspense fallback={null}>
-        <Books />
-      </Suspense>
-      <Suspense fallback={null}>
-        <Projects />
-      </Suspense>
+      <main id="main-content" className="min-h-screen">
+        <Hero />
+        <Suspense fallback={null}>
+          <Experience />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Education />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Books />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Projects />
+        </Suspense>
+      </main>
       <Footer />
     </>
   );

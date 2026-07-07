@@ -29,7 +29,7 @@ export function Education() {
               viewport={{ once: true, margin: "-30px" }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
             >
-              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-all duration-200">
+              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-[background-color,box-shadow] duration-200">
                 <div className="flex gap-4">
                   <div className="shrink-0">
                     <Image

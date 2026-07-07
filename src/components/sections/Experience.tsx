@@ -32,7 +32,7 @@ export function Experience() {
               viewport={{ once: true, margin: "-30px" }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
             >
-              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-all duration-200">
+              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-[background-color,box-shadow] duration-200">
                 <div className="flex gap-4">
                   <div className="shrink-0">
                     <Image
@@ -75,7 +75,7 @@ export function Experience() {
                           href={exp.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-primary hover:text-primary/80 transition-colors"
+                          className="rounded-sm text-primary hover:text-primary/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                         >
                           {exp.description}
                         </a>

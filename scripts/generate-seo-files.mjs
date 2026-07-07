@@ -89,6 +89,12 @@ function renderSitemap(posts) {
       changefreq: "weekly",
       priority: "0.9",
     },
+    {
+      loc: absolute("/connections"),
+      lastmod: today,
+      changefreq: "monthly",
+      priority: "0.6",
+    },
   ];
 
   const postUrls = posts.map((post) => ({
@@ -131,6 +137,7 @@ Contact: mailto:site@olafdsouza.com
 ## Primary Pages
 - ${absolute("/")}
 - ${absolute("/blog")}
+- ${absolute("/connections")}
 
 ## Blog Posts
 ${postLines}

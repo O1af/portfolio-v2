@@ -1,45 +1,11 @@
-import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Image } from "@unpic/react";
 import { books } from "@/components/Info";
+import { useScrollCarousel } from "@/lib/use-scroll-carousel";
 
 export function Books() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const updateScrollState = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 1);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    updateScrollState();
-    el.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-    return () => {
-      el.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [updateScrollState]);
-
-  const handleScroll = (direction: "left" | "right") => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const firstChild = container.children[0] as HTMLElement | undefined;
-    if (!firstChild) return;
-    const gap = parseFloat(getComputedStyle(container).gap) || 0;
-    const step = firstChild.offsetWidth + gap;
-    container.scrollBy({
-      left: direction === "left" ? -step : step,
-      behavior: "smooth",
-    });
-  };
+  const { scrollRef, canScrollLeft, canScrollRight, scrollByItem } = useScrollCarousel();
 
   return (
     <section id="books" className="scroll-mt-24 py-24 px-6">
@@ -64,28 +30,28 @@ export function Books() {
             type="button"
             aria-label="Scroll left"
             disabled={!canScrollLeft}
-            onClick={() => handleScroll("left")}
-            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 transition-all duration-200 shadow-sm ${
+            onClick={() => scrollByItem("left")}
+            className={`absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 hidden rounded-full border border-border/50 bg-background/80 shadow-sm backdrop-blur-sm transition-[opacity,color,border-color,background-color] duration-200 md:flex items-center justify-center w-10 h-10 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
               canScrollLeft
                 ? "text-muted-foreground hover:text-foreground hover:border-border opacity-0 group-hover:opacity-100"
                 : "text-muted-foreground/25 border-border/30 opacity-0 group-hover:opacity-40 cursor-default"
             }`}
           >
-            <ChevronLeft className="w-5 h-5" />
+            <ChevronLeft className="w-5 h-5" aria-hidden="true" />
           </button>
 
           <button
             type="button"
             aria-label="Scroll right"
             disabled={!canScrollRight}
-            onClick={() => handleScroll("right")}
-            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 hidden md:flex items-center justify-center w-10 h-10 rounded-full bg-background/80 backdrop-blur-sm border border-border/50 transition-all duration-200 shadow-sm ${
+            onClick={() => scrollByItem("right")}
+            className={`absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 hidden rounded-full border border-border/50 bg-background/80 shadow-sm backdrop-blur-sm transition-[opacity,color,border-color,background-color] duration-200 md:flex items-center justify-center w-10 h-10 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
               canScrollRight
                 ? "text-muted-foreground hover:text-foreground hover:border-border opacity-0 group-hover:opacity-100"
                 : "text-muted-foreground/25 border-border/30 opacity-0 group-hover:opacity-40 cursor-default"
             }`}
           >
-            <ChevronRight className="w-5 h-5" />
+            <ChevronRight className="w-5 h-5" aria-hidden="true" />
           </button>
 
           <div
@@ -118,9 +84,16 @@ export function Books() {
                     className="w-full h-full object-cover"
                   />
                   {book.status && (
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/20">
+                    <div
+                      className="absolute bottom-0 left-0 right-0 h-1 bg-black/20"
+                      role="progressbar"
+                      aria-label={`${book.title} reading progress`}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={book.status === "completed" ? 100 : book.progressPercent}
+                    >
                       <div
-                        className="h-full bg-blue-500 transition-all duration-500"
+                        className="h-full bg-blue-500 transition-[width] duration-500"
                         style={{
                           width:
                             book.status === "completed"

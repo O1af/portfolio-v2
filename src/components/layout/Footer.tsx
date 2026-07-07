@@ -23,9 +23,9 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={link.label}
-                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
+                className="inline-flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors duration-200 hover:bg-secondary/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation"
               >
-                <link.icon className="w-4 h-4" />
+                <link.icon className="w-4 h-4" aria-hidden="true" />
               </a>
             ))}
           </div>

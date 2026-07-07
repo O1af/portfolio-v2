@@ -63,9 +63,9 @@ export function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={link.label}
-              className="p-2.5 rounded-full bg-secondary/50 border border-border text-muted-foreground hover:text-foreground hover:bg-secondary hover:border-border/80 transition-all duration-200"
+              className="rounded-full border border-border bg-secondary/50 p-2.5 text-muted-foreground hover:border-border/80 hover:bg-secondary hover:text-foreground transition-[background-color,border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <link.icon className="w-4 h-4" />
+              <link.icon className="w-4 h-4" aria-hidden="true" />
             </a>
           ))}
         </motion.div>

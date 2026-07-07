@@ -1,14 +1,13 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import { allPosts } from "content-collections";
-import { MDXContent } from "@content-collections/mdx/react";
 import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
-import { format } from "date-fns";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { siteUrl, personalInfo } from "@/components/Info";
+import { formatPublishedDate, publishedDateToISOString } from "@/lib/date";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
@@ -29,14 +28,14 @@ export const Route = createFileRoute("/blog/$slug")({
       : `${siteUrl}${personalInfo.profileImage}`;
 
     return {
-      title: `${post.title} | ${personalInfo.name}`,
       meta: [
+        { title: `${post.title} | ${personalInfo.name}` },
         { name: "description", content: post.summary },
         { name: "author", content: post.author },
         { property: "article:author", content: post.author },
         {
           property: "article:published_time",
-          content: new Date(post.date).toISOString(),
+          content: publishedDateToISOString(post.date),
         },
         ...buildSocialMeta({
           title: post.title,
@@ -55,7 +54,7 @@ export const Route = createFileRoute("/blog/$slug")({
           headline: post.title,
           description: post.summary,
           image: imageUrl,
-          datePublished: new Date(post.date).toISOString(),
+          datePublished: publishedDateToISOString(post.date),
           author: {
             "@type": "Person",
             name: post.author,
@@ -70,6 +69,15 @@ export const Route = createFileRoute("/blog/$slug")({
             "@id": postUrl,
           },
         }),
+        jsonLd({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: siteUrl },
+            { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/blog` },
+            { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
+          ],
+        }),
       ],
     };
   },
@@ -82,7 +90,7 @@ function BlogPost() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20 pb-16 px-6">
+      <main id="main-content" className="min-h-screen pt-20 pb-16 px-6">
         <article className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -93,7 +101,7 @@ function BlogPost() {
               to="/blog"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
             >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
               Back to blog
             </Link>
 
@@ -103,12 +111,12 @@ function BlogPost() {
               </h1>
               <div className="flex items-center gap-6 text-sm text-muted-foreground">
                 <span className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
+                  <User className="w-4 h-4" aria-hidden="true" />
                   {post.author}
                 </span>
                 <span className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" />
-                  {format(new Date(post.date), "MMMM d, yyyy")}
+                  <Calendar className="w-4 h-4" aria-hidden="true" />
+                  {formatPublishedDate(post.date, "long")}
                 </span>
               </div>
             </header>
@@ -122,15 +130,12 @@ function BlogPost() {
                   height={800}
                   layout="constrained"
                   priority
-                  style={{ objectFit: "contain" }}
                   className="w-full max-h-[320px] sm:max-h-[420px] lg:max-h-[520px] object-contain"
                 />
               </div>
             )}
 
-            <div className="prose">
-              <MDXContent code={post.mdx} />
-            </div>
+            <div className="prose" dangerouslySetInnerHTML={{ __html: post.html }} />
           </motion.div>
         </article>
         <ScrollProgress />

@@ -56,6 +56,63 @@ const INITIAL_CATEGORIES: Category[] = [
 ];
 
 const STORAGE_KEY = "connectionsGameState1";
+const INITIAL_WORDS = INITIAL_CATEGORIES.flatMap((category) => category.words);
+
+function isCategoryColor(value: unknown): value is CategoryColor {
+  return value === "yellow" || value === "green" || value === "blue" || value === "purple";
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isCategory(value: unknown): value is Category {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<Category>;
+  return (
+    typeof candidate.name === "string" &&
+    isCategoryColor(candidate.color) &&
+    isStringArray(candidate.words)
+  );
+}
+
+function isGuess(value: unknown): value is Guess {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<Guess>;
+  return (
+    isStringArray(candidate.words) &&
+    typeof candidate.correct === "boolean" &&
+    (candidate.categoryColor === undefined || isCategoryColor(candidate.categoryColor))
+  );
+}
+
+function isGameState(value: unknown): value is GameState {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+
+  const candidate = value as Partial<GameState>;
+  return (
+    Array.isArray(candidate.categories) &&
+    candidate.categories.every(isCategory) &&
+    isStringArray(candidate.remainingWords) &&
+    isStringArray(candidate.selectedWords) &&
+    typeof candidate.mistakesRemaining === "number" &&
+    Array.isArray(candidate.solvedCategories) &&
+    candidate.solvedCategories.every(isCategory) &&
+    typeof candidate.gameOver === "boolean" &&
+    typeof candidate.gameWon === "boolean" &&
+    typeof candidate.isShuffling === "boolean" &&
+    Array.isArray(candidate.guessHistory) &&
+    candidate.guessHistory.every(isGuess)
+  );
+}
 
 function shuffleArray<T>(array: T[]): T[] {
   const result = [...array];
@@ -66,10 +123,10 @@ function shuffleArray<T>(array: T[]): T[] {
   return result;
 }
 
-function initializeGame(): GameState {
+function initializeGame({ shuffleWords = true }: { shuffleWords?: boolean } = {}): GameState {
   return {
     categories: INITIAL_CATEGORIES,
-    remainingWords: shuffleArray(INITIAL_CATEGORIES.flatMap((c) => c.words)),
+    remainingWords: shuffleWords ? shuffleArray(INITIAL_WORDS) : INITIAL_WORDS,
     selectedWords: [],
     mistakesRemaining: 4,
     solvedCategories: [],
@@ -81,21 +138,35 @@ function initializeGame(): GameState {
 }
 
 export function ConnectionsGame() {
-  const [state, setState] = useState<GameState>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
-      } catch {}
-    }
-    return initializeGame();
-  });
+  const [state, setState] = useState<GameState>(() => initializeGame({ shuffleWords: false }));
+  const [hasHydratedState, setHasHydratedState] = useState(false);
 
   useEffect(() => {
+    let nextState = initializeGame();
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (isGameState(parsed)) {
+          nextState = parsed;
+        }
+      }
+    } catch {}
+
+    setState(nextState);
+    setHasHydratedState(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasHydratedState) {
+      return;
+    }
+
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     } catch {}
-  }, [state]);
+  }, [hasHydratedState, state]);
 
   function selectWord(word: string) {
     if (state.isShuffling) return;
@@ -111,11 +182,8 @@ export function ConnectionsGame() {
   function submit() {
     if (state.selectedWords.length !== 4 || state.isShuffling) return;
 
-    const match = state.categories.find((cat) => {
-      const sel = new Set(state.selectedWords);
-      const cat_ = new Set(cat.words);
-      return sel.size === cat_.size && [...sel].every((w) => cat_.has(w));
-    });
+    const selected = new Set(state.selectedWords);
+    const match = state.categories.find((cat) => cat.words.every((w) => selected.has(w)));
 
     if (match) {
       setState((prev) => {
@@ -200,6 +268,9 @@ export function ConnectionsGame() {
 
   return (
     <div className="w-full max-w-md mx-auto flex flex-col items-center">
+      <p id="connections-instructions" className="sr-only">
+        Select 4 words, then submit your guess. Selected tiles are announced as pressed.
+      </p>
       <AnimatePresence>
         {state.solvedCategories.map((cat) => (
           <motion.div
@@ -215,7 +286,12 @@ export function ConnectionsGame() {
         ))}
       </AnimatePresence>
 
-      <div className="grid grid-cols-4 gap-2 mb-6 w-full">
+      <div
+        className="grid grid-cols-4 gap-2 mb-6 w-full"
+        role="group"
+        aria-describedby="connections-instructions"
+        aria-label="Connections board"
+      >
         <AnimatePresence>
           {state.remainingWords.map((word, i) => (
             <motion.div
@@ -243,11 +319,11 @@ export function ConnectionsGame() {
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Mistakes left:</span>
             <div className="flex gap-1">
-              {Array.from({ length: state.mistakesRemaining }).map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-primary" />
-              ))}
-              {Array.from({ length: 4 - state.mistakesRemaining }).map((_, i) => (
-                <div key={i} className="w-2 h-2 rounded-full bg-muted" />
+              {Array.from({ length: 4 }, (_, i) => (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full ${i < state.mistakesRemaining ? "bg-primary" : "bg-muted"}`}
+                />
               ))}
             </div>
           </div>

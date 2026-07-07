@@ -19,9 +19,14 @@ export const personalInfo: PersonalInfo = {
 
 export const siteMetadata = {
   title: `${personalInfo.name} | ${personalInfo.title}`,
-  description: `${personalInfo.bio}. Previously at Netflix, and a few startups.`,
+  description:
+    "Software engineer and University of Michigan student focused on operating systems, LLMs, and distributed systems. Previously at Netflix and startups.",
   blogTitle: `Blog | ${personalInfo.name}`,
+  // Shown on the blog page itself
   blogDescription: "A collection of my thoughts, stories, and ideas",
+  // Used for search engines and link previews
+  blogMetaDescription:
+    "Writing about operating systems, LLMs, distributed systems, and CS at the University of Michigan — projects, class reviews, and ideas.",
 };
 
 export const socialLinks: SocialLink[] = [

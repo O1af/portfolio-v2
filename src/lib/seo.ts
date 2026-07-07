@@ -21,12 +21,15 @@ export function buildSocialMeta({
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:image", content: image },
+    { property: "og:image:alt", content: title },
     { property: "og:site_name", content: siteName },
+    { property: "og:locale", content: "en_US" },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:url", content: url },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
     { name: "twitter:image", content: image },
+    { name: "twitter:image:alt", content: title },
   ];
 }
 

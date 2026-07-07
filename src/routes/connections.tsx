@@ -5,16 +5,25 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ConnectionsGame } from "@/components/connections/game";
 import { useTheme } from "@/components/theme/ThemeProvider";
-import { siteUrl } from "@/components/Info";
+import { siteUrl, personalInfo } from "@/components/Info";
+import { buildSocialMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/connections")({
   head: () => ({
-    title: "Connections | Olaf Dsouza",
     meta: [
+      { title: "Connections | Olaf Dsouza" },
       {
         name: "description",
         content: "A word puzzle game — find four groups of four.",
       },
+      ...buildSocialMeta({
+        title: "Connections | Olaf Dsouza",
+        description: "A word puzzle game — find four groups of four.",
+        url: `${siteUrl}/connections`,
+        image: `${siteUrl}${personalInfo.profileImage}`,
+        siteName: personalInfo.name,
+        type: "website",
+      }),
     ],
     links: [{ rel: "canonical", href: `${siteUrl}/connections` }],
   }),
@@ -38,7 +47,7 @@ function ConnectionsPage() {
         gap={8}
         toastOptions={{ duration: 3000 }}
       />
-      <main className="min-h-screen pt-20 pb-16 px-6">
+      <main id="main-content" className="min-h-screen pt-20 pb-16 px-6">
         <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 10 }}

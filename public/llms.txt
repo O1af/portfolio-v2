@@ -9,7 +9,8 @@ Contact: mailto:site@olafdsouza.com
 ## Primary Pages
 - https://olafdsouza.com/
 - https://olafdsouza.com/blog
+- https://olafdsouza.com/connections
 
 ## Blog Posts
-- https://olafdsouza.com/blog/nlp-project (Automatic Frame Classification in U.S. Congressional Speeches Using NLP Models)
+- https://olafdsouza.com/blog/nlp-project (Frame Classification in Congressional Speeches with NLP)
 - https://olafdsouza.com/blog/ulcs-class-reviews-michigan (An Honest Review of Every ULCS Class I Have Taken at Michigan)

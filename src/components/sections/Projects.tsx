@@ -1,9 +1,12 @@
-import { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import { motion } from "motion/react";
 import { Github, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { projects } from "@/components/Info";
+import { compareMonthYearDesc } from "@/lib/date";
+import { useScrollCarousel } from "@/lib/use-scroll-carousel";
 import type { Project } from "@/lib/types/project";
+
+const sortedProjects = [...projects].sort((a, b) => compareMonthYearDesc(a.date, b.date));
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
@@ -18,7 +21,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       }}
       className="shrink-0 w-80 snap-start"
     >
-      <div className="group h-full flex flex-col p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+      <div className="group h-full flex flex-col p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-md hover:-translate-y-1 transition-[background-color,box-shadow,transform] duration-300">
         <div className="flex items-center justify-between mb-4">
           <div>
             {project.date && (
@@ -33,10 +36,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-xl text-muted-foreground/85 bg-secondary/50 border border-border/60 hover:text-foreground hover:bg-secondary transition-all"
+                className="rounded-xl border border-border/60 bg-secondary/50 p-2 text-muted-foreground/85 hover:bg-secondary hover:text-foreground transition-[background-color,color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`${project.title} on GitHub`}
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-4 h-4" aria-hidden="true" />
               </a>
             )}
             {project.link && (
@@ -44,10 +47,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-xl text-muted-foreground/85 bg-secondary/50 border border-border/60 hover:text-foreground hover:bg-secondary transition-all"
+                className="rounded-xl border border-border/60 bg-secondary/50 p-2 text-muted-foreground/85 hover:bg-secondary hover:text-foreground transition-[background-color,color] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 aria-label={`Visit ${project.title}`}
               >
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
               </a>
             )}
           </div>
@@ -87,50 +90,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export function Projects() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-  const sortedProjects = useMemo(
-    () =>
-      [...projects].sort((a, b) => {
-        const aTime = a.date ? new Date(a.date).getTime() : 0;
-        const bTime = b.date ? new Date(b.date).getTime() : 0;
-        return bTime - aTime;
-      }),
-    []
-  );
-
-  const updateScrollState = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 1);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
-  }, []);
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    updateScrollState();
-    el.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-    return () => {
-      el.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-    };
-  }, [updateScrollState]);
-
-  const handleScroll = (direction: "left" | "right") => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const firstChild = container.children[0] as HTMLElement | undefined;
-    if (!firstChild) return;
-    const gap = parseFloat(getComputedStyle(container).gap) || 0;
-    const step = firstChild.offsetWidth + gap;
-    container.scrollBy({
-      left: direction === "left" ? -step : step,
-      behavior: "smooth",
-    });
-  };
+  const { scrollRef, canScrollLeft, canScrollRight, scrollByItem } = useScrollCarousel();
 
   return (
     <section id="projects" className="scroll-mt-24 py-24 px-6">
@@ -155,27 +115,27 @@ export function Projects() {
               type="button"
               aria-label="Scroll left"
               disabled={!canScrollLeft}
-              onClick={() => handleScroll("left")}
-              className={`flex items-center justify-center w-9 h-9 rounded-full border border-border transition-all duration-200 ${
+              onClick={() => scrollByItem("left")}
+              className={`flex items-center justify-center w-9 h-9 rounded-full border border-border transition-[border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                 canScrollLeft
                   ? "text-muted-foreground hover:text-foreground hover:border-foreground/20"
                   : "text-muted-foreground/25 border-border/50 cursor-default"
               }`}
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-4 h-4" aria-hidden="true" />
             </button>
             <button
               type="button"
               aria-label="Scroll right"
               disabled={!canScrollRight}
-              onClick={() => handleScroll("right")}
-              className={`flex items-center justify-center w-9 h-9 rounded-full border border-border transition-all duration-200 ${
+              onClick={() => scrollByItem("right")}
+              className={`flex items-center justify-center w-9 h-9 rounded-full border border-border transition-[border-color,color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                 canScrollRight
                   ? "text-muted-foreground hover:text-foreground hover:border-foreground/20"
                   : "text-muted-foreground/25 border-border/50 cursor-default"
               }`}
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </motion.div>

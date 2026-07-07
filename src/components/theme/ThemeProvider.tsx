@@ -9,26 +9,69 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+export const THEME_STORAGE_KEY = "theme";
+
+const THEME_COLORS: Record<Theme, string> = {
+  dark: "#242528",
+  light: "#ffffff",
+};
+
+function applyTheme(theme: Theme) {
+  const root = document.documentElement;
+  root.classList.toggle("dark", theme === "dark");
+  root.style.colorScheme = theme;
+  root.dataset.theme = theme;
+
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (themeColor) {
+    themeColor.setAttribute("content", THEME_COLORS[theme]);
+  }
+}
+
+function getAppliedTheme(): Theme {
+  if (typeof document === "undefined") {
+    return "dark";
+  }
+
+  return document.documentElement.classList.contains("dark") ? "dark" : "light";
+}
+
+export const themeInitScript = `(() => {
+  const storageKey = ${JSON.stringify(THEME_STORAGE_KEY)};
+  const themeColors = ${JSON.stringify(THEME_COLORS)};
+  let theme = null;
+
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (stored === "dark" || stored === "light") {
+      theme = stored;
+    }
+  } catch {}
+
+  if (!theme) {
+    theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  const root = document.documentElement;
+  root.classList.toggle("dark", theme === "dark");
+  root.style.colorScheme = theme;
+  root.dataset.theme = theme;
+
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (themeColor) {
+    themeColor.setAttribute("content", themeColors[theme]);
+  }
+})();`;
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(() => getAppliedTheme());
 
   useEffect(() => {
-    const stored = localStorage.getItem("theme") as Theme | null;
-    if (stored) {
-      setTheme(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
-      setTheme("light");
-    }
-  }, []);
+    applyTheme(theme);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    localStorage.setItem("theme", theme);
+    try {
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    } catch {}
   }, [theme]);
 
   const toggleTheme = () => {
