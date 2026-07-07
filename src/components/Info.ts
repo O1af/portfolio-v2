@@ -54,6 +54,15 @@ export const socialUrls = {
 
 export const experiences: Experience[] = [
   {
+    title: "Founding Engineer",
+    company: "August Law",
+    logo: "/logo/august.png",
+    period: "May 2026 - Jul 2026",
+    location: "New York, NY",
+    description: "Helped make legal work better, faster, and cheaper",
+    link: "https://www.august.law",
+  },
+  {
     title: "Software Engineer Intern",
     company: "Netflix",
     logo: "/logo/netflix.jpeg",
@@ -141,10 +150,10 @@ export const projects: Project[] = [
   {
     title: "Azure AI Adapter",
     description:
-      "Open-source npm package for the Vercel AI SDK with 2000+ weekly downloads",
+      "Open-source npm package for the Vercel AI SDK with 4000+ weekly downloads",
     tags: ["TypeScript", "Azure AI", "Vercel AI SDK", "NPM"],
     github: "https://github.com/QuailAI/azure-ai-provider",
-    highlight: "2000+ weekly downloads",
+    highlight: "4000+ weekly downloads",
     date: "Jan 2025",
     category: "AI / ML",
   },

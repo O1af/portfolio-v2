@@ -15,6 +15,7 @@ export function Experience() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
+          <div className="mb-3 h-1 w-8 rounded-full bg-primary/70" />
           <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-2">
             Experience
           </h2>
@@ -32,7 +33,7 @@ export function Experience() {
               viewport={{ once: true, margin: "-30px" }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
             >
-              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-sm transition-[background-color,box-shadow] duration-200">
+              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:border-primary/25 hover:bg-card hover:shadow-sm transition-[background-color,border-color,box-shadow] duration-200">
                 <div className="flex gap-4">
                   <div className="shrink-0">
                     <Image

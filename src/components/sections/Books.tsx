@@ -17,6 +17,7 @@ export function Books() {
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
           className="mb-12"
         >
+          <div className="mb-3 h-1 w-8 rounded-full bg-primary/70" />
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
             Bookshelf
           </h2>
@@ -72,7 +73,7 @@ export function Books() {
                 }}
                 className="shrink-0 w-44 snap-start group/card"
               >
-                <div className="relative aspect-2/3 rounded-lg overflow-hidden bg-muted/30 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                <div className="relative aspect-2/3 rounded-lg overflow-hidden bg-muted/30 shadow-sm group-hover/card:shadow-lg group-hover/card:-translate-y-1 transition-[box-shadow,transform] duration-300">
                   <Image
                     src={book.cover}
                     alt={`${book.title} cover`}

@@ -11,7 +11,7 @@ export function Footer() {
           <div className="text-center md:text-left">
             <p className="text-sm text-foreground font-medium mb-0.5">{personalInfo.name}</p>
             <p className="text-xs text-muted-foreground">
-            "Believe you can and you're halfway there" - Teddy Roosevelt
+              "Believe you can and you're halfway there" - Teddy Roosevelt
             </p>
           </div>
 

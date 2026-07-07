@@ -287,7 +287,7 @@ export function ConnectionsGame() {
       </AnimatePresence>
 
       <div
-        className="grid grid-cols-4 gap-2 mb-6 w-full"
+        className="grid grid-cols-4 gap-2 mb-4 w-full"
         role="group"
         aria-describedby="connections-instructions"
         aria-label="Connections board"
@@ -301,7 +301,7 @@ export function ConnectionsGame() {
               animate={{ opacity: 1, scale: 1, transition: { type: "spring", stiffness: 300, damping: 25, delay: i * 0.03 } }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.3 }}
-              className="aspect-square"
+              className="aspect-[4/3]"
             >
               <WordTile
                 word={word}

@@ -90,7 +90,7 @@ function BlogIndex() {
                   params={{ slug: post.slug }}
                   className="group block h-full rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
-                  <article className="h-full rounded-xl bg-card/50 border border-border overflow-hidden hover:bg-card hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 transition-[background-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 group-focus-visible:bg-card group-focus-visible:shadow-md group-focus-visible:shadow-black/5 dark:group-focus-visible:shadow-black/20 group-focus-visible:-translate-y-0.5">
+                  <article className="h-full rounded-xl bg-card/50 border border-border overflow-hidden hover:border-primary/25 hover:bg-card hover:shadow-md hover:shadow-black/5 dark:hover:shadow-black/20 transition-[background-color,border-color,box-shadow,transform] duration-300 hover:-translate-y-0.5 group-focus-visible:bg-card group-focus-visible:shadow-md group-focus-visible:shadow-black/5 dark:group-focus-visible:shadow-black/20 group-focus-visible:-translate-y-0.5">
                     {post.image && (
                       <div className="aspect-[3/2] overflow-hidden bg-muted/30 flex items-center justify-center">
                         <Image

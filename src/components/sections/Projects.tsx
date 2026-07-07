@@ -21,7 +21,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       }}
       className="shrink-0 w-80 snap-start"
     >
-      <div className="group h-full flex flex-col p-5 rounded-2xl bg-card/50 border border-border hover:bg-card hover:shadow-md hover:-translate-y-1 transition-[background-color,box-shadow,transform] duration-300">
+      <div className="group h-full flex flex-col p-5 rounded-2xl bg-card/50 border border-border hover:border-primary/25 hover:bg-card hover:shadow-md hover:-translate-y-1 transition-[background-color,border-color,box-shadow,transform] duration-300">
         <div className="flex items-center justify-between mb-4">
           <div>
             {project.date && (
@@ -103,6 +103,7 @@ export function Projects() {
           className="flex items-end justify-between mb-10"
         >
           <div>
+            <div className="mb-3 h-1 w-8 rounded-full bg-primary/70" />
             <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
               Projects
             </h2>

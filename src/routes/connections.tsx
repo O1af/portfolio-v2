@@ -47,18 +47,18 @@ function ConnectionsPage() {
         gap={8}
         toastOptions={{ duration: 3000 }}
       />
-      <main id="main-content" className="min-h-screen pt-20 pb-16 px-6">
+      <main id="main-content" className="min-h-screen pt-20 pb-8 px-6">
         <div className="max-w-2xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-10 text-center"
+            className="mb-5 text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-foreground mb-3">
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-1.5">
               Connections
             </h1>
-            <p className="text-base text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Create four groups of four!
             </p>
           </motion.div>

@@ -19,7 +19,7 @@ const colorClass: Record<CategoryColor, string> = {
 export function CategoryReveal({ category }: CategoryRevealProps) {
   return (
     <motion.div
-      className={`w-full mb-3 p-4 rounded-xl ${colorClass[category.color]}`}
+      className={`w-full mb-2 p-3 rounded-xl ${colorClass[category.color]}`}
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

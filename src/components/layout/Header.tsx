@@ -11,7 +11,7 @@ const NAV_LINKS = [
 ] as const;
 
 const navLinkClass =
-  "inline-flex min-h-10 items-center rounded-full px-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation sm:px-3";
+  "inline-flex min-h-10 items-center rounded-full px-2 text-sm text-muted-foreground transition-colors hover:text-foreground data-[status=active]:bg-secondary/60 data-[status=active]:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation sm:px-3";
 
 export function Header() {
   return (
@@ -31,7 +31,12 @@ export function Header() {
 
         <div className="flex items-center gap-1 sm:gap-3">
           {NAV_LINKS.map((link) => (
-            <Link key={link.to} to={link.to} className={navLinkClass}>
+            <Link
+              key={link.to}
+              to={link.to}
+              className={navLinkClass}
+              activeOptions={{ exact: link.to === "/" }}
+            >
               {link.label}
             </Link>
           ))}
