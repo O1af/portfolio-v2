@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 
 const defaultSiteUrl = "https://olafdsouza.com";
 const siteUrl =
@@ -41,6 +42,19 @@ function toIsoDate(value, fallback) {
   return date.toISOString().slice(0, 10);
 }
 
+function lastModified(fullPath, fallback) {
+  try {
+    const date = execFileSync(
+      "git",
+      ["log", "-1", "--format=%cs", "--", fullPath],
+      { encoding: "utf8" }
+    ).trim();
+    return date || fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function xmlEscape(value) {
   return value
     .replaceAll("&", "&amp;")
@@ -62,11 +76,13 @@ async function getPosts() {
     const raw = await fs.readFile(fullPath, "utf8");
     const frontmatter = parseFrontmatter(raw);
 
+    const date = toIsoDate(frontmatter.date, now);
     posts.push({
       slug,
       title: frontmatter.title ?? slug,
       summary: frontmatter.summary ?? "",
-      date: toIsoDate(frontmatter.date, now),
+      date,
+      lastmod: lastModified(fullPath, date),
       url: absolute(`/blog/${slug}`),
     });
   }
@@ -100,7 +116,7 @@ function renderSitemap(posts) {
 
   const postUrls = posts.map((post) => ({
     loc: post.url,
-    lastmod: post.date,
+    lastmod: post.lastmod,
     changefreq: "monthly",
     priority: "0.8",
   }));
