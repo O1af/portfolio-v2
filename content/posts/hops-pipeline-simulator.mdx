@@ -1,0 +1,134 @@
+---
+title: "HOPS"
+summary: "A discrete-event simulator for heterogeneous pipeline-parallel LLM training, validated within 2% of real hardware, plus HopsHetero — a scheduler that Pareto-improves over ZeroBubble on mixed-GPU pipelines."
+date: 2026-04-20
+author: "Olaf"
+image: /covers/hops.png
+---
+
+*Final report for CSE 585 (Machine Learning Systems), University of Michigan, Winter 2026, with Jimmy Dai, Joshua Hsueh, and Rishith Seelam. [Full PDF](/hops-report.pdf) · [Code on GitHub](https://github.com/O1af/HOPS).*
+
+## At a Glance
+
+- **Problem:** Real heterogeneous GPU clusters are expensive to access, making it hard to research pipeline-parallel scheduling, placement, and fault-tolerance policies.
+- **Contribution 1:** HOPS, a discrete-event simulator for pipeline-parallel training with mixed GPU types, configurable interconnects, and failure injection — validated within **2.0%** of real hardware on a two-node H100 baseline.
+- **Contribution 2:** An agent-driven calibration loop (**AutoResearch**) that drove train-split throughput MAPE from **60.8% → 9.9%** by landing 4 physically grounded corrections and rejecting ~14 speculative ones.
+- **Contribution 3:** **HopsHetero**, an adaptive scheduler that Pareto-improves over ZeroBubble across 16 heterogeneous pipeline configurations (5 wins, 11 ties, 0 regressions).
+
+## Abstract
+
+Pipeline parallelism is now a standard component of large-language-model training, yet most published scheduling research assumes homogeneous and ideal environments. Evaluating new schedulers, placements, or fault-tolerance policies on real heterogeneous clusters is prohibitively expensive for many research groups and requires scarce multi-GPU capacity. We present HOPS (Heterogeneous Optimized Pipeline Simulator), a discrete-event simulator for pipeline-parallel training that supports mixed GPU types, configurable interconnect topologies, probabilistic latency distributions, and failure injection. HOPS is instrumented against a fork of Megatron-LM that emits per-event traces, enabling closed-loop calibration against real workloads.
+
+## 1. Why Simulate Heterogeneous Pipelines?
+
+Production systems like Megatron-LM show state-of-the-art pipeline-parallel performance on *homogeneous* GPU clusters, but there's little tooling for predicting performance across *heterogeneous* topologies — a setting that's increasingly relevant for three reasons:
+
+1. **Multi-generation fleets.** Academic and mid-scale industrial clusters often mix GPU generations (A100, H100, L4, A10G); co-locating them in a single pipeline can reclaim otherwise stranded capacity.
+2. **Effective heterogeneity from stragglers.** MegaScale documents thermal throttling and degraded HBM producing 5–15% performance variation even within *nominally* homogeneous clusters.
+3. **Volunteer and collaborative training** (SWARM, Petals), where heterogeneity is the default, not the exception.
+
+Existing simulators like TrioSim and Echo don't treat heterogeneity as a first-class concern, and ZeroBubble explicitly assumes uniform per-stage compute time. No published simulator combines heterogeneous device/link models, pluggable scheduler policies, chaos-engineering-style failure injection, and a closed calibration loop against real traces — so we built one.
+
+## 2. System Design
+
+HOPS is a discrete-event simulator in ~4,300 lines of Python. A seeded priority queue over event timestamps (compute completion, message arrival, failure, recovery) drives simulation progress; every stochastic component takes an explicit `numpy.random.Generator` for determinism.
+
+A simulation is a single YAML document with six sections: `simulation`, `pipeline`, `hardware`, `optimizer`, `failure`, and `output`. Devices resolve through a preset registry (H100, A100, L40S, L4, A10G, CPU-standard) encoding peak throughput, memory bandwidth, capacity, and launch overhead; interconnects resolve similarly (NVLink, PCIe, InfiniBand, Ethernet) with locality-aware same-node vs. cross-node inference.
+
+The compute model is a roofline extended with a per-layer fixed dispatch overhead and LM-head-specific terms:
+
+```
+t_stage = max(t_compute, t_memory, L · k_floor) + t_launch + t_LM-head (last stage only)
+```
+
+where `L` is the stage's layer count and `k_floor` is the empirically calibrated per-transformer-layer dispatch overhead (1.4 ms in the current configuration). Backward-pass compute and memory terms scale by a `backward_factor` (default 2.0), but fixed dispatch overhead does not scale — the number of kernel launches per layer is unchanged in the backward pass.
+
+Schedulers plug in through a two-method interface (`configure`, `next_tasks`); built-ins are GPipe, 1F1B, ZeroBubble, and HopsHetero. The failure engine injects device/link faults from configurable distributions. The metrics collector reports throughput, p50/p99/mean latency, bubble ratio, per-device/link utilization, and peak memory, exporting a JSON summary, a raw-event CSV, and two visualizations.
+
+## 3. Calibration: The AutoResearch Loop
+
+The central empirical question: how do you calibrate an analytical simulator so its predictions generalize beyond a single fitted workload, rather than just overfitting one trace?
+
+We ran three AWS ParallelCluster campaigns across three device classes (H100, A10G, L4) and three schedulers (GPipe, 1F1B, ZeroBubble), producing 98 real Megatron fixtures: 36 train, 42 test, 6 diagnostic, 14 archived. Each fixture captures a 6+-iteration Megatron run with CUDA-event-timed compute and transfer events (median fixture: 3.1 GB).
+
+**Two simulator variants** isolate the contribution of link modeling:
+
+- `no_lookahead` — baseline prediction from hardware specs and roofline modeling alone.
+- `link_calibrated` — analytical compute retained, but link parameters replaced by values measured with a `link_bench` microbenchmark on the real cluster.
+
+| Split | Variant | MAPE | Bubble MAE | ρ (utilization) |
+|---|---|---|---|---|
+| Train (n=36) | no_lookahead | 78.8% | 22.6 pp | 0.61 |
+| Train (n=36) | link_calibrated | **9.9%** | **5.4 pp** | 0.61 |
+| Test (n=42) | no_lookahead | 67.3% | 23.2 pp | 0.52 |
+| Test (n=42) | link_calibrated | **11.4%** | **6.7 pp** | 0.62 |
+
+The held-out split's post-calibration MAPE lands within 1.5 percentage points of the calibration split — evidence that the calibration *procedure*, not a fitted parameter vector, generalizes.
+
+### The four-step loop protocol
+
+1. **Observe** — run train-split validation, find the largest single contributor to MAPE.
+2. **Hypothesize** — propose a falsifiable physical claim that would explain part of the error.
+3. **Implement** — modify exactly one modeling term. Constant-only tweaks are allowed only when a spec-sheet value is demonstrably wrong; otherwise the change must add or correct an equation.
+4. **Validate and reflect** — admit the change only if aggregate MAPE and bubble MAE hold or improve, utilization correlation holds or improves, and no per-fixture regression exceeds tolerance (±2% throughput, ±2 pp bubble).
+
+The test split was strictly off-limits to the agent during iteration — evaluated by the human team exactly twice, before and after, recording only suite-level aggregates.
+
+### What landed, and what didn't
+
+Four physically grounded changes were admitted over three iterations:
+
+| # | Change | MAPE after |
+|---|---|---|
+| 0 | baseline | 60.8% |
+| 1 | H100 memory BW corrected 3,350 → 2,000 GB/s | 53.4% |
+| 2 | Per-layer fixed dispatch overhead | 41.9% |
+| 3 | Kernel coefficient retuned 1.0 → 1.1 | 40.9% |
+| 4 | LM-head + cross-entropy cost on last stage | **9.9%** |
+
+Iteration 4 was the dominant fix. Trace-level inspection across 24 fixtures revealed a systematic 3.97× slowdown on the last pipeline stage relative to same-device middle stages — consistent with LM-head and softmax/cross-entropy cost that's invisible when every stage is treated as an identical decoder layer. We added two additive terms (extra FLOPs, extra memory) to the final stage's derived latency.
+
+About fourteen candidate changes were tried and reverted — the pattern was consistent: **candidates that tuned a free constant without identifying a specific hardware property generally failed the no-regression tolerance; candidates that corrected a structurally missing term generally landed.** That's the methodological takeaway: a tolerance-guarded commit workflow acts as a regularizer against overfitting.
+
+## 4. HopsHetero: Adaptive Scheduling for Heterogeneous Pipelines
+
+With a calibrated simulator in hand, we asked: is there a scheduling policy that beats ZeroBubble on heterogeneous pipelines?
+
+ZeroBubble splits the backward pass into an activation-gradient phase (B) and a weight-gradient phase (W), deferring W into idle bubbles — which works well when the last stage has slack to absorb it. But when the **slowest stage sits at the pipeline tail**, there are no idle bubbles left to fill. The deferred W work instead creates memory pressure overhead that accumulates every microbatch and never amortizes — a failure mode we don't believe is documented elsewhere. 1F1B avoids it entirely by fusing B and W into a single backward pass.
+
+We formalized this as a closed-form, configure-time decision rule. Let `f_i`, `b_i`, `w_i` be the per-microbatch FWD/BWD-B/BWD-W latencies on stage `i`, `T_i = f_i + b_i + w_i`, and `Δ_last = max_i(T_i) - T_last`:
+
+```
+schedule = ZeroBubble  if Δ_last ≥ w_last
+           1F1B         if Δ_last < w_last
+```
+
+In plain terms: does the last stage have at least `w_last` of idle time per microbatch to absorb a deferred weight-gradient? The decision is made once, before the first microbatch, from compute-model samples HOPS already computes — zero runtime overhead, no tuning knobs, ~60 lines of Python.
+
+We tried seven other heterogeneity-aware policies first (adaptive warmup scaling, opportunistic W, bottleneck-priority ordering, per-stage in-flight caps, critical-path task ordering, fused B+W on the saturated stage, eager W on the last stage). All either had no effect or regressed — because they patch a local symptom instead of making the global ZeroBubble-vs-1F1B decision directly.
+
+### Results
+
+Evaluated across 16 heterogeneous 4-stage pipelines (2× L4 + 2× A10G, 3 seeds each):
+
+| Outcome | Count |
+|---|---|
+| Wins (> +0.5%) | 5 / 16 |
+| Ties (\|Δ\| ≤ 0.5%) | 11 / 16 |
+| Regressions (< −0.5%) | 0 / 16 |
+| Mean makespan improvement | +0.79% |
+| Maximum improvement | +4.47% (`a10g_middle_mb48`) |
+
+Zero regressions beyond tolerance, and the biggest wins scale with microbatch count — consistent with overhead that doesn't amortize under ZeroBubble but does damage compound under 1F1B avoidance.
+
+## 5. Limitations
+
+- **Simulator-only evaluation.** HopsHetero's gains are entirely in-simulator; real-hardware validation of the tail-bottleneck memory-pressure effect is the primary outstanding gap. We scoped a 4-scenario ParallelCluster validation pack (~6 GPU-hours) but didn't get to run it.
+- **Binary policy, PP=4 only.** HopsHetero picks between two existing schedulers at a fixed pipeline depth; deeper pipelines with multiple bottleneck regions, and Megatron's interleaved 1F1B, aren't covered by the current decision rule.
+- **Practical applicability.** True heterogeneous pipeline-parallel training is uncommon in production today. The more common real-world case — straggler mitigation in nominally homogeneous clusters (5–15% effective heterogeneity, vs. the ~2× gap we tested) — is still open.
+
+## 6. Conclusion
+
+Two things came out of this project: a calibration methodology (tolerance-guarded search over physically grounded structural corrections, with a strict train/test split) that took an analytical simulator from 60.8% to 9.9% train-split MAPE and 51.8% to 11.4% test-split MAPE without ever touching the held-out fixtures; and HopsHetero, a scheduler that formalizes a previously-undocumented ZeroBubble failure mode and Pareto-improves over it in simulation. Real-hardware validation of HopsHetero is next.
+
+Full paper, tables, and code: [github.com/O1af/HOPS](https://github.com/O1af/HOPS).

@@ -1,16 +1,21 @@
 # Olaf Dsouza
 
-Personal website and blog for Olaf Dsouza, software engineer.
+> Personal site and engineering blog for Olaf Dsouza, a software engineer focused on operating systems, LLMs, and distributed systems.
 
-Site: https://olafdsouza.com
-Sitemap: https://olafdsouza.com/sitemap.xml
-Contact: mailto:site@olafdsouza.com
+Olaf is a University of Michigan CS/CSE student and software engineer who has worked at Netflix, August Law, and Quail AI. This site hosts his portfolio, project writeups, and blog.
 
 ## Primary Pages
-- https://olafdsouza.com/
-- https://olafdsouza.com/blog
-- https://olafdsouza.com/connections
+- [Home](https://olafdsouza.com/): Portfolio, experience, and project overview.
+- [Blog](https://olafdsouza.com/blog): Writing on operating systems, LLMs, distributed systems, and CS coursework.
+- [Connections](https://olafdsouza.com/connections): NYT Connections tracking board.
 
 ## Blog Posts
-- https://olafdsouza.com/blog/nlp-project (Frame Classification in Congressional Speeches with NLP)
-- https://olafdsouza.com/blog/ulcs-class-reviews-michigan (An Honest Review of Every ULCS Class I Have Taken at Michigan)
+- [The Area Over the Curve](https://olafdsouza.com/blog/the-area-over-the-curve): How August rebuilt its agent harness to match model intelligence to task difficulty — routing as a Riemann sum, and why the cheapest model is rarely the cheapest result.
+- [Everything is a Workflow](https://olafdsouza.com/blog/everything-is-a-workflow): How workflows became August's abstraction for reliable and repeatable legal AI — from saved prompts, to a DAG of typed steps, to a de facto programming language.
+- [HOPS](https://olafdsouza.com/blog/hops-pipeline-simulator): A discrete-event simulator for heterogeneous pipeline-parallel LLM training, validated within 2% of real hardware, plus HopsHetero — a scheduler that Pareto-improves over ZeroBubble on mixed-GPU pipelines.
+- [Frame Classification in Congressional Speeches with NLP](https://olafdsouza.com/blog/nlp-project): Building and evaluating NLP models to automatically classify rhetorical framing in U.S. Congressional speeches — our CSE 595 final project.
+- [An Honest Review of Every ULCS Class I Have Taken at Michigan](https://olafdsouza.com/blog/ulcs-class-reviews-michigan): My honest thoughts and ratings for every upper-level CS (ULCS) course I've taken at the University of Michigan.
+
+## Optional
+- [Sitemap](https://olafdsouza.com/sitemap.xml): Full XML sitemap of the site.
+- Contact: mailto:site@olafdsouza.com

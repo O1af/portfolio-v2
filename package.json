@@ -11,7 +11,11 @@
     "test": "vitest run --passWithNoTests",
     "deploy": "pnpm seo:generate && pnpm run build && wrangler deploy",
     "preview": "pnpm seo:generate && pnpm run build && vite preview",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm seo:generate && git add public/sitemap.xml public/llms.txt public/robots.txt"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -29,6 +33,8 @@
     "motion": "^12.42.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "rehype-external-links": "^3.0.0",
+    "remark-gfm": "^4.0.1",
     "shadcn": "^3.8.5",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0",
@@ -48,6 +54,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
     "jsdom": "^27.4.0",
+    "simple-git-hooks": "^2.13.1",
     "typescript": "^5.9.3",
     "vite": "^7.3.6",
     "vitest": "^3.2.7",

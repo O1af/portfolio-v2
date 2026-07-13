@@ -65,6 +65,7 @@ async function getPosts() {
     posts.push({
       slug,
       title: frontmatter.title ?? slug,
+      summary: frontmatter.summary ?? "",
       date: toIsoDate(frontmatter.date, now),
       url: absolute(`/blog/${slug}`),
     });
@@ -123,24 +124,26 @@ ${lines.join("\n")}
 
 function renderLlmsTxt(posts) {
   const postLines = posts
-    .map((post) => `- ${post.url} (${post.title})`)
+    .map((post) => `- [${post.title}](${post.url}): ${post.summary}`)
     .join("\n");
 
   return `# Olaf Dsouza
 
-Personal website and blog for Olaf Dsouza, software engineer.
+> Personal site and engineering blog for Olaf Dsouza, a software engineer focused on operating systems, LLMs, and distributed systems.
 
-Site: ${siteUrl || "/"}
-Sitemap: ${absolute("/sitemap.xml")}
-Contact: mailto:site@olafdsouza.com
+Olaf is a University of Michigan CS/CSE student and software engineer who has worked at Netflix, August Law, and Quail AI. This site hosts his portfolio, project writeups, and blog.
 
 ## Primary Pages
-- ${absolute("/")}
-- ${absolute("/blog")}
-- ${absolute("/connections")}
+- [Home](${absolute("/")}): Portfolio, experience, and project overview.
+- [Blog](${absolute("/blog")}): Writing on operating systems, LLMs, distributed systems, and CS coursework.
+- [Connections](${absolute("/connections")}): NYT Connections tracking board.
 
 ## Blog Posts
 ${postLines}
+
+## Optional
+- [Sitemap](${absolute("/sitemap.xml")}): Full XML sitemap of the site.
+- Contact: mailto:site@olafdsouza.com
 `;
 }
 

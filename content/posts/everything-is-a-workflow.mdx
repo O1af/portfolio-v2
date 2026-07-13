@@ -1,0 +1,81 @@
+---
+title: "Everything is a Workflow"
+summary: "How workflows became August's abstraction for reliable and repeatable legal AI — from saved prompts, to a DAG of typed steps, to a de facto programming language."
+date: 2026-07-09
+author: "Olaf"
+image: /covers/august-workflow.png
+---
+
+*Originally published on the [August Engineering Blog](https://www.august.law/engineering/everything-is-a-workflow).*
+
+Every legal team already has workflows.
+
+They live in checklists, precedent folders, playbooks, and the heads of senior associates. A diligence team asks the same questions on every deal. A partner reviews markups clause by clause and knows which need extra scrutiny. The process exists and it works. It is written down nowhere, or written down everywhere, in a dozen formats that all contradict each other.
+
+We built Workflows in August to give these processes a representation that an agent can execute and a lawyer can trust. This post covers how we got there, what our first version got wrong, and what treating legal workflows as programs made possible.
+
+## V1: Saved Prompts
+
+Our first attempt was extremely simple: a prompt. You write the instructions once and run them whenever you want.
+
+For trivial tasks this was pretty good. "Identify concerning language in this NDA" doesn't need much more than some simple instructions.
+
+Then our users started wanting more complex workflows, and the limitations became clear.
+
+A prompt is just text. It has no notion of dependencies. It doesn't distinguish inputs from outputs, so we couldn't validate that a run had everything it needed before it started. And it has no intermediate state. When a twelve-step review produced a wrong answer at step nine, all we could see was the prompt going in and the answer coming out. Debugging was essentially reduced to reading a wall of text and guessing.
+
+## Legal Programs
+
+When we sat down and listed out what our customers' workflows actually need to do, we saw a familiar pattern.
+
+Every workflow at its core is made of the same pieces: **workflow inputs** (the NDA, the playbook, the deal context), **steps** (extract information, compare against policy, draft edits), **conditions** (if the agreement is mutual, do X, else do Y), **human input** (approval gates, etc.), and **outputs** (a memo, a slideshow, a dashboard).
+
+Inputs, operations, control flow, I/O. These are the anatomy of a program, one whose domain just happens to be legal work.
+
+If a workflow is a program, it deserves what we give all programs: a structured representation (we chose a DAG of typed steps), versioning, and a separate runtime.
+
+![An NDA review workflow: extract term/parties/scope/term n, branch on mutual vs. one-way, apply the matching policy, gate on human review, and produce a redline.](/blog/everything-is-a-workflow/01-legal-programs.png)
+
+## The Compiler
+
+Once workflows became structured data, execution became an optimization problem, and one we could iterate on without ever affecting a customer's workflow.
+
+The workflow describes *what* should happen. The engine decides *how*. That separation gives us enormous flexibility. Because dependencies are explicit, independent steps can run concurrently: a review that extracts twelve provisions doesn't have to wait for provision one before starting the rest. Because execution paths are explicit, branches that can't be reached are pruned. And because workflows share common use cases, we can optimize for the hot path: the same review pattern can run across hundreds of deals and dozens of organizations, so tuning how the engine executes it makes everything faster all at once.
+
+![Sequential execution of extract/compare/draft steps takes ~11 minutes; the DAG engine runs independent extraction steps in parallel and finishes in ~5.5 minutes.](/blog/everything-is-a-workflow/02-the-compiler.png)
+
+We offer the same guarantees as a modern compiler: you write the version that is easiest to understand, and our engine produces the version that is most efficient to execute and produces the best result.
+
+## Observable Execution
+
+Legal work is unusual among knowledge work in one respect: the answer is worth very little without the ability to defend how and why it was produced.
+
+Every workflow run in August records its full execution state: which steps completed, which are pending, what each step produced, and why a given branch was taken. When a run goes wrong, there is a clear trace.
+
+This is important in two places. First for debugging, which let us find errors in workflows and our execution engine much quicker and at a more fine-grained level. Second for adoption: lawyers extended trust to the system much faster once they could open a run and see every decision it made and why.
+
+## An Evolving Engine
+
+Decoupling the workflow from its execution enables both to improve independently.
+
+The workflow defines intent and can be constantly improved by users. The engine defines strategy. When a better model ships, or scheduling improves, or retrieval gets smarter, every existing workflow gets better automatically.
+
+Software has benefited from this separation for over fifty years. Your SQL queries don't have to change when the query planner gets smarter. We think AI systems deserve the same treatment, and workflows are how we get there.
+
+![The workflow definition stays a stable interface across engine versions — 2024's sequential calls, 2025's parallel scheduler, 2026's better models and smarter retrieval — the runtime is replaced, the workflow never is.](/blog/everything-is-a-workflow/03-evolving-engine.png)
+
+## A Data Flywheel
+
+The immediate payoff of structure is repeatability. Once a workflow exists, nobody needs to remake it from scratch.
+
+The long-term return is that workflows become a consistent flywheel of data we can learn from. We can see where execution spends its time, which similar steps emerge across organizations, and where humans have to consistently intervene. When the same three-step pattern shows up in every diligence workflow across every customer, we get a clear signal on what to build next.
+
+A team's best practices stop living in one associate's memory and become executable assets that improve with every run, and with every improvement to the engine underneath them.
+
+![A full NDA review workflow: read the NDA, run the playbook, branch on whether the playbook is complete or needs clarification, then synthesize and output a playbook result.](/blog/everything-is-a-workflow/04-data-flywheel.png)
+
+## Everything is a Workflow
+
+Our goal with workflows was to create a way for our users to codify their processes and latent knowledge in a way that was efficient and future-proof. We designed workflows to complement human judgement and ended up creating a de facto programming language from first principles.
+
+Through our iteration cycle, a prompt became a workflow and a workflow became a program. We think that this is the right abstraction for creating a system that will stand the test of time.

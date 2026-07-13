@@ -1,27 +1,32 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { allPosts } from "content-collections";
 import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
-import { ArrowLeft, Calendar, User } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { siteUrl, personalInfo } from "@/components/Info";
 import { formatPublishedDate, publishedDateToISOString } from "@/lib/date";
+import { sortedPosts } from "@/lib/posts";
+import { countWords, estimateReadingMinutes } from "@/lib/reading-time";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ params }) => {
-    const post = allPosts.find((p) => p.slug === params.slug);
+    const post = sortedPosts.find((p) => p.slug === params.slug);
     if (!post) {
       throw notFound();
     }
-    return post;
+    return {
+      post,
+      readingMinutes: estimateReadingMinutes(post.content),
+      wordCount: countWords(post.content),
+    };
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
 
-    const post = loaderData;
+    const { post, readingMinutes, wordCount } = loaderData;
     const postUrl = `${siteUrl}/blog/${post.slug}`;
     const imageUrl = post.image
       ? `${siteUrl}${post.image}`
@@ -68,6 +73,8 @@ export const Route = createFileRoute("/blog/$slug")({
             "@type": "WebPage",
             "@id": postUrl,
           },
+          wordCount,
+          timeRequired: `PT${readingMinutes}M`,
         }),
         jsonLd({
           "@context": "https://schema.org",
@@ -85,7 +92,7 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function BlogPost() {
-  const post = Route.useLoaderData();
+  const { post, readingMinutes } = Route.useLoaderData();
 
   return (
     <>
@@ -109,15 +116,12 @@ function BlogPost() {
               <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-4 leading-tight">
                 {post.title}
               </h1>
-              <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                <span className="flex items-center gap-2">
-                  <User className="w-4 h-4" aria-hidden="true" />
-                  {post.author}
-                </span>
-                <span className="flex items-center gap-2">
-                  <Calendar className="w-4 h-4" aria-hidden="true" />
-                  {formatPublishedDate(post.date, "long")}
-                </span>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+                <span>{post.author}</span>
+                <span aria-hidden="true">·</span>
+                <span>{formatPublishedDate(post.date, "long")}</span>
+                <span aria-hidden="true">·</span>
+                <span>{readingMinutes} min read</span>
               </div>
             </header>
 

@@ -1,5 +1,7 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
+import remarkGfm from "remark-gfm";
+import rehypeExternalLinks from "rehype-external-links";
 import os from "node:os";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -34,13 +36,19 @@ const posts = defineCollection({
     date: z.coerce.date(),
     author: z.string(),
     image: z.string().optional(),
+    imageOrientation: z.enum(["landscape", "portrait"]).default("landscape"),
     content: z.string(),
   }),
   transform: async (document, context) => {
     // Render MDX to static HTML here (Node) instead of shipping compiled MDX
     // code: evaluating it at request time needs `new Function`, which the
     // Cloudflare Workers runtime forbids — it broke SSR of post bodies.
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+      rehypePlugins: [
+        [rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
+      ],
+    });
     const scope = { React, ReactDOM, _jsx_runtime };
     const MDXComponent = new Function(...Object.keys(scope), mdx)(
       ...Object.values(scope)

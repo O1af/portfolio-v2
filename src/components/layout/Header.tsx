@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { motion } from "motion/react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { personalInfo } from "@/components/Info";
 import { CommandPalette } from "@/components/search/CommandPalette";
@@ -15,12 +14,7 @@ const navLinkClass =
 
 export function Header() {
   return (
-    <motion.header
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-background/70 border-b border-border"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-2xl bg-background/70 border-b border-border">
       <nav className="max-w-6xl mx-auto px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
         <Link
           to="/"
@@ -44,6 +38,6 @@ export function Header() {
           <ThemeToggle />
         </div>
       </nav>
-    </motion.header>
+    </header>
   );
 }

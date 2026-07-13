@@ -1,0 +1,75 @@
+---
+title: "The Area Over the Curve"
+summary: "How August rebuilt its agent harness to match model intelligence to task difficulty — routing as a Riemann sum, and why the cheapest model is rarely the cheapest result."
+date: 2026-07-13
+author: "Olaf"
+image: /covers/august-curve.png
+---
+
+*Originally published on the [August Engineering Blog](https://www.august.law/engineering/the-area-over-the-curve).*
+
+Somewhere on our platform right now, a frontier model is deciding whether a document is an NDA. It will be right. A model a tenth of the cost would also have been right, in a fifth of the time, and nobody would ever notice the difference.
+
+This type of interaction happens millions of times a day in many agentic systems. Use a frontier model and nothing ever looks broken: the answers are good and demos are great, but waste hides inside every response as seconds and cents that didn't need to be there. There's no error to page anyone about. The system is just more expensive and slower, on every single call, forever.
+
+There's a curve of how much intelligence each task actually needs, there's a line of how much you apply, and the gap between them is the surplus paid for in client time. This post covers the fallacy of cheap models, the importance of informed routing, and how we used this information to rewrite our harness.
+
+## Overwhelming Options
+
+In the age of LLMs, we have an incredibly large selection of models at our disposal. Even just considering the current frontier models (Fable 5, Opus 4.8, and GPT-5.6 Sol), when we incorporate reasoning budgets we get a decision space of 14 different options.
+
+Tuning reasoning effort gives us remarkably distinct points of intelligence per dollar. For example, Opus 4.8 with thinking set to low is a different product than with its reasoning at max, with its own capability ceiling, price point, and latency.
+
+You can see this play out in public benchmarks: on DeepSWE's long-horizon coding task benchmark, Fable 5 on `low` effort matches Opus on `max` at a quarter of the price, GPT-5.6 Sol at `xhigh` clears Fable's best by three points at half the cost, and Fable's `max` setting pays eight dollars more than `xhigh` to score slightly lower.
+
+![DeepSWE v1.1's cost-score plane across all 14 reasoning-effort configurations for Fable 5, Opus 4.8, and GPT-5.6 Sol — GPT-5.6 Sol's trace sits on the Pareto frontier end to end.](/blog/the-area-over-the-curve/01-overwhelming-options.png)
+
+## The Cliff
+
+For a single model, a higher reasoning budget does not linearly translate to better output. Accuracy takes the form of a cliff: below some threshold the call mostly fails, across a narrow band it flips to probabilistically correct, and past that it plateaus. The only things still climbing out on the plateau are cost and latency.
+
+This threshold where reasoning effort becomes "enough" to produce a correct output exists across every single task but is varied and hard to pinpoint. Generally, our goal is to land near the beginning of the plateau. Although this leads to a small amount of wasted compute, this is palatable compared to landing under the cliff where the result is outright failure.
+
+![Accuracy as a function of capability applied to one call: below the cliff the call fails and failure bills twice; past the plateau, every extra dollar and second buys the same answer.](/blog/the-area-over-the-curve/02-the-cliff.png)
+
+### Token price is not result price
+
+It is extremely tempting to optimize and get as close to the cliff as possible in the interest of saving time and money. But this introduces tremendous risk of moving backwards on both metrics.
+
+![The cost per correct answer for the same call: failures and retries send the effective price toward infinity below the threshold, the minimum sits right at "enough," and everything past it is a gentle overpay.](/blog/the-area-over-the-curve/03-token-price.png)
+
+There is no partial credit: every failed attempt needs additional model calls to retry, which adds significant cost and latency. A task that costs one dollar and passes half the time has an effective cost of two dollars per usable result. At a 20% pass rate, costs balloon to five dollars even before considering the added latency and introduced risk of surfacing poor outputs to users.
+
+## The Curve
+
+Let's zoom out a bit. When we sort every task by its cliff and plot it, we get a curve of difficulty. A single-model agent solves this the only way it can: by using the smartest possible model. A more complex agent can approximate this curve by assigning to the smallest model that can solve a given task.
+
+Graphing this out we can see a familiar approximation staircase start to emerge: a Riemann sum. Put simply, our router is doing calculus. Each model configuration is a rectangle and the area between the staircase and the curve is our approximation error. This is the area over the curve: it represents the aggregate of extra seconds that users had to wait and every single extra dollar of wasted compute. We can shrink it the same way we shrink any Riemann error: add more rectangles.
+
+![Two models produce two rectangles of wasted area; splitting each model into three reasoning budgets turns two rectangles into six, and the shaded waste over the curve collapses without adding a single new model.](/blog/the-area-over-the-curve/04-the-curve.png)
+
+In reality, the steps do a bit better than strict rectangles. Even with fixed reasoning budgets, models tend to spend more tokens on harder tasks. This makes each step look more sloped and further reduces this error.
+
+![The same six-item menu, drawn honestly: Sonnet 5 and Opus 4.8 spend more tokens on harder calls even at a fixed reasoning setting, so each step's top slopes upward and hugs the curve from just above.](/blog/the-area-over-the-curve/05-sloped-steps.png)
+
+Unfortunately, the area never truly reaches zero. That would take a perfect continuous intelligence function, and even sloped steps jump a bit at the tier boundaries. But every narrowed step lets us give dollars and seconds back to our users.
+
+## Putting this into Production
+
+Armed with all this information we set out to rewrite our harness from the ground up. Just one problem: in order to create an agentic router we needed to know what our task curve looks like. Unfortunately for us, benchmarks and arena leaderboards told us very little about how different models would perform on legal tasks.
+
+So we built an evaluation pipeline that finds out for us. We sample a small portion of our production traffic and run it against potential model candidates in the background. The output from both our production agent and our candidate is graded against one another by a frontier LLM verifier. Across hundreds of calls the strengths and weaknesses of each candidate begin to emerge and let us determine what role it could play in our system.
+
+![Shadow grading: the candidate model sees real production calls but serves none of them; the same verifier grades both it and the serving tier, so promotion and drift detection run on one shared per-shape ledger.](/blog/the-area-over-the-curve/06-eval-pipeline.png)
+
+Once a candidate has clear signal on its strength in a certain area, it's then integrated into the system as a subagent for that set of tasks. Our harness is built around a frontier orchestrator model that delegates tasks to both "smart" and "fast" subagents depending on the complexity of the task. This gives us fine-grained control over the latency and quality of output as well as data-backed confidence in our system.
+
+![The harness in production: Metis, the GPT-5.6 Sol orchestrator, decomposes a matter and routes each piece to the smallest capable subagent — Hephaestus for drafting, Hermes for summarization, Argus for web research.](/blog/the-area-over-the-curve/07-harness.png)
+
+## The area over the curve
+
+The curve itself never changes: there is always an unknown difficulty function, but we can do our best to approximate it. With our vast decision space and production-grade evals, we have a pretty good picture of what the curve looks like for the legal domain.
+
+As a happy side effect of our new harness, our workflows platform also saw significant speedups and quality improvements that we are currently rolling out to users. A workflow on August is composed of dozens of chained calls and our improvements compound into minutes shaved off.
+
+We learned that if we get the approximation right, wasted compute becomes a shape you can see, measure, and eliminate.
