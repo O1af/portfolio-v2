@@ -22,14 +22,9 @@ const Education = lazy(() =>
     default: module.Education,
   }))
 );
-const Books = lazy(() =>
-  import("@/components/sections/Books").then((module) => ({
-    default: module.Books,
-  }))
-);
-const Projects = lazy(() =>
-  import("@/components/sections/Projects").then((module) => ({
-    default: module.Projects,
+const Bookshelf = lazy(() =>
+  import("@/components/sections/Bookshelf").then((module) => ({
+    default: module.Bookshelf,
   }))
 );
 
@@ -59,7 +54,7 @@ export const Route = createFileRoute("/")({
         jobTitle: personalInfo.title,
         worksFor: {
           "@type": "Organization",
-          name: "University of Michigan",
+          name: "Netflix",
         },
         alumniOf: {
           "@type": "CollegeOrUniversity",
@@ -100,20 +95,19 @@ function App() {
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen">
-        <Hero />
-        <Suspense fallback={null}>
-          <Experience />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Education />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Books />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Projects />
-        </Suspense>
+      <main id="main-content" className="min-h-screen px-6 pt-32 pb-18">
+        <div className="mx-auto max-w-2xl">
+          <Hero />
+          <Suspense fallback={null}>
+            <Experience />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Education />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Bookshelf />
+          </Suspense>
+        </div>
       </main>
       <Footer />
     </>

@@ -47,8 +47,8 @@ function ConnectionsPage() {
         gap={8}
         toastOptions={{ duration: 3000 }}
       />
-      <main id="main-content" className="min-h-screen pt-20 pb-8 px-6">
-        <div className="max-w-2xl mx-auto">
+      <main id="main-content" className="min-h-screen px-6 pt-28 pb-8">
+        <div className="mx-auto max-w-[560px]">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

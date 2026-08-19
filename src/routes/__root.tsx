@@ -48,7 +48,7 @@ export const Route = createRootRoute({
       { name: "robots", content: "index, follow" },
       { name: "googlebot", content: "index, follow" },
       { name: "description", content: siteMetadata.description },
-      { name: "theme-color", content: "#242528" },
+      { name: "theme-color", content: "#ffffff" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

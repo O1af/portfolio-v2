@@ -4,80 +4,59 @@ import { education } from "@/components/Info";
 
 export function Education() {
   return (
-    <section id="education" className="scroll-mt-24 py-8 px-6 relative">
-      <div className="absolute inset-0 bg-linear-to-b from-background via-muted/10 to-background" />
+    <section id="education" className="scroll-mt-24 mt-14">
+      <motion.h2
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="text-[15px] font-semibold tracking-tight text-foreground"
+      >
+        Education
+      </motion.h2>
 
-      <div className="relative z-10 max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <div className="mb-3 h-1 w-8 rounded-full bg-primary/70" />
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground mb-2">
-            Education
-          </h2>
-        </motion.div>
+      <div className="flex flex-col">
+        {education.map((edu, index) => (
+          <motion.div
+            key={`${edu.degree}-${edu.period}`}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-30px" }}
+            transition={{ duration: 0.4, delay: index * 0.03 }}
+            className={`flex gap-4 py-4.5 ${
+              index < education.length - 1 ? "border-b border-border" : ""
+            }`}
+          >
+            <Image
+              src={edu.logo}
+              alt={`${edu.school} logo`}
+              width={36}
+              height={36}
+              layout="fixed"
+              loading="lazy"
+              decoding="async"
+              className="h-9 w-9 shrink-0 rounded-[9px] border border-border object-cover"
+            />
 
-        <div className="space-y-3">
-          {education.map((edu, index) => (
-            <motion.div
-              key={`${edu.degree}-${edu.period}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.4, delay: index * 0.05 }}
-            >
-              <div className="group p-5 rounded-2xl bg-card/50 border border-border hover:border-primary/25 hover:bg-card hover:shadow-sm transition-[background-color,border-color,box-shadow] duration-200">
-                <div className="flex gap-4">
-                  <div className="shrink-0">
-                    <Image
-                      src={edu.logo}
-                      alt={`${edu.school} logo`}
-                      width={48}
-                      height={48}
-                      layout="fixed"
-                      loading="lazy"
-                      decoding="async"
-                      className="w-12 h-12 rounded-xl object-cover ring-1 ring-border"
-                    />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4 mb-1">
-                      <div>
-                        <h3 className="text-base font-semibold text-foreground group-hover:text-primary transition-colors">
-                          {edu.degree}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {edu.field}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {edu.school}
-                        </p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <p className="text-xs text-muted-foreground">
-                          {edu.period}
-                        </p>
-                        <p className="text-xs text-muted-foreground/70">
-                          {edu.location}
-                        </p>
-                        {edu.gpa && (
-                          <p className="text-xs text-primary/80 mt-1 font-medium">
-                            GPA: {edu.gpa}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+            <div className="min-w-0 flex-1">
+              <div className="flex gap-4">
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-[14.5px] font-medium text-foreground">
+                    {edu.degree} {edu.field}
+                  </h3>
+                  <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+                    {edu.school}
+                    {edu.gpa ? ` · GPA: ${edu.gpa}` : null}
+                  </p>
+                </div>
+                <div className="shrink-0 text-right">
+                  <p className="text-xs text-dim">{edu.period}</p>
+                  <p className="mt-1 text-xs text-dim">{edu.location}</p>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </section>
   );

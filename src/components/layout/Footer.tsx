@@ -1,34 +1,25 @@
-import { Separator } from "@/components/ui/separator";
-import { personalInfo, socialLinks } from "@/components/Info";
+import { socialLinks } from "@/components/Info";
 
 export function Footer() {
   return (
-    <footer className="py-8 px-6">
-      <div className="max-w-4xl mx-auto">
-        <Separator className="mb-8" />
+    <footer className="px-6">
+      <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 border-t border-border py-6 pb-10 sm:flex-row sm:gap-4">
+        <p className="text-xs text-dim text-center sm:text-left">
+          "Believe you can and you're halfway there" — Teddy Roosevelt
+        </p>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-center md:text-left">
-            <p className="text-sm text-foreground font-medium mb-0.5">{personalInfo.name}</p>
-            <p className="text-xs text-muted-foreground">
-              "Believe you can and you're halfway there" - Teddy Roosevelt
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.label}
-                className="inline-flex size-10 items-center justify-center rounded-full text-muted-foreground transition-colors duration-200 hover:bg-secondary/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation"
-              >
-                <link.icon className="w-4 h-4" aria-hidden="true" />
-              </a>
-            ))}
-          </div>
+        <div className="flex items-center gap-4 sm:ml-auto">
+          {socialLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-sm text-xs text-dim transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation"
+            >
+              {link.label}
+            </a>
+          ))}
         </div>
       </div>
     </footer>

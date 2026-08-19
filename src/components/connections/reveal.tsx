@@ -9,17 +9,18 @@ interface CategoryRevealProps {
   };
 }
 
+// NYT Connections group colors — fixed in both themes
 const colorClass: Record<CategoryColor, string> = {
-  yellow: "bg-yellow-100 dark:bg-yellow-900/40 text-yellow-900 dark:text-yellow-100",
-  green: "bg-green-100 dark:bg-green-900/40 text-green-900 dark:text-green-100",
-  blue: "bg-blue-100 dark:bg-blue-900/40 text-blue-900 dark:text-blue-100",
-  purple: "bg-purple-100 dark:bg-purple-900/40 text-purple-900 dark:text-purple-100",
+  yellow: "bg-[#f9df6d] text-[#1a1a1a]",
+  green: "bg-[#a0c35a] text-[#1a1a1a]",
+  blue: "bg-[#b0c4ef] text-[#1a1a1a]",
+  purple: "bg-[#ba81c5] text-[#1a1a1a]",
 };
 
 export function CategoryReveal({ category }: CategoryRevealProps) {
   return (
     <motion.div
-      className={`w-full mb-2 p-3 rounded-xl ${colorClass[category.color]}`}
+      className={`w-full mb-2 p-3 rounded-lg ${colorClass[category.color]}`}
       initial={{ opacity: 0, y: -16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}

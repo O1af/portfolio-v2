@@ -11,7 +11,7 @@ export const siteUrl = "https://olafdsouza.com";
 export const personalInfo: PersonalInfo = {
   name: "Olaf Dsouza",
   title: "Software Engineer",
-  bio: "I'm currently a student at the University of Michigan interested in Operating Systems, LLMs, and Distributed Systems",
+  bio: "Umich alum interested in food, emergence, and LLMs.",
   email: "site@olafdsouza.com",
   avatarImage: "/pfp-avatar.jpg",
   profileImage: "/pfp-social.jpg",
@@ -20,13 +20,13 @@ export const personalInfo: PersonalInfo = {
 export const siteMetadata = {
   title: `${personalInfo.name} | ${personalInfo.title}`,
   description:
-    "Software engineer and University of Michigan student focused on operating systems, LLMs, and distributed systems. Previously at Netflix and startups.",
+    "Software engineer at Netflix and University of Michigan CS alum, writing about operating systems, LLMs, and distributed systems.",
   blogTitle: `Blog | ${personalInfo.name}`,
   // Shown on the blog page itself
-  blogDescription: "A collection of my thoughts, stories, and ideas",
+  blogDescription: "Ramblings",
   // Used for search engines and link previews
   blogMetaDescription:
-    "Writing about operating systems, LLMs, distributed systems, and CS at the University of Michigan — projects, class reviews, and ideas.",
+    "Writing about operating systems, LLMs, distributed systems, and CS at the University of Michigan: projects, class reviews, and ideas.",
 };
 
 export const socialLinks: SocialLink[] = [
@@ -54,6 +54,14 @@ export const socialUrls = {
 
 export const experiences: Experience[] = [
   {
+    title: "Software Engineer",
+    company: "Netflix",
+    logo: "/logo/netflix.jpeg",
+    period: "Aug 2026 - Present",
+    location: "Los Gatos, CA",
+    description: "Ads Metrics",
+  },
+  {
     title: "Founding Engineer",
     company: "August Law",
     logo: "/logo/august.png",
@@ -69,7 +77,7 @@ export const experiences: Experience[] = [
     period: "May 2025 - Aug 2025",
     location: "Los Gatos, CA",
     description:
-      "Ads Metrics Team.",
+      "Ads Metrics",
   },
   {
     title: "Co-Founder & Engineer",
@@ -78,7 +86,7 @@ export const experiences: Experience[] = [
     period: "Dec 2024 - May 2025",
     location: "Ann Arbor, MI",
     description:
-      "ex: quailbi.com",
+      "AI for BI",
     link: "https://quailbi.com",
   },
   {
@@ -88,7 +96,7 @@ export const experiences: Experience[] = [
     period: "Aug 2024 - Dec 2024",
     location: "Ann Arbor, MI",
     description:
-      "Taught core OS concepts to 300+ students.",
+      "Taught core OS concepts to 300+ students",
   },
   {
     title: "Software Engineer Intern",
@@ -97,7 +105,8 @@ export const experiences: Experience[] = [
     period: "May 2024 - Aug 2024",
     location: "Ann Arbor, MI",
     description:
-      "Back-end team.",
+      "Connecting Classmates",
+    link: "https://www.meetyourclass.com/",
   },
   {
     title: "Research Project Lead",
@@ -105,7 +114,7 @@ export const experiences: Experience[] = [
     logo: "/logo/umich.jpeg",
     period: "Apr 2023 - Aug 2024",
     location: "Ann Arbor, MI",
-    description: "MRAPID Air Quality Monitoring Project.",
+    description: "Air Quality Monitoring",
   },
   {
     title: "Software Engineer Intern",
@@ -114,21 +123,21 @@ export const experiences: Experience[] = [
     period: "Aug 2022 - Dec 2022",
     location: "Ann Arbor, MI",
     description:
-      "Data Processing Team.",
+      "Scraping",
   },
 ];
 
 export const education: Education[] = [
   {
-    degree: "Master of Science",
-    field: "Computer Science and Engineering",
+    degree: "M.S.",
+    field: "Computer Science & Engineering",
     school: "University of Michigan",
     logo: "/logo/umich.jpeg",
     period: "Aug 2025 - May 2026",
     location: "Ann Arbor, MI",
   },
   {
-    degree: "Bachelor of Science",
+    degree: "B.S.",
     field: "Computer Science",
     school: "University of Michigan",
     logo: "/logo/umich.jpeg",
@@ -215,6 +224,41 @@ export const projects: Project[] = [
     link: "https://quailbi.com",
     tags: ["TypeScript", "SQL", "AI"],
   }
+];
+
+export type FavoriteBlog = {
+  name: string;
+  href: string;
+  domain: string;
+};
+
+// Bookshelf section — favorite engineering blogs
+export const favoriteBlogs: FavoriteBlog[] = [
+  {
+    name: "Dynamic Context Discovery",
+    href: "https://cursor.com/blog/dynamic-context-discovery",
+    domain: "cursor.com/blog",
+  },
+  {
+    name: "Code Mode: The Better Way to Use MCP",
+    href: "https://blog.cloudflare.com/code-mode/",
+    domain: "blog.cloudflare.com",
+  },
+  {
+    name: "Scaling PostgreSQL to Power 800M ChatGPT Users",
+    href: "https://openai.com/index/scaling-postgresql/",
+    domain: "openai.com",
+  },
+  {
+    name: "Treat Agent Output Like Compiler Output",
+    href: "https://skiplabs.io/blog/codegen_as_compiler",
+    domain: "skiplabs.io",
+  },
+  {
+    name: "A Field Guide to Fable: Finding Your Unknowns",
+    href: "https://x.com/trq212/article/2073100352921215386",
+    domain: "x.com/@trq212",
+  },
 ];
 
 export const books: Book[] = [

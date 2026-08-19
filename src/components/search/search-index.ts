@@ -1,10 +1,9 @@
 import { allPosts } from "content-collections";
 import {
-  books,
   education,
   experiences,
+  favoriteBlogs,
   personalInfo,
-  projects,
   socialUrls,
   siteMetadata,
 } from "@/components/Info";
@@ -234,25 +233,14 @@ export function buildSearchIndex(): SearchItem[] {
       priority: 85,
     },
     {
-      id: "nav-projects",
-      type: "route",
-      title: "Projects",
-      subtitle: "What I have built",
-      keywords: ["projects", "build", "portfolio", "github"],
-      group: "Navigate",
-      to: "/",
-      hash: "projects",
-      priority: 85,
-    },
-    {
-      id: "nav-books",
+      id: "nav-bookshelf",
       type: "route",
       title: "Bookshelf",
-      subtitle: "Books I am reading and recommend",
-      keywords: ["books", "reading", "recommendations"],
+      subtitle: "Some of my favorite engineering blogs",
+      keywords: ["bookshelf", "blogs", "engineering", "reading", "recommendations"],
       group: "Navigate",
       to: "/",
-      hash: "books",
+      hash: "bookshelf",
       priority: 72,
     },
     {
@@ -289,24 +277,6 @@ export function buildSearchIndex(): SearchItem[] {
   ];
 
   const contentItems: SearchItem[] = [
-    ...projects.map((project, index) => ({
-      id: `project-${project.title}-${index}`,
-      type: "route" as const,
-      title: project.title,
-      subtitle: project.description,
-      keywords: compactKeywords(
-        "project",
-        "portfolio",
-        project.category,
-        ...(project.tags ?? []),
-        project.date
-      ),
-      searchText: plainText(project.description),
-      group: "Navigate" as const,
-      to: "/" as const,
-      hash: "projects",
-      priority: 55,
-    })),
     ...experiences.map((experience, index) => ({
       id: `experience-${experience.company}-${index}`,
       type: "route" as const,
@@ -337,16 +307,16 @@ export function buildSearchIndex(): SearchItem[] {
       hash: "education",
       priority: 50,
     })),
-    ...books.map((book, index) => ({
-      id: `book-${book.title}-${index}`,
+    ...favoriteBlogs.map((blog, index) => ({
+      id: `blog-link-${blog.name}-${index}`,
       type: "route" as const,
-      title: book.title,
-      subtitle: `Bookshelf - ${book.progressLabel}`,
-      keywords: compactKeywords("book", "reading", book.status, book.progressLabel),
-      searchText: plainText(book.title),
+      title: blog.name,
+      subtitle: `Bookshelf - ${blog.domain}`,
+      keywords: compactKeywords("bookshelf", "blog", "engineering", blog.domain),
+      searchText: plainText(`${blog.name} ${blog.domain}`),
       group: "Navigate" as const,
       to: "/" as const,
-      hash: "books",
+      hash: "bookshelf",
       priority: 40,
     })),
     ...allPosts.map((post) => ({

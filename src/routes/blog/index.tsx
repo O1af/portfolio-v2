@@ -5,8 +5,20 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { siteUrl, personalInfo, siteMetadata } from "@/components/Info";
 import { formatPublishedDate } from "@/lib/date";
-import { sortedPosts } from "@/lib/posts";
+import { readingMinutesBySlug, sortedPosts } from "@/lib/posts";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
+
+const MONOGRAM_STOPWORDS = new Set(["a", "an", "the", "of", "in", "on", "at", "with"]);
+
+function monogram(title: string): string {
+  const words = title
+    .split(/\s+/)
+    .filter((word) => /[a-z0-9]/i.test(word) && !MONOGRAM_STOPWORDS.has(word.toLowerCase()));
+  if (words.length >= 2) {
+    return `${words[0][0]}${words[1][0]}`.toUpperCase();
+  }
+  return (words[0] ?? title).slice(0, 2).toUpperCase();
+}
 
 export const Route = createFileRoute("/blog/")({
   head: () => ({
@@ -57,45 +69,70 @@ function BlogIndex() {
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen pt-28 pb-16 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+      <main id="main-content" className="min-h-screen px-6 pt-32 pb-16">
+        <div className="mx-auto max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+              Blog
+            </h1>
+            <p className="mt-3.5 text-[15.5px] leading-relaxed text-muted-foreground text-pretty">
+              {siteMetadata.blogDescription}
+            </p>
+          </motion.div>
+
+          <div className="mt-10 flex flex-col">
             {sortedPosts.map((post, index) => (
               <motion.div
                 key={post.slug}
-                initial={{ opacity: 0, y: 16 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.06 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className={
+                  index < sortedPosts.length - 1 ? "border-b border-border" : ""
+                }
               >
                 <Link
                   to="/blog/$slug"
                   params={{ slug: post.slug }}
-                  className="group block focus-visible:outline-none"
+                  className="group flex flex-col gap-4 py-5 focus-visible:outline-none sm:flex-row sm:items-center sm:gap-5"
                 >
-                  {post.image && (
-                    <div className="h-[198px] flex items-center justify-center overflow-hidden rounded bg-muted/30 mb-4">
+                  {post.image ? (
+                    <div className="aspect-[16/10] w-full shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30 sm:w-[168px]">
                       <Image
                         src={post.image}
-                        alt={post.title}
-                        width={600}
-                        height={400}
+                        alt=""
+                        width={336}
+                        height={210}
                         layout="constrained"
                         loading="lazy"
                         decoding="async"
-                        className={
-                          post.imageOrientation === "portrait"
-                            ? "h-full w-auto transition-transform duration-500 group-hover:scale-[1.03] group-focus-visible:scale-[1.03]"
-                            : "w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03] group-focus-visible:scale-[1.03]"
-                        }
+                        className="h-full w-full object-cover"
                       />
                     </div>
+                  ) : (
+                    <div className="flex aspect-[16/10] w-full shrink-0 items-center justify-center rounded-lg border border-border bg-secondary font-mono text-[22px] font-semibold text-dim sm:w-[168px]">
+                      {monogram(post.title)}
+                    </div>
                   )}
-                  <time className="block text-sm text-muted-foreground">
-                    {formatPublishedDate(post.date)}
-                  </time>
-                  <h2 className="text-xl text-foreground mt-2 leading-snug">
-                    {post.title}
-                  </h2>
+
+                  <div className="min-w-0 flex-1">
+                    <h2 className="text-[15.5px] font-medium leading-snug text-foreground text-pretty group-hover:underline group-focus-visible:underline">
+                      {post.title}
+                    </h2>
+                    {post.summary && (
+                      <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
+                        {post.summary}
+                      </p>
+                    )}
+                    <p className="mt-2 text-xs text-dim">
+                      {formatPublishedDate(post.date)} ·{" "}
+                      {readingMinutesBySlug.get(post.slug)} min read
+                    </p>
+                  </div>
                 </Link>
               </motion.div>
             ))}

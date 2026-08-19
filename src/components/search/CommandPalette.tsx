@@ -64,7 +64,6 @@ const QUICK_ACTION_IDS = new Set([
   "action-linkedin",
   "nav-home",
   "nav-blog",
-  "nav-projects",
   "nav-connections",
 ]);
 
@@ -224,17 +223,19 @@ export function CommandPalette() {
         onMouseEnter={() => void ensureSearchIndex()}
         onFocus={() => void ensureSearchIndex()}
         aria-label="Open command menu"
-        className="inline-flex min-h-10 items-center gap-2 rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-secondary/50 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation"
+        className="inline-flex min-h-[34px] items-center gap-2 rounded-lg border border-border bg-background px-2.5 text-[13px] text-dim transition-colors hover:bg-secondary hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation"
       >
-        <Search className="size-3.5" aria-hidden="true" />
+        <Search className="size-3.5 sm:hidden" aria-hidden="true" />
         <span className="hidden sm:inline">Search</span>
-        <Kbd className="h-4 min-w-4 px-1 text-[10px]">{isMac ? "⌘K" : "Ctrl+K"}</Kbd>
+        <Kbd className="hidden h-4 min-w-4 px-1 font-mono text-[10px] sm:ml-4 sm:inline-flex">
+          {isMac ? "⌘K" : "Ctrl+K"}
+        </Kbd>
       </button>
 
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
-        className="max-w-2xl"
+        className="sm:max-w-[580px]"
         title="Search site"
         description="Search pages, blog posts, and quick actions"
       >
@@ -243,16 +244,14 @@ export function CommandPalette() {
           value={selectedValue}
           onValueChange={setSelectedValue}
         >
-          <div className="border-b border-border/70">
-            <CommandInput
-              value={query}
-              onValueChange={setQuery}
-              placeholder="Search anything…"
-              aria-label="Search site"
-            />
-          </div>
+          <CommandInput
+            value={query}
+            onValueChange={setQuery}
+            placeholder="Search anything…"
+            aria-label="Search site"
+          />
 
-          <CommandList className="max-h-[420px] p-1">
+          <CommandList className="max-h-[400px] p-1.5">
             {!index ? (
               <div className="px-4 py-6 text-sm text-muted-foreground">Loading search…</div>
             ) : null}
@@ -281,6 +280,22 @@ export function CommandPalette() {
               </CommandGroup>
             )}
           </CommandList>
+
+          <div className="flex items-center gap-4 border-t border-border px-3.5 py-2 text-[11px] text-dim">
+            <span className="flex items-center gap-1.5">
+              <Kbd className="h-4 min-w-4 px-1 text-[10px]">↑</Kbd>
+              <Kbd className="h-4 min-w-4 px-1 text-[10px]">↓</Kbd>
+              Navigate
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Kbd className="h-4 min-w-4 px-1 text-[10px]">↵</Kbd>
+              Open
+            </span>
+            <span className="ml-auto flex items-center gap-1.5">
+              <Kbd className="h-4 min-w-4 px-1 text-[10px]">esc</Kbd>
+              Close
+            </span>
+          </div>
         </Command>
       </CommandDialog>
     </>

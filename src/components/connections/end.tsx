@@ -80,11 +80,11 @@ export function GameOver({ won, allCategories, guessHistory, onReset }: GameOver
       </motion.p>
 
       <motion.div variants={item} className="w-full mb-6 flex gap-2">
-        <Button onClick={share} variant="outline" className="flex-1 gap-2">
+        <Button onClick={share} variant="outline" className="rounded-full flex-1 gap-2">
           <ShareIcon size={15} />
           Share
         </Button>
-        <Button onClick={() => copyToClipboard(generateEmojiGrid())} variant="outline" className="flex-1 gap-2">
+        <Button onClick={() => copyToClipboard(generateEmojiGrid())} variant="outline" className="rounded-full flex-1 gap-2">
           {copied ? <><CheckIcon size={15} /> Copied</> : <><CopyIcon size={15} /> Copy Results</>}
         </Button>
       </motion.div>
@@ -96,7 +96,7 @@ export function GameOver({ won, allCategories, guessHistory, onReset }: GameOver
       ))}
 
       <motion.div variants={item} className="mt-2">
-        <Button onClick={onReset} size="lg">
+        <Button onClick={onReset} size="lg" className="rounded-full">
           Play Again
         </Button>
       </motion.div>

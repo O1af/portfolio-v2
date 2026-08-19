@@ -331,21 +331,21 @@ export function ConnectionsGame() {
             onClick={submit}
             disabled={state.selectedWords.length !== 4 || state.isShuffling}
             variant={state.selectedWords.length === 4 ? "default" : "outline"}
-            className="px-6"
+            className="rounded-full px-6"
           >
             Submit
           </Button>
         </div>
 
         <div className="flex gap-2">
-          <Button onClick={shuffle} disabled={state.isShuffling} variant="outline" className="flex-1">
+          <Button onClick={shuffle} disabled={state.isShuffling} variant="outline" className="rounded-full flex-1">
             Shuffle
           </Button>
           <Button
             onClick={deselectAll}
             disabled={state.selectedWords.length === 0 || state.isShuffling}
             variant="outline"
-            className="flex-1"
+            className="rounded-full flex-1"
           >
             Deselect All
           </Button>

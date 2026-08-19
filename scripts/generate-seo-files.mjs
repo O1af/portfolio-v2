@@ -147,7 +147,7 @@ function renderLlmsTxt(posts) {
 
 > Personal site and engineering blog for Olaf Dsouza, a software engineer focused on operating systems, LLMs, and distributed systems.
 
-Olaf is a University of Michigan CS/CSE student and software engineer who has worked at Netflix, August Law, and Quail AI. This site hosts his portfolio, project writeups, and blog.
+Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum who has also worked at August Law and Quail AI. This site hosts his portfolio, experience, and blog.
 
 ## Primary Pages
 - [Home](${absolute("/")}): Portfolio, experience, and project overview.

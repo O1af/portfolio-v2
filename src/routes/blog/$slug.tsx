@@ -93,12 +93,14 @@ export const Route = createFileRoute("/blog/$slug")({
 
 function BlogPost() {
   const { post, readingMinutes } = Route.useLoaderData();
+  const postIndex = sortedPosts.findIndex((p) => p.slug === post.slug);
+  const nextPost = postIndex >= 0 ? sortedPosts[postIndex + 1] : undefined;
 
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen pt-20 pb-16 px-6">
-        <article className="max-w-3xl mx-auto">
+      <main id="main-content" className="min-h-screen px-6 pt-28 pb-16">
+        <article className="mx-auto max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -106,18 +108,18 @@ function BlogPost() {
           >
             <Link
               to="/blog"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+              className="group inline-flex items-center gap-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" aria-hidden="true" />
+              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" />
               Back to blog
             </Link>
 
-            <header className="mb-10">
-              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-4 leading-tight">
+            <header className="mt-6">
+              <h1 className="text-3xl sm:text-[34px] font-semibold tracking-tight leading-tight text-foreground text-pretty">
                 {post.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-                <span>{post.author}</span>
+              <div className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13.5px] text-dim">
+                <span className="text-muted-foreground">{post.author}</span>
                 <span aria-hidden="true">·</span>
                 <span>{formatPublishedDate(post.date, "long")}</span>
                 <span aria-hidden="true">·</span>
@@ -126,7 +128,7 @@ function BlogPost() {
             </header>
 
             {post.image && (
-              <div className="mb-10 bg-muted/30 rounded-2xl ring-1 ring-border overflow-hidden">
+              <div className="mt-7 overflow-hidden rounded-[10px] border border-border bg-muted/30">
                 <Image
                   src={post.image}
                   alt={post.title}
@@ -139,7 +141,25 @@ function BlogPost() {
               </div>
             )}
 
-            <div className="prose" dangerouslySetInnerHTML={{ __html: post.html }} />
+            <div className="prose mt-7" dangerouslySetInnerHTML={{ __html: post.html }} />
+
+            {nextPost && (
+              <Link
+                to="/blog/$slug"
+                params={{ slug: nextPost.slug }}
+                className="group mt-9 flex items-center justify-between gap-4 rounded-[10px] border border-border bg-card px-5 py-4.5 transition-colors hover:border-ring/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <div className="min-w-0">
+                  <p className="text-xs text-dim">Next post</p>
+                  <p className="mt-0.5 truncate text-[14.5px] font-medium text-foreground">
+                    {nextPost.title}
+                  </p>
+                </div>
+                <span className="shrink-0 text-[13px] font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                  Read →
+                </span>
+              </Link>
+            )}
           </motion.div>
         </article>
         <ScrollProgress />
