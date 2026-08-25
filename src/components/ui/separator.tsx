@@ -1,25 +1,48 @@
 "use client"
 
 import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
+import * as stylex from "@stylexjs/stylex"
 
-import { cn } from "@/lib/utils"
+import { stylexProps } from "@/lib/utils"
+
+type SeparatorProps = SeparatorPrimitive.Props & {
+  stylexStyle?: stylex.StyleXStyles
+}
 
 function Separator({
   className,
+  style,
+  stylexStyle,
   orientation = "horizontal",
   ...props
-}: SeparatorPrimitive.Props) {
+}: SeparatorProps) {
   return (
     <SeparatorPrimitive
       data-slot="separator"
       orientation={orientation}
-      className={cn(
-        "bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:self-stretch",
-        className
+      {...stylexProps(
+        [styles.base, orientation === "horizontal" ? styles.horizontal : styles.vertical, stylexStyle],
+        className,
+        style
       )}
       {...props}
     />
   )
 }
+
+const styles = stylex.create({
+  base: {
+    flexShrink: 0,
+    backgroundColor: "var(--border)",
+  },
+  horizontal: {
+    width: "100%",
+    height: 1,
+  },
+  vertical: {
+    width: 1,
+    alignSelf: "stretch",
+  },
+})
 
 export { Separator }

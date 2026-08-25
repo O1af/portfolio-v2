@@ -1,26 +1,78 @@
-import { cn } from "@/lib/utils"
+import * as stylex from "@stylexjs/stylex"
 
-function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
+import { stylexProps } from "@/lib/utils"
+
+type KbdProps = React.ComponentProps<"kbd"> & {
+  stylexStyle?: stylex.StyleXStyles
+}
+
+function Kbd({ className, style, stylexStyle, ...props }: KbdProps) {
   return (
     <kbd
       data-slot="kbd"
-      className={cn(
-        "bg-muted text-muted-foreground [[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10 h-5 w-fit min-w-5 gap-1 rounded-sm px-1 font-sans text-xs font-medium [&_svg:not([class*='size-'])]:size-3 pointer-events-none inline-flex items-center justify-center select-none",
-        className
+      {...stylexProps(
+        [styles.kbd, stylexStyle],
+        className,
+        style
       )}
       {...props}
     />
   )
 }
 
-function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
+type KbdGroupProps = React.ComponentProps<"div"> & {
+  stylexStyle?: stylex.StyleXStyles
+}
+
+function KbdGroup({ className, style, stylexStyle, ...props }: KbdGroupProps) {
   return (
-    <kbd
+    <div
       data-slot="kbd-group"
-      className={cn("gap-1 inline-flex items-center", className)}
+      {...stylexProps([styles.group, stylexStyle], className, style)}
       {...props}
     />
   )
 }
+
+const styles = stylex.create({
+  kbd: {
+    display: "inline-flex",
+    width: "fit-content",
+    minWidth: "1.25rem",
+    height: "1.25rem",
+    pointerEvents: "none",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0.25rem",
+    borderRadius: {
+      default: "0.25rem",
+      ":is([data-slot='input-group-addon'] *)": "var(--radius-4xl)",
+    },
+    backgroundColor: {
+      default: "var(--muted)",
+      ":is([data-slot='tooltip-content'] *)": "color-mix(in oklab, var(--background) 20%, transparent)",
+      ":is(.dark [data-slot='tooltip-content'] *)": "color-mix(in oklab, var(--background) 10%, transparent)",
+      ":is([data-slot='input-group-addon'] *)": "color-mix(in oklab, var(--muted-foreground) 10%, transparent)",
+    },
+    paddingInline: {
+      default: "0.25rem",
+      ":is([data-slot='input-group-addon'] *)": "0.375rem",
+    },
+    color: {
+      default: "var(--muted-foreground)",
+      ":is([data-slot='tooltip-content'] *)": "var(--background)",
+    },
+    fontFamily: '"Geist Variable", system-ui, sans-serif',
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+    fontWeight: 500,
+    userSelect: "none",
+  },
+  group: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.25rem",
+  },
+})
 
 export { Kbd, KbdGroup }

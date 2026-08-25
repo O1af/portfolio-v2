@@ -1,21 +1,22 @@
 import { motion } from "motion/react";
+import * as stylex from "@stylexjs/stylex";
 import { Image } from "@unpic/react";
 import { experiences } from "@/components/Info";
 
 export function Experience() {
   return (
-    <section id="experience" className="scroll-mt-24 mt-18">
+    <section id="experience" {...stylex.props(styles.section)}>
       <motion.h2
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.5 }}
-        className="text-[15px] font-semibold tracking-tight text-foreground"
+        {...stylex.props(styles.heading)}
       >
         Experience
       </motion.h2>
 
-      <div className="flex flex-col">
+      <div {...stylex.props(styles.list)}>
         {experiences.map((exp, index) => (
           <motion.div
             key={`${exp.company}-${exp.period}`}
@@ -23,9 +24,10 @@ export function Experience() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.4, delay: index * 0.03 }}
-            className={`flex gap-4 py-4.5 ${
-              index < experiences.length - 1 ? "border-b border-border" : ""
-            }`}
+            {...stylex.props(
+              styles.item,
+              index < experiences.length - 1 && styles.divider,
+            )}
           >
             <Image
               src={exp.logo}
@@ -35,14 +37,14 @@ export function Experience() {
               layout="fixed"
               loading="lazy"
               decoding="async"
-              className="h-9 w-9 shrink-0 rounded-[9px] border border-border bg-white object-cover"
+              {...stylex.props(styles.logo)}
             />
 
-            <div className="min-w-0 flex-1">
-              <div className="flex gap-4">
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                    <h3 className="text-[14.5px] font-medium text-foreground">
+            <div {...stylex.props(styles.details)}>
+              <div {...stylex.props(styles.row)}>
+                <div {...stylex.props(styles.details)}>
+                  <div {...stylex.props(styles.titleRow)}>
+                    <h3 {...stylex.props(styles.title)}>
                       {exp.title}
                     </h3>
                     {exp.link ? (
@@ -50,24 +52,26 @@ export function Experience() {
                         href={exp.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="rounded-sm text-[13.5px] text-muted-foreground transition-colors hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                        {...stylex.props(styles.companyLink)}
                       >
                         {exp.company}
                       </a>
                     ) : (
-                      <span className="text-[13.5px] text-muted-foreground">
+                      <span {...stylex.props(styles.company)}>
                         {exp.company}
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+                  <p {...stylex.props(styles.description)}>
                     {exp.description}
                   </p>
                 </div>
-                <div className="shrink-0 text-right">
-                  <p className="text-xs text-dim">{exp.period}</p>
+                <div {...stylex.props(styles.meta)}>
+                  <p {...stylex.props(styles.metaText)}>{exp.period}</p>
                   {exp.location && (
-                    <p className="mt-1 text-xs text-dim">{exp.location}</p>
+                    <p {...stylex.props(styles.metaText, styles.metaSecond)}>
+                      {exp.location}
+                    </p>
                   )}
                 </div>
               </div>
@@ -78,3 +82,101 @@ export function Experience() {
     </section>
   );
 }
+
+const styles = stylex.create({
+  section: {
+    marginTop: "4.5rem",
+    scrollMarginTop: "6rem",
+  },
+  heading: {
+    color: "var(--foreground)",
+    fontSize: "15px",
+    fontWeight: 600,
+    letterSpacing: "-0.025em",
+  },
+  list: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  item: {
+    display: "flex",
+    gap: "1rem",
+    paddingBlock: "1.125rem",
+  },
+  divider: {
+    borderBottomWidth: "1px",
+    borderColor: "var(--border)",
+  },
+  logo: {
+    width: "2.25rem",
+    height: "2.25rem",
+    flexShrink: 0,
+    borderRadius: "9px",
+    borderWidth: "1px",
+    borderColor: "var(--border)",
+    backgroundColor: "#ffffff",
+    objectFit: "cover",
+  },
+  details: {
+    minWidth: 0,
+    flex: 1,
+  },
+  row: {
+    display: "flex",
+    gap: "1rem",
+  },
+  titleRow: {
+    display: "flex",
+    flexWrap: "wrap",
+    alignItems: "baseline",
+    columnGap: "0.5rem",
+    rowGap: "0.125rem",
+  },
+  title: {
+    color: "var(--foreground)",
+    fontSize: "14.5px",
+    fontWeight: 500,
+  },
+  company: {
+    color: "var(--muted-foreground)",
+    fontSize: "13.5px",
+  },
+  companyLink: {
+    borderRadius: "0.125rem",
+    color: {
+      default: "var(--muted-foreground)",
+      ":hover": "var(--foreground)",
+    },
+    fontSize: "13.5px",
+    textDecorationLine: {
+      default: "none",
+      ":hover": "underline",
+    },
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+    outline: "none",
+    boxShadow: {
+      default: "none",
+      ":focus-visible":
+        "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
+    },
+  },
+  description: {
+    marginTop: "0.25rem",
+    color: "var(--muted-foreground)",
+    fontSize: "13px",
+    lineHeight: "1.625",
+  },
+  meta: {
+    flexShrink: 0,
+    textAlign: "right",
+  },
+  metaText: {
+    color: "var(--dim)",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  },
+  metaSecond: {
+    marginTop: "0.25rem",
+  },
+});

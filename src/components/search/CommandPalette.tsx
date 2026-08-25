@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import * as stylex from "@stylexjs/stylex";
 import { useRouter } from "@tanstack/react-router";
 import {
   ArrowUpRight,
@@ -79,19 +80,19 @@ function PaletteItem({
   const Icon = itemIcon(item);
   return (
     <CommandItem value={item.id} onSelect={onSelect}>
-      <Icon className="size-4 text-muted-foreground" aria-hidden="true" />
-      <div className="min-w-0">
-        <p className="truncate text-sm text-foreground">{item.title}</p>
+      <Icon {...stylex.props(styles.itemIcon)} aria-hidden="true" />
+      <div {...stylex.props(styles.itemText)}>
+        <p {...stylex.props(styles.itemTitle)}>{item.title}</p>
         {preview ? (
-          <p className="truncate text-xs text-muted-foreground/90">{preview}</p>
+          <p {...stylex.props(styles.itemPreview)}>{preview}</p>
         ) : item.subtitle ? (
-          <p className="truncate text-xs text-muted-foreground">{item.subtitle}</p>
+          <p {...stylex.props(styles.itemSubtitle)}>{item.subtitle}</p>
         ) : null}
       </div>
 
       {item.type === "action" ? (
         <CommandShortcut>
-          <ArrowUpRight className="size-3.5" aria-hidden="true" />
+          <ArrowUpRight {...stylex.props(styles.actionIcon)} aria-hidden="true" />
         </CommandShortcut>
       ) : null}
     </CommandItem>
@@ -223,11 +224,11 @@ export function CommandPalette() {
         onMouseEnter={() => void ensureSearchIndex()}
         onFocus={() => void ensureSearchIndex()}
         aria-label="Open command menu"
-        className="inline-flex min-h-[34px] items-center gap-2 rounded-lg border border-border bg-background px-2.5 text-[13px] text-dim transition-colors hover:bg-secondary hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background touch-manipulation"
+        {...stylex.props(styles.trigger)}
       >
-        <Search className="size-3.5 sm:hidden" aria-hidden="true" />
-        <span className="hidden sm:inline">Search</span>
-        <Kbd className="hidden h-4 min-w-4 px-1 font-mono text-[10px] sm:ml-4 sm:inline-flex">
+        <Search {...stylex.props(styles.triggerIcon)} aria-hidden="true" />
+        <span {...stylex.props(styles.triggerLabel)}>Search</span>
+        <Kbd stylexStyle={styles.triggerKbd}>
           {isMac ? "⌘K" : "Ctrl+K"}
         </Kbd>
       </button>
@@ -235,7 +236,7 @@ export function CommandPalette() {
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
-        className="sm:max-w-[580px]"
+        stylexStyle={styles.dialog}
         title="Search site"
         description="Search pages, blog posts, and quick actions"
       >
@@ -251,12 +252,12 @@ export function CommandPalette() {
             aria-label="Search site"
           />
 
-          <CommandList className="max-h-[400px] p-1.5">
+          <CommandList stylexStyle={styles.list}>
             {!index ? (
-              <div className="px-4 py-6 text-sm text-muted-foreground">Loading search…</div>
+              <div {...stylex.props(styles.loading)}>Loading search…</div>
             ) : null}
             {index ? (
-              <CommandEmpty className="text-muted-foreground">
+              <CommandEmpty stylexStyle={styles.empty}>
                 Nothing found.
               </CommandEmpty>
             ) : null}
@@ -281,18 +282,18 @@ export function CommandPalette() {
             )}
           </CommandList>
 
-          <div className="flex items-center gap-4 border-t border-border px-3.5 py-2 text-[11px] text-dim">
-            <span className="flex items-center gap-1.5">
-              <Kbd className="h-4 min-w-4 px-1 text-[10px]">↑</Kbd>
-              <Kbd className="h-4 min-w-4 px-1 text-[10px]">↓</Kbd>
+          <div {...stylex.props(styles.footer)}>
+            <span {...stylex.props(styles.footerHint)}>
+              <Kbd stylexStyle={styles.footerKbd}>↑</Kbd>
+              <Kbd stylexStyle={styles.footerKbd}>↓</Kbd>
               Navigate
             </span>
-            <span className="flex items-center gap-1.5">
-              <Kbd className="h-4 min-w-4 px-1 text-[10px]">↵</Kbd>
+            <span {...stylex.props(styles.footerHint)}>
+              <Kbd stylexStyle={styles.footerKbd}>↵</Kbd>
               Open
             </span>
-            <span className="ml-auto flex items-center gap-1.5">
-              <Kbd className="h-4 min-w-4 px-1 text-[10px]">esc</Kbd>
+            <span {...stylex.props(styles.closeHint)}>
+              <Kbd stylexStyle={styles.footerKbd}>esc</Kbd>
               Close
             </span>
           </div>
@@ -301,3 +302,157 @@ export function CommandPalette() {
     </>
   );
 }
+
+const styles = stylex.create({
+  itemIcon: {
+    width: "1rem",
+    height: "1rem",
+    color: "var(--muted-foreground)",
+  },
+  itemText: {
+    minWidth: 0,
+  },
+  itemTitle: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color: "var(--foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+  },
+  itemPreview: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color: "color-mix(in oklab, var(--muted-foreground) 90%, transparent)",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  },
+  itemSubtitle: {
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color: "var(--muted-foreground)",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  },
+  actionIcon: {
+    width: "0.875rem",
+    height: "0.875rem",
+  },
+  trigger: {
+    minHeight: "34px",
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: "var(--border)",
+    borderRadius: "var(--radius)",
+    backgroundColor: {
+      default: "var(--background)",
+      ":hover": "var(--secondary)",
+    },
+    paddingInline: "0.625rem",
+    color: {
+      default: "var(--dim)",
+      ":hover": "var(--muted-foreground)",
+    },
+    fontSize: "13px",
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+    transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+    touchAction: "manipulation",
+    outline: {
+      default: null,
+      ":focus-visible": "2px solid transparent",
+    },
+    outlineOffset: {
+      default: null,
+      ":focus-visible": "2px",
+    },
+    boxShadow: {
+      default: null,
+      ":focus-visible":
+        "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
+    },
+  },
+  triggerIcon: {
+    width: "0.875rem",
+    height: "0.875rem",
+    display: {
+      default: "block",
+      "@media (min-width: 640px)": "none",
+    },
+  },
+  triggerLabel: {
+    display: {
+      default: "none",
+      "@media (min-width: 640px)": "inline",
+    },
+  },
+  triggerKbd: {
+    display: {
+      default: "none",
+      "@media (min-width: 640px)": "inline-flex",
+    },
+    height: "1rem",
+    minWidth: "1rem",
+    marginLeft: {
+      default: 0,
+      "@media (min-width: 640px)": "1rem",
+    },
+    paddingInline: "0.25rem",
+    fontFamily: "var(--font-mono)",
+    fontSize: "10px",
+  },
+  dialog: {
+    maxWidth: {
+      default: "calc(100% - 2rem)",
+      "@media (min-width: 640px)": "580px",
+    },
+  },
+  list: {
+    maxHeight: "400px",
+    padding: "0.375rem",
+  },
+  loading: {
+    paddingInline: "1rem",
+    paddingBlock: "1.5rem",
+    color: "var(--muted-foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+  },
+  empty: {
+    color: "var(--muted-foreground)",
+  },
+  footer: {
+    display: "flex",
+    alignItems: "center",
+    gap: "1rem",
+    borderTopWidth: "1px",
+    borderTopStyle: "solid",
+    borderTopColor: "var(--border)",
+    paddingInline: "0.875rem",
+    paddingBlock: "0.5rem",
+    color: "var(--dim)",
+    fontSize: "11px",
+  },
+  footerHint: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.375rem",
+  },
+  closeHint: {
+    marginLeft: "auto",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.375rem",
+  },
+  footerKbd: {
+    height: "1rem",
+    minWidth: "1rem",
+    paddingInline: "0.25rem",
+    fontSize: "10px",
+  },
+});

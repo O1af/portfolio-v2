@@ -1,4 +1,5 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
+import * as stylex from "@stylexjs/stylex";
 import { MotionConfig } from "motion/react";
 import { ThemeProvider, themeInitScript } from "@/components/theme/ThemeProvider";
 import { siteUrl, personalInfo, siteMetadata, socialUrls } from "@/components/Info";
@@ -52,9 +53,15 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      ...(import.meta.env.DEV
+        ? [{ rel: "stylesheet", href: "/virtual:stylex.css" }]
+        : []),
       { rel: "icon", href: "/favicon.png" },
     ],
     scripts: [
+      ...(import.meta.env.DEV
+        ? [{ type: "module", src: "/@id/virtual:stylex:runtime" }]
+        : []),
       jsonLd({
         "@context": "https://schema.org",
         "@type": "WebSite",
@@ -81,16 +88,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script dangerouslySetInnerHTML={{ __html: analyticsInitScript }} />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body {...stylex.props(styles.body)}>
         <a
           href="#main-content"
-          className="sr-only fixed left-4 top-4 z-[60] rounded-full bg-background px-4 py-2 text-sm font-medium text-foreground shadow-lg ring-1 ring-border focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-ring"
+          {...stylex.props(styles.skipLink)}
         >
           Skip to Content
         </a>
         <ThemeProvider>
           <MotionConfig reducedMotion="user">
-            <div className="min-h-screen">{children}</div>
+            <div {...stylex.props(styles.page)}>{children}</div>
           </MotionConfig>
         </ThemeProvider>
         <Scripts />
@@ -98,3 +105,66 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     </html>
   );
 }
+
+const styles = stylex.create({
+  body: {
+    minHeight: "100vh",
+    backgroundColor: "var(--background)",
+    color: "var(--foreground)",
+    WebkitFontSmoothing: "antialiased",
+    MozOsxFontSmoothing: "grayscale",
+  },
+  page: {
+    minHeight: "100vh",
+  },
+  skipLink: {
+    position: {
+      default: "fixed",
+      ":focus": "fixed",
+    },
+    top: "1rem",
+    left: "1rem",
+    zIndex: 60,
+    width: {
+      default: "1px",
+      ":focus": "auto",
+    },
+    height: {
+      default: "1px",
+      ":focus": "auto",
+    },
+    margin: {
+      default: "-1px",
+      ":focus": 0,
+    },
+    overflow: {
+      default: "hidden",
+      ":focus": "visible",
+    },
+    clip: {
+      default: "rect(0, 0, 0, 0)",
+      ":focus": "auto",
+    },
+    whiteSpace: {
+      default: "nowrap",
+      ":focus": "normal",
+    },
+    borderRadius: "9999px",
+    backgroundColor: "var(--background)",
+    padding: {
+      default: 0,
+      ":focus": "0.5rem 1rem",
+    },
+    color: "var(--foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+    fontWeight: 500,
+    boxShadow: {
+      default:
+        "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1), 0 0 0 1px var(--border)",
+      ":focus":
+        "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1), 0 0 0 2px var(--ring)",
+    },
+    outline: "none",
+  },
+});

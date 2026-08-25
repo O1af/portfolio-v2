@@ -1,18 +1,68 @@
 import * as React from "react"
+import * as stylex from "@stylexjs/stylex"
 
-import { cn } from "@/lib/utils"
+import { stylexProps } from "@/lib/utils"
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+type TextareaProps = React.ComponentProps<"textarea"> & {
+  stylexStyle?: stylex.StyleXStyles
+}
+
+function Textarea({ className, style, stylexStyle, ...props }: TextareaProps) {
   return (
     <textarea
       data-slot="textarea"
-      className={cn(
-        "border-input bg-input/30 focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 resize-none rounded-xl border px-3 py-3 text-base transition-colors focus-visible:ring-[3px] aria-invalid:ring-[3px] md:text-sm placeholder:text-muted-foreground flex field-sizing-content min-h-16 w-full outline-none disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
+      {...stylexProps([styles.textarea, stylexStyle], className, style)}
       {...props}
     />
   )
 }
+
+const styles = stylex.create({
+  textarea: {
+    display: "flex",
+    fieldSizing: "content",
+    width: "100%",
+    minHeight: "4rem",
+    resize: "none",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: {
+      default: "var(--input)",
+      ":focus-visible": "var(--ring)",
+      ':is([aria-invalid="true"])': "var(--destructive)",
+    },
+    borderRadius: "var(--radius-xl)",
+    backgroundColor: "color-mix(in oklab, var(--input) 30%, transparent)",
+    padding: "0.75rem",
+    fontSize: {
+      default: "1rem",
+      "@media (min-width: 768px)": "0.875rem",
+    },
+    lineHeight: {
+      default: "1.5rem",
+      "@media (min-width: 768px)": "1.25rem",
+    },
+    outline: "none",
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent)",
+      ':is([aria-invalid="true"])': "0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)",
+      ':is(.dark *)[aria-invalid="true"]': "0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)",
+    },
+    cursor: {
+      default: "auto",
+      ":disabled": "not-allowed",
+    },
+    opacity: {
+      default: 1,
+      ":disabled": 0.5,
+    },
+    "::placeholder": {
+      color: "var(--muted-foreground)",
+    },
+  },
+})
 
 export { Textarea }

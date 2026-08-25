@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import * as stylex from "@stylexjs/stylex";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -149,7 +150,7 @@ export function ConnectionsGame() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (isGameState(parsed)) {
-          nextState = parsed;
+          nextState = { ...parsed, isShuffling: false };
         }
       }
     } catch {}
@@ -210,7 +211,7 @@ export function ConnectionsGame() {
         .some((cat) => state.selectedWords.filter((w) => cat.words.includes(w)).length === 3);
 
       if (oneAway) {
-        toast.info(<span className="font-medium">You're one away from a group!</span>, {
+        toast.info(<span {...stylex.props(styles.toast)}>You're one away from a group!</span>, {
           id: "one-away",
           duration: 3000,
         });
@@ -259,7 +260,6 @@ export function ConnectionsGame() {
       <GameOver
         won={state.gameWon}
         allCategories={state.categories}
-        solvedCategories={state.solvedCategories}
         guessHistory={state.guessHistory}
         onReset={reset}
       />
@@ -267,8 +267,8 @@ export function ConnectionsGame() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col items-center">
-      <p id="connections-instructions" className="sr-only">
+    <div {...stylex.props(styles.container)}>
+      <p id="connections-instructions" {...stylex.props(styles.screenReaderOnly)}>
         Select 4 words, then submit your guess. Selected tiles are announced as pressed.
       </p>
       <AnimatePresence>
@@ -279,7 +279,7 @@ export function ConnectionsGame() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-full"
+            {...stylex.props(styles.fullWidth)}
           >
             <CategoryReveal category={cat} />
           </motion.div>
@@ -287,7 +287,7 @@ export function ConnectionsGame() {
       </AnimatePresence>
 
       <div
-        className="grid grid-cols-4 gap-2 mb-4 w-full"
+        {...stylex.props(styles.board)}
         role="group"
         aria-describedby="connections-instructions"
         aria-label="Connections board"
@@ -301,7 +301,7 @@ export function ConnectionsGame() {
               animate={{ opacity: 1, scale: 1, transition: { type: "spring", stiffness: 300, damping: 25, delay: i * 0.03 } }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.3 }}
-              className="aspect-[4/3]"
+              {...stylex.props(styles.tileWrapper)}
             >
               <WordTile
                 word={word}
@@ -314,15 +314,18 @@ export function ConnectionsGame() {
         </AnimatePresence>
       </div>
 
-      <div className="flex flex-col w-full gap-3">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Mistakes left:</span>
-            <div className="flex gap-1">
+      <div {...stylex.props(styles.controls)}>
+        <div {...stylex.props(styles.controlRow)}>
+          <div {...stylex.props(styles.mistakes)}>
+            <span {...stylex.props(styles.mistakesLabel)}>Mistakes left:</span>
+            <div {...stylex.props(styles.mistakeDots)}>
               {Array.from({ length: 4 }, (_, i) => (
                 <div
                   key={i}
-                  className={`w-2 h-2 rounded-full ${i < state.mistakesRemaining ? "bg-primary" : "bg-muted"}`}
+                  {...stylex.props(
+                    styles.mistakeDot,
+                    i < state.mistakesRemaining ? styles.mistakeRemaining : styles.mistakeUsed
+                  )}
                 />
               ))}
             </div>
@@ -331,21 +334,26 @@ export function ConnectionsGame() {
             onClick={submit}
             disabled={state.selectedWords.length !== 4 || state.isShuffling}
             variant={state.selectedWords.length === 4 ? "default" : "outline"}
-            className="rounded-full px-6"
+            stylexStyle={styles.submitButton}
           >
             Submit
           </Button>
         </div>
 
-        <div className="flex gap-2">
-          <Button onClick={shuffle} disabled={state.isShuffling} variant="outline" className="rounded-full flex-1">
+        <div {...stylex.props(styles.secondaryActions)}>
+          <Button
+            onClick={shuffle}
+            disabled={state.isShuffling}
+            variant="outline"
+            stylexStyle={styles.secondaryButton}
+          >
             Shuffle
           </Button>
           <Button
             onClick={deselectAll}
             disabled={state.selectedWords.length === 0 || state.isShuffling}
             variant="outline"
-            className="rounded-full flex-1"
+            stylexStyle={styles.secondaryButton}
           >
             Deselect All
           </Button>
@@ -354,3 +362,90 @@ export function ConnectionsGame() {
     </div>
   );
 }
+
+const styles = stylex.create({
+  toast: {
+    fontWeight: 500,
+  },
+  container: {
+    width: "100%",
+    maxWidth: "28rem",
+    marginInline: "auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  screenReaderOnly: {
+    position: "absolute",
+    width: "1px",
+    height: "1px",
+    padding: 0,
+    margin: "-1px",
+    overflow: "hidden",
+    clip: "rect(0, 0, 0, 0)",
+    whiteSpace: "nowrap",
+    borderWidth: 0,
+  },
+  fullWidth: {
+    width: "100%",
+  },
+  board: {
+    width: "100%",
+    marginBottom: "1rem",
+    display: "grid",
+    gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+    gap: "0.5rem",
+  },
+  tileWrapper: {
+    aspectRatio: "4 / 3",
+  },
+  controls: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.75rem",
+  },
+  controlRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  mistakes: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+  },
+  mistakesLabel: {
+    color: "var(--muted-foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+    fontWeight: 500,
+  },
+  mistakeDots: {
+    display: "flex",
+    gap: "0.25rem",
+  },
+  mistakeDot: {
+    width: "0.5rem",
+    height: "0.5rem",
+    borderRadius: "9999px",
+  },
+  mistakeRemaining: {
+    backgroundColor: "var(--primary)",
+  },
+  mistakeUsed: {
+    backgroundColor: "var(--muted)",
+  },
+  submitButton: {
+    paddingInline: "1.5rem",
+    borderRadius: "9999px",
+  },
+  secondaryActions: {
+    display: "flex",
+    gap: "0.5rem",
+  },
+  secondaryButton: {
+    flex: 1,
+    borderRadius: "9999px",
+  },
+});

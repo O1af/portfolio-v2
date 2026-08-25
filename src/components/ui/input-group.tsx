@@ -1,57 +1,50 @@
 "use client"
 
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
+import * as stylex from "@stylexjs/stylex"
 
-import { cn } from "@/lib/utils"
+import { stylexProps } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
+type StyledProps<T> = T & { stylexStyle?: stylex.StyleXStyles }
+
+function InputGroup({
+  className,
+  style,
+  stylexStyle,
+  ...props
+}: StyledProps<React.ComponentProps<"div">>) {
   return (
     <div
       data-slot="input-group"
       role="group"
-      className={cn(
-        "border-input bg-input/30 has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot][aria-invalid=true]]:ring-destructive/20 has-[[data-slot][aria-invalid=true]]:border-destructive dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40 h-9 rounded-4xl border transition-colors has-data-[align=block-end]:rounded-2xl has-data-[align=block-start]:rounded-2xl has-[[data-slot=input-group-control]:focus-visible]:ring-[3px] has-[[data-slot][aria-invalid=true]]:ring-[3px] has-[textarea]:rounded-xl has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5 [[data-slot=combobox-content]_&]:focus-within:border-inherit [[data-slot=combobox-content]_&]:focus-within:ring-0 group/input-group relative flex w-full min-w-0 items-center outline-none has-[>textarea]:h-auto",
-        className
-      )}
+      {...stylexProps([styles.group, stylex.defaultMarker(), stylexStyle], className, style)}
       {...props}
     />
   )
 }
 
-const inputGroupAddonVariants = cva(
-  "text-muted-foreground **:data-[slot=kbd]:bg-muted-foreground/10 h-auto gap-2 py-2 text-sm font-medium group-data-[disabled=true]/input-group:opacity-50 **:data-[slot=kbd]:rounded-4xl **:data-[slot=kbd]:px-1.5 [&>svg:not([class*='size-'])]:size-4 flex cursor-text items-center justify-center select-none",
-  {
-    variants: {
-      align: {
-        "inline-start": "pl-3 has-[>button]:ml-[-0.25rem] has-[>kbd]:ml-[-0.15rem] order-first",
-        "inline-end": "pr-3 has-[>button]:mr-[-0.25rem] has-[>kbd]:mr-[-0.15rem] order-last",
-        "block-start":
-          "px-3 pt-3 group-has-[>input]/input-group:pt-3 [.border-b]:pb-3 order-first w-full justify-start",
-        "block-end":
-          "px-3 pb-3 group-has-[>input]/input-group:pb-3 [.border-t]:pt-3 order-last w-full justify-start",
-      },
-    },
-    defaultVariants: {
-      align: "inline-start",
-    },
-  }
-)
+type InputGroupAlign = "inline-start" | "inline-end" | "block-start" | "block-end"
 
 function InputGroupAddon({
   className,
+  style,
+  stylexStyle,
   align = "inline-start",
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
+}: StyledProps<React.ComponentProps<"div">> & { align?: InputGroupAlign | null }) {
   return (
     <div
       role="group"
       data-slot="input-group-addon"
       data-align={align}
-      className={cn(inputGroupAddonVariants({ align }), className)}
+      {...stylexProps(
+        [styles.addon, addonStyles[align ?? "inline-start"], stylex.defaultMarker(), stylexStyle],
+        className,
+        style
+      )}
       onClick={(e) => {
         if ((e.target as HTMLElement).closest("button")) {
           return
@@ -63,50 +56,48 @@ function InputGroupAddon({
   )
 }
 
-const inputGroupButtonVariants = cva(
-  "gap-2 rounded-4xl text-sm shadow-none flex items-center",
-  {
-    variants: {
-      size: {
-        xs: "h-6 gap-1 px-1.5 [&>svg:not([class*='size-'])]:size-3.5",
-        sm: "",
-        "icon-xs": "size-6 p-0 has-[>svg]:p-0",
-        "icon-sm": "size-8 p-0 has-[>svg]:p-0",
-      },
-    },
-    defaultVariants: {
-      size: "xs",
-    },
-  }
-)
+type InputGroupButtonSize = "xs" | "sm" | "icon-xs" | "icon-sm"
 
 function InputGroupButton({
   className,
+  style,
+  stylexStyle,
   type = "button",
   variant = "ghost",
   size = "xs",
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "size" | "type"> &
-  VariantProps<typeof inputGroupButtonVariants> & {
+  {
+    size?: InputGroupButtonSize | null
     type?: "button" | "submit" | "reset"
   }) {
   return (
     <Button
       type={type}
+      data-input-group-button=""
       data-size={size}
       variant={variant}
-      className={cn(inputGroupButtonVariants({ size }), className)}
+      className={className}
+      style={style}
+      stylexStyle={[styles.groupButton, groupButtonStyles[size ?? "xs"], stylexStyle]}
       {...props}
     />
   )
 }
 
-function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
+function InputGroupText({
+  className,
+  style,
+  stylexStyle,
+  ...props
+}: StyledProps<React.ComponentProps<"span">>) {
   return (
     <span
-      className={cn(
-        "text-muted-foreground gap-2 text-sm [&_svg:not([class*='size-'])]:size-4 flex items-center [&_svg]:pointer-events-none",
-        className
+      data-slot="input-group-text"
+      {...stylexProps(
+        [styles.text, stylexStyle],
+        className,
+        style
       )}
       {...props}
     />
@@ -115,12 +106,16 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
 
 function InputGroupInput({
   className,
+  style,
+  stylexStyle,
   ...props
-}: React.ComponentProps<"input">) {
+}: StyledProps<React.ComponentProps<"input">>) {
   return (
     <Input
       data-slot="input-group-control"
-      className={cn("rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 aria-invalid:ring-0 dark:bg-transparent flex-1", className)}
+      className={className}
+      style={style}
+      stylexStyle={[styles.control, styles.inputControl, stylexStyle]}
       {...props}
     />
   )
@@ -128,16 +123,189 @@ function InputGroupInput({
 
 function InputGroupTextarea({
   className,
+  style,
+  stylexStyle,
   ...props
-}: React.ComponentProps<"textarea">) {
+}: StyledProps<React.ComponentProps<"textarea">>) {
   return (
     <Textarea
       data-slot="input-group-control"
-      className={cn("rounded-none border-0 bg-transparent py-2 shadow-none ring-0 focus-visible:ring-0 aria-invalid:ring-0 dark:bg-transparent flex-1 resize-none", className)}
+      className={className}
+      style={style}
+      stylexStyle={[styles.control, styles.textareaControl, stylexStyle]}
       {...props}
     />
   )
 }
+
+const styles = stylex.create({
+  group: {
+    position: "relative",
+    display: "flex",
+    width: "100%",
+    minWidth: 0,
+    height: {
+      default: "2.25rem",
+      ":has(> [data-align='block-end'])": "auto",
+      ":has(> [data-align='block-start'])": "auto",
+      ":has(> textarea)": "auto",
+    },
+    flexDirection: {
+      default: "row",
+      ":has(> [data-align='block-end'])": "column",
+      ":has(> [data-align='block-start'])": "column",
+    },
+    alignItems: "center",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: {
+      default: "var(--input)",
+      ":has([data-slot='input-group-control']:focus-visible)": "var(--ring)",
+      ":has([data-slot][aria-invalid='true'])": "var(--destructive)",
+      ":is([data-slot='combobox-content'] *):focus-within": "inherit",
+    },
+    borderRadius: {
+      default: "var(--radius-4xl)",
+      ":has([data-align='block-end'])": "var(--radius-2xl)",
+      ":has([data-align='block-start'])": "var(--radius-2xl)",
+      ":has(textarea)": "var(--radius-xl)",
+    },
+    backgroundColor: "color-mix(in oklab, var(--input) 30%, transparent)",
+    outline: "none",
+    boxShadow: {
+      default: "none",
+      ":has([data-slot='input-group-control']:focus-visible)": "0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent)",
+      ":has([data-slot][aria-invalid='true'])": "0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)",
+      ":is(.dark *):has([data-slot][aria-invalid='true'])": "0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)",
+      ":is([data-slot='combobox-content'] *):focus-within": "none",
+    },
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+  },
+  addon: {
+    display: "flex",
+    height: "auto",
+    cursor: "text",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "0.5rem",
+    paddingTop: "0.5rem",
+    paddingBottom: "0.5rem",
+    color: "var(--muted-foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+    fontWeight: 500,
+    userSelect: "none",
+    opacity: {
+      default: 1,
+      [stylex.when.ancestor('[data-disabled="true"]')]: 0.5,
+    },
+  },
+  groupButton: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    borderRadius: "var(--radius-4xl)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
+    },
+  },
+  text: {
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    color: "var(--muted-foreground)",
+    fontSize: "0.875rem",
+    lineHeight: "1.25rem",
+  },
+  control: {
+    flex: 1,
+    borderWidth: 0,
+    borderRadius: 0,
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    paddingRight: {
+      default: null,
+      [stylex.when.ancestor(":has(> [data-align='inline-end'])")]: "0.375rem",
+    },
+    paddingLeft: {
+      default: null,
+      [stylex.when.ancestor(":has(> [data-align='inline-start'])")]: "0.375rem",
+    },
+    outline: "none",
+  },
+  inputControl: {
+    paddingTop: {
+      default: null,
+      [stylex.when.ancestor(":has(> [data-align='block-end'])")]: "0.75rem",
+    },
+    paddingBottom: {
+      default: null,
+      [stylex.when.ancestor(":has(> [data-align='block-start'])")]: "0.75rem",
+    },
+  },
+  textareaControl: {
+    resize: "none",
+    paddingBlock: "0.5rem",
+  },
+})
+
+const addonStyles = stylex.create({
+  "inline-start": {
+    order: -9999,
+    paddingLeft: "0.75rem",
+    marginLeft: { default: 0, ":has(> button)": "-0.25rem", ":has(> kbd)": "-0.15rem" },
+  },
+  "inline-end": {
+    order: 9999,
+    paddingRight: "0.75rem",
+    marginRight: { default: 0, ":has(> button)": "-0.25rem", ":has(> kbd)": "-0.15rem" },
+  },
+  "block-start": {
+    order: -9999,
+    width: "100%",
+    justifyContent: "flex-start",
+    paddingInline: "0.75rem",
+    paddingTop: "0.75rem",
+    paddingBottom: {
+      default: "0.5rem",
+      ":is(.border-b *)": "0.75rem",
+    },
+  },
+  "block-end": {
+    order: 9999,
+    width: "100%",
+    justifyContent: "flex-start",
+    paddingInline: "0.75rem",
+    paddingBottom: "0.75rem",
+    paddingTop: {
+      default: "0.5rem",
+      ":is(.border-t *)": "0.75rem",
+    },
+  },
+})
+
+const groupButtonStyles = stylex.create({
+  xs: {
+    height: "1.5rem",
+    gap: "0.25rem",
+    paddingInline: "0.375rem",
+  },
+  sm: {},
+  "icon-xs": {
+    width: "1.5rem",
+    height: "1.5rem",
+    padding: 0,
+  },
+  "icon-sm": {
+    width: "2rem",
+    height: "2rem",
+    padding: 0,
+  },
+})
 
 export {
   InputGroup,
