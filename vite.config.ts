@@ -4,7 +4,7 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import viteTsConfigPaths from "vite-tsconfig-paths";
-import tailwindcss from "@tailwindcss/vite";
+import stylex from "@stylexjs/unplugin";
 import { cloudflare } from "@cloudflare/vite-plugin";
 
 const config = defineConfig(({ mode }) => {
@@ -18,7 +18,7 @@ const config = defineConfig(({ mode }) => {
       viteTsConfigPaths({
         projects: ["./tsconfig.json"],
       }),
-      tailwindcss(),
+      stylex.vite({ devMode: isTest ? "off" : "full" }),
       tanstackStart(),
       viteReact(),
       isTest ? null : contentCollections(),

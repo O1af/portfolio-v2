@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import * as stylex from "@stylexjs/stylex";
 import { motion } from "motion/react";
 import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
@@ -69,39 +70,39 @@ function BlogIndex() {
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen px-6 pt-32 pb-16">
-        <div className="mx-auto max-w-2xl">
+      <main id="main-content" {...stylex.props(styles.main)}>
+        <div {...stylex.props(styles.content)}>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+            <h1 {...stylex.props(styles.heading)}>
               Blog
             </h1>
-            <p className="mt-3.5 text-[15.5px] leading-relaxed text-muted-foreground text-pretty">
+            <p {...stylex.props(styles.description)}>
               {siteMetadata.blogDescription}
             </p>
           </motion.div>
 
-          <div className="mt-10 flex flex-col">
+          <div {...stylex.props(styles.posts)}>
             {sortedPosts.map((post, index) => (
               <motion.div
                 key={post.slug}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className={
-                  index < sortedPosts.length - 1 ? "border-b border-border" : ""
-                }
+                {...stylex.props(
+                  index < sortedPosts.length - 1 && styles.divider,
+                )}
               >
                 <Link
                   to="/blog/$slug"
                   params={{ slug: post.slug }}
-                  className="group flex flex-col gap-4 py-5 focus-visible:outline-none sm:flex-row sm:items-center sm:gap-5"
+                  {...stylex.props(styles.postLink)}
                 >
                   {post.image ? (
-                    <div className="aspect-[16/10] w-full shrink-0 overflow-hidden rounded-lg border border-border bg-muted/30 sm:w-[168px]">
+                    <div {...stylex.props(styles.thumbnail)}>
                       <Image
                         src={post.image}
                         alt=""
@@ -110,25 +111,25 @@ function BlogIndex() {
                         layout="constrained"
                         loading="lazy"
                         decoding="async"
-                        className="h-full w-full object-cover"
+                        {...stylex.props(styles.image)}
                       />
                     </div>
                   ) : (
-                    <div className="flex aspect-[16/10] w-full shrink-0 items-center justify-center rounded-lg border border-border bg-secondary font-mono text-[22px] font-semibold text-dim sm:w-[168px]">
+                    <div {...stylex.props(styles.thumbnail, styles.monogram)}>
                       {monogram(post.title)}
                     </div>
                   )}
 
-                  <div className="min-w-0 flex-1">
-                    <h2 className="text-[15.5px] font-medium leading-snug text-foreground text-pretty group-hover:underline group-focus-visible:underline">
+                  <div {...stylex.props(styles.postContent)}>
+                    <h2 {...stylex.props(styles.postTitle)}>
                       {post.title}
                     </h2>
                     {post.summary && (
-                      <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
+                      <p {...stylex.props(styles.summary)}>
                         {post.summary}
                       </p>
                     )}
-                    <p className="mt-2 text-xs text-dim">
+                    <p {...stylex.props(styles.meta)}>
                       {formatPublishedDate(post.date)} ·{" "}
                       {readingMinutesBySlug.get(post.slug)} min read
                     </p>
@@ -143,3 +144,112 @@ function BlogIndex() {
     </>
   );
 }
+
+const styles = stylex.create({
+  main: {
+    minHeight: "100vh",
+    padding: "8rem 1.5rem 4rem",
+  },
+  content: {
+    maxWidth: "42rem",
+    marginInline: "auto",
+  },
+  heading: {
+    color: "var(--foreground)",
+    fontSize: "1.875rem",
+    lineHeight: "2.25rem",
+    fontWeight: 600,
+    letterSpacing: "-0.025em",
+  },
+  description: {
+    marginTop: "0.875rem",
+    color: "var(--muted-foreground)",
+    fontSize: "15.5px",
+    lineHeight: "1.625",
+    textWrap: "pretty",
+  },
+  posts: {
+    display: "flex",
+    marginTop: "2.5rem",
+    flexDirection: "column",
+  },
+  divider: {
+    borderBottomWidth: "1px",
+    borderColor: "var(--border)",
+  },
+  postLink: {
+    "--post-decoration": {
+      default: "none",
+      ":hover": "underline",
+      ":focus-visible": "underline",
+    },
+    display: "flex",
+    flexDirection: {
+      default: "column",
+      "@media (min-width: 640px)": "row",
+    },
+    alignItems: {
+      default: "stretch",
+      "@media (min-width: 640px)": "center",
+    },
+    gap: {
+      default: "1rem",
+      "@media (min-width: 640px)": "1.25rem",
+    },
+    paddingBlock: "1.25rem",
+    outline: "none",
+  },
+  thumbnail: {
+    width: {
+      default: "100%",
+      "@media (min-width: 640px)": "168px",
+    },
+    flexShrink: 0,
+    aspectRatio: "16 / 10",
+    overflow: "hidden",
+    borderRadius: "0.5rem",
+    borderWidth: "1px",
+    borderColor: "var(--border)",
+    backgroundColor: "color-mix(in oklab, var(--muted) 30%, transparent)",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+  monogram: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "var(--secondary)",
+    color: "var(--dim)",
+    fontFamily:
+      '"Geist Mono Variable", Menlo, Monaco, Consolas, "Courier New", monospace',
+    fontSize: "22px",
+    fontWeight: 600,
+  },
+  postContent: {
+    minWidth: 0,
+    flex: 1,
+  },
+  postTitle: {
+    color: "var(--foreground)",
+    fontSize: "15.5px",
+    lineHeight: "1.375",
+    fontWeight: 500,
+    textDecorationLine: "var(--post-decoration)",
+    textWrap: "pretty",
+  },
+  summary: {
+    marginTop: "0.375rem",
+    color: "var(--muted-foreground)",
+    fontSize: "13px",
+    lineHeight: "1.625",
+  },
+  meta: {
+    marginTop: "0.5rem",
+    color: "var(--dim)",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  },
+});

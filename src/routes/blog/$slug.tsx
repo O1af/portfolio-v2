@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import * as stylex from "@stylexjs/stylex";
 import { motion } from "motion/react";
 import { Image } from "@unpic/react";
 import { Header } from "@/components/layout/Header";
@@ -99,8 +100,8 @@ function BlogPost() {
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen px-6 pt-28 pb-16">
-        <article className="mx-auto max-w-2xl">
+      <main id="main-content" {...stylex.props(styles.main)}>
+        <article {...stylex.props(styles.article)}>
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,18 +109,18 @@ function BlogPost() {
           >
             <Link
               to="/blog"
-              className="group inline-flex items-center gap-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+              {...stylex.props(styles.backLink)}
             >
-              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" aria-hidden="true" />
+              <ArrowLeft {...stylex.props(styles.backIcon)} aria-hidden="true" />
               Back to blog
             </Link>
 
-            <header className="mt-6">
-              <h1 className="text-3xl sm:text-[34px] font-semibold tracking-tight leading-tight text-foreground text-pretty">
+            <header {...stylex.props(styles.header)}>
+              <h1 {...stylex.props(styles.heading)}>
                 {post.title}
               </h1>
-              <div className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13.5px] text-dim">
-                <span className="text-muted-foreground">{post.author}</span>
+              <div {...stylex.props(styles.meta)}>
+                <span {...stylex.props(styles.author)}>{post.author}</span>
                 <span aria-hidden="true">·</span>
                 <span>{formatPublishedDate(post.date, "long")}</span>
                 <span aria-hidden="true">·</span>
@@ -128,34 +129,38 @@ function BlogPost() {
             </header>
 
             {post.image && (
-              <div className="mt-7 overflow-hidden rounded-[10px] border border-border bg-muted/30">
+              <div {...stylex.props(styles.imageFrame)}>
                 <Image
                   src={post.image}
                   alt={post.title}
                   width={1200}
                   height={800}
                   layout="constrained"
-                  priority
-                  className="w-full max-h-[320px] sm:max-h-[420px] lg:max-h-[520px] object-contain"
+                  loading="eager"
+                  fetchPriority="high"
+                  {...stylex.props(styles.image)}
                 />
               </div>
             )}
 
-            <div className="prose mt-7" dangerouslySetInnerHTML={{ __html: post.html }} />
+            <div
+              className={`prose ${stylex.props(styles.prose).className}`}
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
 
             {nextPost && (
               <Link
                 to="/blog/$slug"
                 params={{ slug: nextPost.slug }}
-                className="group mt-9 flex items-center justify-between gap-4 rounded-[10px] border border-border bg-card px-5 py-4.5 transition-colors hover:border-ring/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                {...stylex.props(styles.nextLink)}
               >
-                <div className="min-w-0">
-                  <p className="text-xs text-dim">Next post</p>
-                  <p className="mt-0.5 truncate text-[14.5px] font-medium text-foreground">
+                <div {...stylex.props(styles.nextContent)}>
+                  <p {...stylex.props(styles.nextLabel)}>Next post</p>
+                  <p {...stylex.props(styles.nextTitle)}>
                     {nextPost.title}
                   </p>
                 </div>
-                <span className="shrink-0 text-[13px] font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+                <span {...stylex.props(styles.readLink)}>
                   Read →
                 </span>
               </Link>
@@ -168,3 +173,136 @@ function BlogPost() {
     </>
   );
 }
+
+const styles = stylex.create({
+  main: {
+    minHeight: "100vh",
+    padding: "7rem 1.5rem 4rem",
+  },
+  article: {
+    maxWidth: "42rem",
+    marginInline: "auto",
+  },
+  backLink: {
+    "--back-transform": {
+      default: "translateX(0)",
+      ":hover": "translateX(-0.125rem)",
+    },
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "0.375rem",
+    color: {
+      default: "var(--muted-foreground)",
+      ":hover": "var(--foreground)",
+    },
+    fontSize: "13px",
+    fontWeight: 500,
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+  },
+  backIcon: {
+    width: "0.875rem",
+    height: "0.875rem",
+    transform: "var(--back-transform)",
+    transitionProperty: "transform, translate, scale, rotate",
+    transitionDuration: "150ms",
+  },
+  header: {
+    marginTop: "1.5rem",
+  },
+  heading: {
+    color: "var(--foreground)",
+    fontSize: {
+      default: "1.875rem",
+      "@media (min-width: 640px)": "34px",
+    },
+    lineHeight: "1.25",
+    fontWeight: 600,
+    letterSpacing: "-0.025em",
+    textWrap: "pretty",
+  },
+  meta: {
+    display: "flex",
+    marginTop: "0.875rem",
+    flexWrap: "wrap",
+    alignItems: "center",
+    columnGap: "0.5rem",
+    rowGap: "0.25rem",
+    color: "var(--dim)",
+    fontSize: "13.5px",
+  },
+  author: {
+    color: "var(--muted-foreground)",
+  },
+  imageFrame: {
+    marginTop: "1.75rem",
+    overflow: "hidden",
+    borderRadius: "10px",
+    borderWidth: "1px",
+    borderColor: "var(--border)",
+    backgroundColor: "color-mix(in oklab, var(--muted) 30%, transparent)",
+  },
+  image: {
+    width: "100%",
+    maxHeight: {
+      default: "320px",
+      "@media (min-width: 640px)": "420px",
+      "@media (min-width: 1024px)": "520px",
+    },
+    objectFit: "contain",
+  },
+  prose: {
+    marginTop: "1.75rem",
+  },
+  nextLink: {
+    "--read-color": {
+      default: "var(--muted-foreground)",
+      ":hover": "var(--foreground)",
+    },
+    display: "flex",
+    marginTop: "2.25rem",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "1rem",
+    borderRadius: "10px",
+    borderWidth: "1px",
+    borderColor: {
+      default: "var(--border)",
+      ":hover": "color-mix(in oklab, var(--ring) 50%, transparent)",
+    },
+    backgroundColor: "var(--card)",
+    padding: "1.125rem 1.25rem",
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+    outline: "none",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 2px var(--ring)",
+    },
+  },
+  nextContent: {
+    minWidth: 0,
+  },
+  nextLabel: {
+    color: "var(--dim)",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  },
+  nextTitle: {
+    marginTop: "0.125rem",
+    overflow: "hidden",
+    color: "var(--foreground)",
+    fontSize: "14.5px",
+    fontWeight: 500,
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+  readLink: {
+    flexShrink: 0,
+    color: "var(--read-color)",
+    fontSize: "13px",
+    fontWeight: 500,
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+  },
+});

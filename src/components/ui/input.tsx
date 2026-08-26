@@ -1,20 +1,83 @@
 import * as React from "react"
 import { Input as InputPrimitive } from "@base-ui/react/input"
+import * as stylex from "@stylexjs/stylex"
 
-import { cn } from "@/lib/utils"
+import { stylexProps } from "@/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+type InputProps = React.ComponentProps<"input"> & {
+  stylexStyle?: stylex.StyleXStyles
+}
+
+function Input({ className, style, stylexStyle, type, ...props }: InputProps) {
   return (
     <InputPrimitive
       type={type}
       data-slot="input"
-      className={cn(
-        "bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 h-9 rounded-4xl border px-3 py-1 text-base transition-colors file:h-7 file:text-sm file:font-medium focus-visible:ring-[3px] aria-invalid:ring-[3px] md:text-sm file:text-foreground placeholder:text-muted-foreground w-full min-w-0 outline-none file:inline-flex file:border-0 file:bg-transparent disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
-        className
-      )}
+      {...stylexProps([styles.input, stylexStyle], className, style)}
       {...props}
     />
   )
 }
+
+const styles = stylex.create({
+  input: {
+    width: "100%",
+    minWidth: 0,
+    height: "2.25rem",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: {
+      default: "var(--input)",
+      ":focus-visible": "var(--ring)",
+      ':is([aria-invalid="true"])': "var(--destructive)",
+    },
+    borderRadius: "var(--radius-4xl)",
+    backgroundColor: "color-mix(in oklab, var(--input) 30%, transparent)",
+    paddingBlock: "0.25rem",
+    paddingInline: "0.75rem",
+    fontSize: {
+      default: "1rem",
+      "@media (min-width: 768px)": "0.875rem",
+    },
+    lineHeight: {
+      default: "1.5rem",
+      "@media (min-width: 768px)": "1.25rem",
+    },
+    outline: "none",
+    transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
+    transitionDuration: "150ms",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 3px color-mix(in oklab, var(--ring) 50%, transparent)",
+      ':is([aria-invalid="true"])': "0 0 0 3px color-mix(in oklab, var(--destructive) 20%, transparent)",
+      ':is(.dark *)[aria-invalid="true"]': "0 0 0 3px color-mix(in oklab, var(--destructive) 40%, transparent)",
+    },
+    cursor: {
+      default: "auto",
+      ":disabled": "not-allowed",
+    },
+    pointerEvents: {
+      default: "auto",
+      ":disabled": "none",
+    },
+    opacity: {
+      default: 1,
+      ":disabled": 0.5,
+    },
+    "::placeholder": {
+      color: "var(--muted-foreground)",
+    },
+    "::file-selector-button": {
+      display: "inline-flex",
+      height: "1.75rem",
+      borderWidth: 0,
+      backgroundColor: "transparent",
+      color: "var(--foreground)",
+      fontSize: "0.875rem",
+      lineHeight: "1.25rem",
+      fontWeight: 500,
+    },
+  },
+})
 
 export { Input }

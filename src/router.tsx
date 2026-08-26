@@ -8,4 +8,5 @@ export const getRouter = () =>
     scrollRestoration: true,
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
+    defaultNotFoundComponent: () => <p>Not Found</p>,
   });

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import * as stylex from "@stylexjs/stylex";
 import { lazy, Suspense, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/sections/Hero";
@@ -95,8 +96,8 @@ function App() {
   return (
     <>
       <Header />
-      <main id="main-content" className="min-h-screen px-6 pt-32 pb-18">
-        <div className="mx-auto max-w-2xl">
+      <main id="main-content" {...stylex.props(styles.main)}>
+        <div {...stylex.props(styles.content)}>
           <Hero />
           <Suspense fallback={null}>
             <Experience />
@@ -113,3 +114,14 @@ function App() {
     </>
   );
 }
+
+const styles = stylex.create({
+  main: {
+    minHeight: "100vh",
+    padding: "8rem 1.5rem 4.5rem",
+  },
+  content: {
+    maxWidth: "42rem",
+    marginInline: "auto",
+  },
+});
