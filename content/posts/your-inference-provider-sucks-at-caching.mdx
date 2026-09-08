@@ -1,10 +1,9 @@
 ---
-title: "Your Inference Provider Sucks (at Caching)"
-summary: "The same agent coding session cost $0.13 at one DeepSeek V4 Flash provider and $2.30 at another. Prompt cache hit rate, not list price, explains the 17.7× gap."
+title: "Your inference provider sucks (at caching)"
+summary: "The same agent session cost $0.13 on one DeepSeek V4 Flash provider and $2.30 on another. Prompt cache hit rate, not list price, explains the 17.7× gap."
 date: 2026-09-02
 author: "Olaf"
 image: /covers/inference-provider-caching.jpg
-keywords: ["prompt caching", "LLM inference providers", "OpenRouter", "DeepSeek V4 Flash", "cache hit rate", "agentic coding benchmark", "LLM pricing", "inference cost"]
 ---
 
 *Originally published as an [article on X](https://x.com/o1af27/status/2095053276073058433).*
@@ -21,7 +20,7 @@ Cached prompt tokens are an order of magnitude cheaper than uncached ones. So fo
 
 And differences can be deceivingly small:
 
-<img src="/blog/inference-provider-caching-benchmark/01-cache-miss-rate-vs-full-price-tokens.jpg" alt="Bar chart of tokens billed at full price on a 19.5M prompt-token session: a 99% cache hit rate leaves 195k full-price tokens, 98% doubles the work to 390k, 96% quadruples it to 780k, and 92% is 8× the work at 1.6M tokens. Every point of hit rate is 195k full-price tokens." width="1631" height="402" loading="lazy" />
+![Bar chart showing how a small drop in prompt cache hit rate multiplies full-price tokens on a 19.5M-token session: 99% hit rate bills 195k tokens at full price, 98% doubles it to 390k, 96% quadruples it to 780k, and 92% is 8× the work at 1.6M tokens.](/blog/your-inference-provider-sucks-at-caching/01-cache-miss-cost-multiplier.jpg)
 
 You might turn to OpenRouter's cache hit-rate data to gauge which providers cache well.
 
@@ -51,7 +50,7 @@ Every provider receives the exact same bytes at the session's original pacing. I
 
 Generation is capped at one token (max_tokens=1). Caching depends on the input, and the agent's original replies are already included in the conversation, so generating them again would only add noise and cost.
 
-<img src="/blog/inference-provider-caching-benchmark/02-replay-benchmark-design.png" alt="Figure 1. Replay design: a recorded agent session of 155 requests and 19.5M tokens is re-sent prefix by prefix (step 1, step 1+2, step 1+2+3) as byte-identical requests at the recorded pacing to a pinned provider with max_tokens=1. Each response yields three cross-checks: reported cached tokens, billed cost, and time to first token." width="1577" height="503" loading="lazy" />
+![Figure 1. Replay design diagram: a recorded 155-request, 19.5M-token agent session is re-sent prefix by prefix (step 1, step 1+2, step 1+2+3) as byte-identical requests at recorded pacing to a pinned provider with max_tokens=1. Each response yields three cross-checks: reported cached tokens, billed cost, and time to first token.](/blog/your-inference-provider-sucks-at-caching/02-replay-design.png)
 
 I used a replay instead of running the agent live because live runs diverge. This way cache behavior becomes the isolated variable.
 
@@ -73,7 +72,7 @@ And a good cache does not necessarily mean a low bill. Atlas Cloud caches about 
 
 So where does the 17.7× spread come from?
 
-<img src="/blog/inference-provider-caching-benchmark/03-cost-per-provider-deepseek-v4-flash.jpg" alt="Figure 2. Horizontal bar chart of the cost to complete the same 155-request DeepSeek V4 Flash session at 18 providers, from measured cached and uncached token counts at Sep 1, 2026 list prices. StreamLake $0.13, DeepSeek $0.19 (1.5×), Fireworks $0.22 (1.7×), AkashML $0.35, DeepInfra $0.35, Sail Research $0.40, Ambient $0.46, Morph $0.52, GMICloud $0.59, Atlas Cloud $0.70, DigitalOcean $0.76, Venice $0.79, Phala $0.85, OpenInference $0.92, SiliconFlow $1.06, Cloudflare $1.38, Parasail $1.67, and Wafer $2.30 (17.7×). StreamLake is running a 70% promotional discount." width="1641" height="1216" loading="lazy" />
+![Figure 2. Horizontal bar chart of the cost to complete the same query-persist-restored-query-state session (155 requests, 19.5M prompt tokens) at 18 DeepSeek V4 Flash providers using Sep 1, 2026 list prices. StreamLake is cheapest at $0.13, followed by DeepSeek $0.19, Fireworks $0.22, AkashML $0.35, DeepInfra $0.35, Sail Research $0.40, Ambient $0.46, Morph $0.52, GMICloud $0.59, Atlas Cloud $0.70, DigitalOcean $0.76, Venice $0.79, Phala $0.85, OpenInference $0.92, SiliconFlow $1.06, Cloudflare $1.38, Parasail $1.67, and Wafer at $2.30, a 17.7× multiple.](/blog/your-inference-provider-sucks-at-caching/03-cost-per-task-by-provider.jpg)
 
 ## The Caching Champions
 
@@ -85,7 +84,7 @@ The tail is not as performant with Parasail at **61%**, Wafer at **55%**, and Op
 
 OpenRouter's published numbers rank providers very differently.
 
-<img src="/blog/inference-provider-caching-benchmark/04-measured-vs-published-cache-hit-rate.jpg" alt="Figure 3. Dumbbell chart comparing each provider's measured prompt cache hit rate on the identical session against OpenRouter's published production rate on Aug 16, 2026, with a log-scale bar of full-price work relative to the best cache. DeepSeek 99% (1.0×), Sail Research 98%, Atlas Cloud 98%, Fireworks 98%, StreamLake 98%, Morph 98%, DeepInfra 97%, AkashML 97%, Phala 96%, Venice 96%, GMICloud 94%, Ambient 88% (10×), Cloudflare 87% (11×), SiliconFlow 86% (11×), DigitalOcean 75% (20×), Parasail 61% (32×), Wafer 55% (37×), and OpenInference 8% (75×). The theoretical ceiling is 98.8%." width="1646" height="1223" loading="lazy" />
+![Figure 3. Dumbbell chart comparing each provider's measured prompt cache hit rate on the identical session against OpenRouter's published production hit rate on Aug 16, 2026, with a log-scale bar of full-price work relative to the best cache. DeepSeek leads at 99% measured, followed by Sail Research, Atlas Cloud, Fireworks, StreamLake, and Morph at 98%; the tail is DigitalOcean 75%, Parasail 61%, Wafer 55%, and OpenInference 8%, which does 75× the full-price work of the best cache. The theoretical ceiling is 98.8%.](/blog/your-inference-provider-sucks-at-caching/04-measured-vs-published-hit-rate.jpg)
 
 On the day of measurement, the rank correlation between published and measured hit rates was only **0.62**. Against the September 1 published column, it falls to **0.27**.
 
@@ -115,7 +114,7 @@ GMICloud and Venice produced contradictory hit/miss sequences, which looks like 
 
 DigitalOcean, AkashML, SiliconFlow, and Wafer cached the growing conversation but never cached a resent standalone prompt, so I could not measure their lifetime using this method.
 
-<img src="/blog/inference-provider-caching-benchmark/05-prompt-cache-survival-by-idle-gap.jpg" alt="Figure 4. Matrix of prompt cache survival by idle gap (immediate, 1 min, 5 min, 15 min, 45 min) per provider. DeepSeek stays cached at 45 minutes or more; Fireworks and Sail Research survive 15–45 minutes; Cloudflare, CoreWeave, and DeepInfra survive 5–15 minutes; Ambient, Atlas Cloud, Morph, Phala, and StreamLake survive 1–5 minutes; OpenInference and Parasail evict within 1 minute; GMICloud and Venice are erratic. Filled = cached on re-probe (≥90%), half = partial, open = evicted." width="1612" height="1077" loading="lazy" />
+![Figure 4. Prompt cache survival by idle gap for each provider, probed immediately and after 1, 5, 15, and 45 minutes. DeepSeek stays cached for 45 minutes or more; Fireworks and Sail Research survive 15–45 minutes; Cloudflare, CoreWeave, and DeepInfra survive 5–15 minutes; Ambient, Atlas Cloud, Morph, Phala, and StreamLake survive 1–5 minutes; OpenInference and Parasail evict in under a minute; GMICloud and Venice are erratic.](/blog/your-inference-provider-sucks-at-caching/05-cache-survival-by-idle-gap.jpg)
 
 ## OpenRouter rankings vs. reality
 
@@ -123,7 +122,7 @@ OpenRouter's *Floor* mode ranks providers by list price. Its cache column ranks 
 
 Neither ranking lines up particularly well with our results.
 
-<img src="/blog/inference-provider-caching-benchmark/06-openrouter-rankings-vs-measured.jpg" alt="Table 1. OpenRouter's top five providers next to the measured results. Cheapest by OpenRouter Floor list price: OpenInference $0.050/M, Sail Research $0.065/M, AkashML $0.065/M, Relace $0.065/M, DigitalOcean $0.080/M. Cheapest measured per task: StreamLake $0.13, DeepSeek $0.19, Fireworks $0.22, AkashML $0.35, DeepInfra $0.35. Best cache by OpenRouter published rate: Alibaba Cloud Int. 91%, DeepSeek 89%, NovitaAI 88%, Relace 86%, Inceptron 85%. Best measured hit rate: DeepSeek 98.8%, Sail Research 98.4%, Atlas Cloud 98.1%, Fireworks 97.9%, StreamLake 97.9%." width="1648" height="605" loading="lazy" />
+![Table 1. OpenRouter's top five providers by Floor list price and by published cache hit rate, side by side with the measured top five by cost per task and by hit rate. OpenRouter's cheapest by list price are OpenInference, Sail Research, AkashML, Relace, and DigitalOcean, while the measured cheapest per task are StreamLake $0.13, DeepSeek $0.19, Fireworks $0.22, AkashML $0.35, and DeepInfra $0.35. OpenRouter's best published caches are Alibaba Cloud, DeepSeek, Novita, Relace, and Inceptron, while the measured best are DeepSeek 98.8%, Sail Research 98.4%, Atlas Cloud 98.1%, Fireworks 97.9%, and StreamLake 97.9%.](/blog/your-inference-provider-sucks-at-caching/06-openrouter-rankings-vs-measured.jpg)
 
 OpenRouter's cache hit-rate column correlates extremely poorly with real performance.
 
@@ -131,7 +130,7 @@ The problem is they route on these signals. *Floor* picks by list price, which i
 
 ## Full results
 
-<img src="/blog/inference-provider-caching-benchmark/07-full-results-hit-rate-cost-ttl-table.jpg" alt="Table 2. Full results for 18 DeepSeek V4 Flash providers: measured hit rate, full-price work vs. best, OpenRouter published rate, cost per task, and cache TTL. DeepSeek 98.8%, 1.0×, 89% published, $0.19, TTL 45+ min; Sail Research 98.4%, $0.40, 15–45 min; Atlas Cloud 98.1%, $0.70, 1–5 min; Fireworks 97.9%, $0.22, 15–45 min; StreamLake 97.9%, $0.13, 1–5 min; Morph 97.8%, $0.52; DeepInfra 97.2%, $0.35, 5–15 min; AkashML 96.6%, $0.35; Phala 96.2%, $0.85; Venice 96.1%, $0.79, erratic; GMICloud 94.5%, $0.59, erratic; Ambient 88.0%, $0.46; Cloudflare 86.7%, $1.38, 5–15 min; SiliconFlow 86.3%, $1.06; DigitalOcean 75.2%, $0.76; Parasail 60.6%, $1.67, under 1 min; Wafer 55.0%, $2.30; OpenInference 7.7%, 74.9× work, $0.92, under 1 min. Excluded: Mancer (no cache), Novita (unroutable), Baseten (429s), CoreWeave (rejects payloads), Baidu (rate-limited)." width="1648" height="1478" loading="lazy" />
+![Table 2. Full results for 18 DeepSeek V4 Flash providers: measured prompt cache hit rate, full-price work relative to the best cache, OpenRouter's published rate on Aug 16, 2026, cost per task at Sep 1, 2026 list prices, and cache TTL. DeepSeek 98.8% hit rate, $0.19, TTL 45+ minutes; Sail Research 98.4%, $0.40; Atlas Cloud 98.1%, $0.70; Fireworks 97.9%, $0.22; StreamLake 97.9%, $0.13; Morph 97.8%, $0.52; DeepInfra 97.2%, $0.35; AkashML 96.6%, $0.35; Phala 96.2%, $0.85; Venice 96.1%, $0.79; GMICloud 94.5%, $0.59; Ambient 88.0%, $0.46; Cloudflare 86.7%, $1.38; SiliconFlow 86.3%, $1.06; DigitalOcean 75.2%, $0.76; Parasail 60.6%, $1.67; Wafer 55.0%, $2.30; OpenInference 7.7%, $0.92. Excluded: Mancer, Novita, Baseten, CoreWeave, and Baidu.](/blog/your-inference-provider-sucks-at-caching/07-full-results-table.jpg)
 
 ## Anomalies
 

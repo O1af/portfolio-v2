@@ -10,7 +10,7 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 - [Connections](https://olafdsouza.com/connections): NYT Connections tracking board.
 
 ## Blog Posts
-- [Your Inference Provider Sucks (at Caching)](https://olafdsouza.com/blog/inference-provider-caching-benchmark): The same agent coding session cost $0.13 at one DeepSeek V4 Flash provider and $2.30 at another. Prompt cache hit rate, not list price, explains the 17.7× gap.
+- [Your inference provider sucks (at caching)](https://olafdsouza.com/blog/your-inference-provider-sucks-at-caching): The same agent session cost $0.13 on one DeepSeek V4 Flash provider and $2.30 on another. Prompt cache hit rate, not list price, explains the 17.7× gap.
 - [The Area Over the Curve](https://olafdsouza.com/blog/the-area-over-the-curve): Why the cheapest LLM is rarely the cheapest result, and how August routes each agent task to just enough model intelligence.
 - [Everything is a Workflow](https://olafdsouza.com/blog/everything-is-a-workflow): How workflows became August's abstraction for reliable legal AI agents, growing from saved prompts into a small programming language.
 - [HOPS](https://olafdsouza.com/blog/hops-pipeline-simulator): A discrete-event simulator for pipeline-parallel LLM training on heterogeneous GPUs, validated within 2% of real hardware.
