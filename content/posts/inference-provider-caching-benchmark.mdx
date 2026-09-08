@@ -1,0 +1,164 @@
+---
+title: "Your Inference Provider Sucks (at Caching)"
+summary: "The same agent coding session cost $0.13 at one DeepSeek V4 Flash provider and $2.30 at another. Prompt cache hit rate, not list price, explains the 17.7× gap."
+date: 2026-09-02
+author: "Olaf"
+image: /covers/inference-provider-caching.jpg
+keywords: ["prompt caching", "LLM inference providers", "OpenRouter", "DeepSeek V4 Flash", "cache hit rate", "agentic coding benchmark", "LLM pricing", "inference cost"]
+---
+
+*Originally published as an [article on X](https://x.com/o1af27/status/2095053276073058433).*
+
+I used to believe that if two providers serve the same model, token prices would tell you which one is cheaper. Alas, I found this relationship is shaky at best.
+
+I replayed the same coding session across every DeepSeek V4 Flash provider. The cost ranged from **$0.13 to $2.30**. DeepSeek's official provider ranks **21st out of 30 by token price**, yet was the **2nd cheapest in practice**.
+
+The reason: cache hit rates.
+
+My benchmark is a recorded agent session solving [query-persist-restored-query-state](https://github.com/datacurve-ai/deep-swe/tree/main/tasks/query-persist-restored-query-state) from Datacurve's [DeepSWE](https://deepswe.datacurve.ai/) benchmark. The run makes **155 API calls**, sends **19.5M prompt tokens**, and generates only **60k output tokens**.
+
+Cached prompt tokens are an order of magnitude cheaper than uncached ones. So for this kind of workload, cache hit rate is analogous to cost.
+
+And differences can be deceivingly small:
+
+<img src="/blog/inference-provider-caching-benchmark/01-cache-miss-rate-vs-full-price-tokens.jpg" alt="Bar chart of tokens billed at full price on a 19.5M prompt-token session: a 99% cache hit rate leaves 195k full-price tokens, 98% doubles the work to 390k, 96% quadruples it to 780k, and 92% is 8× the work at 1.6M tokens. Every point of hit rate is 195k full-price tokens." width="1631" height="402" loading="lazy" />
+
+You might turn to OpenRouter's cache hit-rate data to gauge which providers cache well.
+
+Unfortunately, that number is averaged over each provider's own production traffic. A provider serving mostly one-shot chats can look terrible even if its cache works perfectly for agents. And the number moves as its customer mix changes. Between August 16 and September 1, published rates for the same providers moved by as much as **47 percentage points** (ambient 82% to 35%, parasail 4% to 51%, atlas-cloud 85% to 39%).
+
+Providers themselves document almost none of this.
+
+OpenRouter's routing modes do not solve the problem either. *Floor* routes by list price, which ignores caching. *Nitro* routes by decode speed, which matters much less when almost every token is a resent prompt.
+
+I couldn't find any benchmark covering how cache hit rates affect pricing so I made one.
+
+## The task
+
+[DeepSWE](https://deepswe.datacurve.ai/) is Datacurve's 113-task agentic coding benchmark ([datacurve-ai/deep-swe](https://github.com/datacurve-ai/deep-swe)): real feature requests against real repositories, graded using held-out tests.
+
+Earlier, I recorded a [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) run that solved [query-persist-restored-query-state](https://github.com/datacurve-ai/deep-swe/tree/main/tasks/query-persist-restored-query-state), a persistence feature in TanStack Query. The agent took **155 steps**: reading files, editing code, and running tests.
+
+A solved run of a real task makes a good probe because it is exactly the prefix-heavy workload prompt caches are designed for. And because I replay the recording, every provider gets the exact same workload.
+
+## Measurement
+
+I reconstructed the session into its exact request sequence.
+
+Request *k* is the full conversation immediately before assistant turn *k*: same messages, same tool schema, same sampling settings.
+
+Every provider receives the exact same bytes at the session's original pacing. I pin requests using OpenRouter's provider.only, disable fallbacks, and verify the served-provider field on every response.
+
+Generation is capped at one token (max_tokens=1). Caching depends on the input, and the agent's original replies are already included in the conversation, so generating them again would only add noise and cost.
+
+<img src="/blog/inference-provider-caching-benchmark/02-replay-benchmark-design.png" alt="Figure 1. Replay design: a recorded agent session of 155 requests and 19.5M tokens is re-sent prefix by prefix (step 1, step 1+2, step 1+2+3) as byte-identical requests at the recorded pacing to a pinned provider with max_tokens=1. Each response yields three cross-checks: reported cached tokens, billed cost, and time to first token." width="1577" height="503" loading="lazy" />
+
+I used a replay instead of running the agent live because live runs diverge. This way cache behavior becomes the isolated variable.
+
+So how do the costs compare?
+
+## One task, $0.13 or $2.30
+
+Running query-persist-restored-query-state costs **$0.13 at StreamLake** and **$2.30 at Wafer** at today's prices.
+
+Same requests. Same tokens. **17.7× difference.**
+
+List price predicts surprisingly little.
+
+DeepSeek ranks **21st of 30 by list price** but finishes **2nd cheapest in practice**, because almost everything it serves gets billed at its **$0.007-per-million cache-read price**.
+
+Several supposedly cheap endpoints have weak caches. Their low token price applies to dramatically more full-price tokens.
+
+And a good cache does not necessarily mean a low bill. Atlas Cloud caches about **98%** of the session but still lands near the middle because its list price tripled in August.
+
+So where does the 17.7× spread come from?
+
+<img src="/blog/inference-provider-caching-benchmark/03-cost-per-provider-deepseek-v4-flash.jpg" alt="Figure 2. Horizontal bar chart of the cost to complete the same 155-request DeepSeek V4 Flash session at 18 providers, from measured cached and uncached token counts at Sep 1, 2026 list prices. StreamLake $0.13, DeepSeek $0.19 (1.5×), Fireworks $0.22 (1.7×), AkashML $0.35, DeepInfra $0.35, Sail Research $0.40, Ambient $0.46, Morph $0.52, GMICloud $0.59, Atlas Cloud $0.70, DigitalOcean $0.76, Venice $0.79, Phala $0.85, OpenInference $0.92, SiliconFlow $1.06, Cloudflare $1.38, Parasail $1.67, and Wafer $2.30 (17.7×). StreamLake is running a 70% promotional discount." width="1641" height="1216" loading="lazy" />
+
+## The Caching Champions
+
+Most of the cost spread comes from one thing: **cache hit rate**.
+
+Eleven of the eighteen measurable providers cached **94–99%** of the session, close to the theoretical **98.8% ceiling**. Each request contains a newly added suffix, so 100% is impossible.
+
+The tail is not as performant with Parasail at **61%**, Wafer at **55%**, and OpenInference at **8%**.
+
+OpenRouter's published numbers rank providers very differently.
+
+<img src="/blog/inference-provider-caching-benchmark/04-measured-vs-published-cache-hit-rate.jpg" alt="Figure 3. Dumbbell chart comparing each provider's measured prompt cache hit rate on the identical session against OpenRouter's published production rate on Aug 16, 2026, with a log-scale bar of full-price work relative to the best cache. DeepSeek 99% (1.0×), Sail Research 98%, Atlas Cloud 98%, Fireworks 98%, StreamLake 98%, Morph 98%, DeepInfra 97%, AkashML 97%, Phala 96%, Venice 96%, GMICloud 94%, Ambient 88% (10×), Cloudflare 87% (11×), SiliconFlow 86% (11×), DigitalOcean 75% (20×), Parasail 61% (32×), Wafer 55% (37×), and OpenInference 8% (75×). The theoretical ceiling is 98.8%." width="1646" height="1223" loading="lazy" />
+
+On the day of measurement, the rank correlation between published and measured hit rates was only **0.62**. Against the September 1 published column, it falls to **0.27**.
+
+Fireworks, Venice, Sail Research, and Morph all delivered near-perfect caches while their published rates were **30–64 points lower**.
+
+The published number mostly tells you about the provider's customers.
+
+It does not reliably tell you how well the provider will cache *your* agent session.
+
+## How long caches survive
+
+A cache only helps if it survives the gap between requests.
+
+The recorded agent session had a median pause of **6 seconds**, 6 pauses over **30 seconds**, and a maximum pause of **38 seconds**.
+
+Every cache tested could handle that.
+
+But we often pause much longer. You read the output, think, maybe break for lunch, then type another message several minutes later.
+
+I warmed a unique **30k-token prefix**, waited increasingly long idle periods, and then sent it again.
+
+Most providers evicted the cache within **1–15 minutes**.
+
+DeepSeek was the only provider still warm after **45 minutes**.
+
+GMICloud and Venice produced contradictory hit/miss sequences, which looks like requests being load-balanced across replicas without reliable prefix affinity.
+
+DigitalOcean, AkashML, SiliconFlow, and Wafer cached the growing conversation but never cached a resent standalone prompt, so I could not measure their lifetime using this method.
+
+<img src="/blog/inference-provider-caching-benchmark/05-prompt-cache-survival-by-idle-gap.jpg" alt="Figure 4. Matrix of prompt cache survival by idle gap (immediate, 1 min, 5 min, 15 min, 45 min) per provider. DeepSeek stays cached at 45 minutes or more; Fireworks and Sail Research survive 15–45 minutes; Cloudflare, CoreWeave, and DeepInfra survive 5–15 minutes; Ambient, Atlas Cloud, Morph, Phala, and StreamLake survive 1–5 minutes; OpenInference and Parasail evict within 1 minute; GMICloud and Venice are erratic. Filled = cached on re-probe (≥90%), half = partial, open = evicted." width="1612" height="1077" loading="lazy" />
+
+## OpenRouter rankings vs. reality
+
+OpenRouter's *Floor* mode ranks providers by list price. Its cache column ranks them by published production hit rate.
+
+Neither ranking lines up particularly well with our results.
+
+<img src="/blog/inference-provider-caching-benchmark/06-openrouter-rankings-vs-measured.jpg" alt="Table 1. OpenRouter's top five providers next to the measured results. Cheapest by OpenRouter Floor list price: OpenInference $0.050/M, Sail Research $0.065/M, AkashML $0.065/M, Relace $0.065/M, DigitalOcean $0.080/M. Cheapest measured per task: StreamLake $0.13, DeepSeek $0.19, Fireworks $0.22, AkashML $0.35, DeepInfra $0.35. Best cache by OpenRouter published rate: Alibaba Cloud Int. 91%, DeepSeek 89%, NovitaAI 88%, Relace 86%, Inceptron 85%. Best measured hit rate: DeepSeek 98.8%, Sail Research 98.4%, Atlas Cloud 98.1%, Fireworks 97.9%, StreamLake 97.9%." width="1648" height="605" loading="lazy" />
+
+OpenRouter's cache hit-rate column correlates extremely poorly with real performance.
+
+The problem is they route on these signals. *Floor* picks by list price, which ignores caching, and its top pick had the **worst measured cache in the entire study**.
+
+## Full results
+
+<img src="/blog/inference-provider-caching-benchmark/07-full-results-hit-rate-cost-ttl-table.jpg" alt="Table 2. Full results for 18 DeepSeek V4 Flash providers: measured hit rate, full-price work vs. best, OpenRouter published rate, cost per task, and cache TTL. DeepSeek 98.8%, 1.0×, 89% published, $0.19, TTL 45+ min; Sail Research 98.4%, $0.40, 15–45 min; Atlas Cloud 98.1%, $0.70, 1–5 min; Fireworks 97.9%, $0.22, 15–45 min; StreamLake 97.9%, $0.13, 1–5 min; Morph 97.8%, $0.52; DeepInfra 97.2%, $0.35, 5–15 min; AkashML 96.6%, $0.35; Phala 96.2%, $0.85; Venice 96.1%, $0.79, erratic; GMICloud 94.5%, $0.59, erratic; Ambient 88.0%, $0.46; Cloudflare 86.7%, $1.38, 5–15 min; SiliconFlow 86.3%, $1.06; DigitalOcean 75.2%, $0.76; Parasail 60.6%, $1.67, under 1 min; Wafer 55.0%, $2.30; OpenInference 7.7%, 74.9× work, $0.92, under 1 min. Excluded: Mancer (no cache), Novita (unroutable), Baseten (429s), CoreWeave (rejects payloads), Baidu (rate-limited)." width="1648" height="1478" loading="lazy" />
+
+## Anomalies
+
+**Impossible cache reports.** OpenInference reported **42% of a brand-new, globally unique prefix as cached on its first request**. Its full replay measured only **8%**, by far the worst result in the study. Its cached_tokens field appears to be disconnected from a normal prompt cache. Interestingly, billing follows the reported number, so the discrepancy currently works in the customer's favor.
+
+**Cross-account sharing.** Baidu, Venice, OpenInference, DeepSeek, and GMICloud all returned **256–1,378 cached tokens on the first request** of a workload I had never sent. Those tokens correspond to the mini-swe-agent system prompt, which many users send verbatim. This points to cross-account cache reuse: another user's traffic had already warmed the same prefix. The increments also suggest **256-token cache blocks**.
+
+**Payload rejection.** CoreWeave returned HTTP 400 on **150 of 155 requests**. It rejects histories containing reasoning fields that every other provider accepted.
+
+## Limitations
+
+This is one model, one workload shape, one OpenRouter account, and one point in time.
+
+Everything goes through OpenRouter. Direct or BYOK traffic may behave differently. Cache behavior under heavy load may also differ from these idle probes.
+
+The market moves fast. Several providers repriced DeepSeek V4 Flash by **20–370%** during the study and changed prices again afterward. To keep the comparison consistent, every batch archives the price sheet used at the time, and the costs shown here are recalculated from measured token counts using the September 1 price sheet.
+
+Hit rates were measured on August 17 and may have changed since.
+
+Replay also slightly understates cache hit rates because the recorded assistant replies enter later requests without receiving normal generation-time warming.
+
+**The takeaway: list price is not enough. Cache behavior dominates the economics of heavily agentic workloads.**
+
+## Future research
+
+This study only looks at cost. The obvious next question is whether providers differ in quality too: run the full DeepSWE benchmark, all 113 tasks, against every provider serving the same weights, and compare pass rates.
+
+My hypothesis is yes. Quantization, sampling implementations, and serving stacks differ across providers, and there is no reason to assume they all produce the same result.
+
+**Reproducibility.** Per-request logs (tokens, cached tokens, billed cost, TTFT, and served provider), along with market snapshots, schemas, the replay harness, and the scripts behind every figure, are available at [github.com/O1af/isometric-eval](https://github.com/O1af/isometric-eval). The workload comes from Datacurve's [DeepSWE](https://github.com/datacurve-ai/deep-swe) benchmark, pinned at 435ee89, using [mini-swe-agent](https://github.com/SWE-agent/mini-swe-agent) 2.4.6. The recorded trajectory and verifier artifacts are published as well. Every number in this post can be derived from the raw JSONL.
