@@ -43,6 +43,10 @@ export const Route = createFileRoute("/blog/$slug")({
           property: "article:published_time",
           content: publishedDateToISOString(post.date),
         },
+        ...post.keywords.map((keyword) => ({
+          property: "article:tag",
+          content: keyword,
+        })),
         ...buildSocialMeta({
           title: post.title,
           description: post.summary,
@@ -60,7 +64,10 @@ export const Route = createFileRoute("/blog/$slug")({
           headline: post.title,
           description: post.summary,
           image: imageUrl,
+          url: postUrl,
           datePublished: publishedDateToISOString(post.date),
+          dateModified: publishedDateToISOString(post.date),
+          ...(post.keywords.length > 0 && { keywords: post.keywords.join(", ") }),
           author: {
             "@type": "Person",
             name: post.author,

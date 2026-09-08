@@ -37,6 +37,7 @@ const posts = defineCollection({
     author: z.string(),
     image: z.string().optional(),
     imageOrientation: z.enum(["landscape", "portrait"]).default("landscape"),
+    keywords: z.array(z.string()).default([]),
     content: z.string(),
   }),
   transform: async (document, context) => {
