@@ -25,7 +25,7 @@ export type SearchItem = {
     }
   | {
       type: "route";
-      to: "/" | "/blog" | "/blog/$slug" | "/connections";
+      to: "/" | "/blog" | "/blog/$slug" | "/food" | "/connections";
       params?: { slug: string };
       hash?: string;
     }
@@ -263,6 +263,16 @@ export function buildSearchIndex(): SearchItem[] {
       group: "Navigate",
       to: "/blog",
       priority: 84,
+    },
+    {
+      id: "nav-food",
+      type: "route",
+      title: "Food",
+      subtitle: "Ranked restaurants, coffee, bakeries and bars by city",
+      keywords: ["food", "restaurants", "coffee", "eat", "ann arbor", "new york", "guides"],
+      group: "Navigate",
+      to: "/food",
+      priority: 82,
     },
     {
       id: "nav-connections",

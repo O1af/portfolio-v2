@@ -64,6 +64,24 @@ const posts = defineCollection({
   },
 });
 
+// Hand-written overlays for food places (see content/food/README.md). Plain
+// markdown: the body is the published note, kept as text for now.
+const foodPlaces = defineCollection({
+  name: "foodPlaces",
+  directory: "content/food/places",
+  include: "*.md",
+  schema: z.object({
+    id: z.number().int(),
+    status: z.enum(["draft", "done", "hidden"]),
+    dishes: z
+      .array(z.object({ name: z.string(), must_order: z.boolean().default(false) }))
+      .optional(),
+    updated: z.coerce.date().optional(),
+    content: z.string(),
+  }),
+  transform: (document) => ({ ...document, slug: document._meta.path }),
+});
+
 export default defineConfig({
-  collections: [posts],
+  collections: [posts, foodPlaces],
 });

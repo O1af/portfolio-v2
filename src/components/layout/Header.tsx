@@ -7,6 +7,7 @@ import { CommandPalette } from "@/components/search/CommandPalette";
 const NAV_LINKS = [
   { to: "/", label: "Home" },
   { to: "/blog", label: "Blog" },
+  { to: "/food", label: "Food" },
   { to: "/connections", label: "Connections" },
 ] as const;
 
@@ -25,7 +26,7 @@ export function Header() {
           <Link
             key={link.to}
             to={link.to}
-            {...stylex.props(styles.navLink)}
+            {...stylex.props(styles.navLink, link.to === "/" && styles.homeLink)}
             activeOptions={{ exact: link.to === "/" }}
           >
             {link.label}
@@ -64,7 +65,7 @@ const styles = stylex.create({
       "@media (min-width: 640px)": "0.5rem",
     },
     paddingInline: {
-      default: "1rem",
+      default: "0.75rem",
       "@media (min-width: 640px)": "2rem",
     },
   },
@@ -72,7 +73,7 @@ const styles = stylex.create({
     display: "inline-flex",
     minHeight: "2.25rem",
     marginRight: {
-      default: "0.5rem",
+      default: "0.25rem",
       "@media (min-width: 640px)": "1rem",
     },
     alignItems: "center",
@@ -86,6 +87,7 @@ const styles = stylex.create({
     lineHeight: "1.25rem",
     fontWeight: 600,
     letterSpacing: "-0.025em",
+    whiteSpace: "nowrap",
     transitionProperty: "color, background-color, border-color, text-decoration-color, fill, stroke",
     transitionDuration: "150ms",
     outline: "none",
@@ -102,7 +104,7 @@ const styles = stylex.create({
     alignItems: "center",
     borderRadius: "0.5rem",
     paddingInline: {
-      default: "0.5rem",
+      default: "0.375rem",
       "@media (min-width: 640px)": "0.75rem",
     },
     backgroundColor: {
@@ -126,6 +128,13 @@ const styles = stylex.create({
         "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
     },
     touchAction: "manipulation",
+  },
+  // The brand already links home; drop the duplicate on phones so five items fit.
+  homeLink: {
+    display: {
+      default: "none",
+      "@media (min-width: 640px)": "inline-flex",
+    },
   },
   actions: {
     display: "flex",
