@@ -12,7 +12,9 @@
     "deploy": "pnpm seo:generate && pnpm run build && wrangler deploy",
     "preview": "pnpm seo:generate && pnpm run build && vite preview",
     "cf-typegen": "wrangler types",
-    "prepare": "simple-git-hooks"
+    "prepare": "simple-git-hooks",
+    "food:import": "node scripts/food-import.mjs",
+    "food:edit": "node scripts/food-edit.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm seo:generate && git add public/sitemap.xml public/llms.txt public/robots.txt"
