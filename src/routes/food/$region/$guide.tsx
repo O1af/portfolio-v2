@@ -3,7 +3,9 @@ import * as stylex from "@stylexjs/stylex";
 import { personalInfo } from "@/components/Info";
 import { describeFilters, FilterBar, hasFilters } from "@/components/food/FilterBar";
 import { Crumbs, FoodMain, HowIRate, Lead, PageTitle, crumbStyles } from "@/components/food/layout";
+import { MiniHeader } from "@/components/food/MiniHeader";
 import { PlaceRows } from "@/components/food/PlaceRows";
+import { useRowKeys } from "@/components/food/useRowKeys";
 import { getGuide } from "@/lib/food-api";
 import { applyListFilters, parseListFilters, type ListFilters } from "@/lib/food-core";
 import { formatMonthYear, recommendationMailto } from "@/lib/food-format";
@@ -51,9 +53,11 @@ function GuidePage() {
   const rows = applyListFilters(guide.rows, filters);
   const total = guide.rows.length;
   const filterLabel = describeFilters(filters);
+  const focused = useRowKeys(rows.length, JSON.stringify(filters));
 
   return (
     <FoodMain>
+      <MiniHeader title={guide.title} detail={filterLabel || `${total} places`} />
       <Crumbs>
         {[
           <Link key="food" to="/food" {...stylex.props(crumbStyles.link)}>
@@ -87,9 +91,14 @@ function GuidePage() {
       <p {...stylex.props(styles.count)} aria-live="polite">
         {rows.length === total ? `${total} places` : `${rows.length} of ${total}`}
         {filterLabel && ` · ${filterLabel}`} · score out of 10
+        <span {...stylex.props(styles.keys)}>
+          {" · "}
+          <kbd {...stylex.props(styles.kbd)}>j</kbd> <kbd {...stylex.props(styles.kbd)}>k</kbd>{" "}
+          <kbd {...stylex.props(styles.kbd)}>↵</kbd>
+        </span>
       </p>
 
-      {rows.length > 0 ? <PlaceRows rows={rows} /> : <EmptyState guide={guide.label} region={guide.region} filters={filters} />}
+      {rows.length > 0 ? <PlaceRows rows={rows} focused={focused} /> : <EmptyState guide={guide.label} region={guide.region} filters={filters} />}
 
       <HowIRate />
     </FoodMain>
@@ -131,6 +140,18 @@ const styles = stylex.create({
     marginTop: "1rem",
     color: "var(--dim)",
     fontSize: "12px",
+  },
+  // Keyboard hint only where there is a keyboard.
+  keys: {
+    display: { default: "none", "@media (hover: hover) and (pointer: fine)": "inline" },
+  },
+  kbd: {
+    paddingInline: "4px",
+    borderRadius: "4px",
+    borderWidth: "1px",
+    borderColor: "var(--border)",
+    fontFamily: "var(--font-mono)",
+    fontSize: "11px",
   },
   empty: {
     marginTop: "2.5rem",

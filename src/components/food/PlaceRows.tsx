@@ -59,11 +59,14 @@ function RowBody({ row }: { row: Row }) {
 }
 
 /** Ranked list. Places with a page link to it; score-only places are plain rows. */
-export function PlaceRows({ rows }: { rows: Row[] }) {
+export function PlaceRows({ rows, focused = -1 }: { rows: Row[]; focused?: number }) {
   return (
     <ol {...stylex.props(styles.rows)}>
       {rows.map((row, i) => {
-        const rowStyle = stylex.props(styles.row, i === rows.length - 1 && styles.lastRow, row.closed && styles.closed);
+        const rowStyle = {
+          ...stylex.props(styles.row, i === rows.length - 1 && styles.lastRow, row.closed && styles.closed, i === focused && styles.focused),
+          "data-food-row": "",
+        };
         return (
           <li key={row.slug}>
             {row.hasPage ? (
@@ -111,6 +114,10 @@ const styles = stylex.create({
   },
   lastRow: {
     borderBottomWidth: 0,
+  },
+  focused: {
+    backgroundColor: "var(--secondary)",
+    boxShadow: "inset 2px 0 0 var(--foreground)",
   },
   closed: {
     opacity: 0.6,
