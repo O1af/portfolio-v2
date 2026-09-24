@@ -235,6 +235,11 @@ export type FavoriteBlog = {
 // Bookshelf section — favorite engineering blogs
 export const favoriteBlogs: FavoriteBlog[] = [
   {
+    name: "Git at any scale",
+    href: "https://cursor.com/blog/git-at-any-scale",
+    domain: "cursor.com/blog",
+  },
+  {
     name: "Dynamic Context Discovery",
     href: "https://cursor.com/blog/dynamic-context-discovery",
     domain: "cursor.com/blog",
