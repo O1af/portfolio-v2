@@ -5,11 +5,15 @@
 //
 //   pnpm food:import ~/Downloads/export.zip [--upload]
 //
-// --upload resizes new photos and pushes them to R2 (not implemented yet).
+// Photos are resized into .food-export/web/ on every run (cached). With --upload,
+// any that aren't on the image host yet are pushed to R2. Uploading shells out to
+// wrangler, which needs Node 22: `nvm exec 22 pnpm food:import <zip> --upload`.
 
-import { execFileSync } from "node:child_process";
+import { execFile, execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { promisify } from "node:util";
+import sharp from "sharp";
 
 const OUT_PATH = "content/food/ratings.json";
 const OVERLAY_DIR = "content/food/places";
@@ -20,6 +24,17 @@ const CATEGORY = { RES: "restaurants", COF: "coffee", DES: "dessert", BAK: "bake
 const STATUS = { CLOSED_PERMANENTLY: "closed", CLOSED_TEMPORARILY: "temporarily-closed" };
 const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
 const PHOTO_ID_LENGTH = 16;
+const WEB_DIR = path.join(EXPORT_DIR, "web");
+const BUCKET = "portfolio-images";
+const IMAGE_HOST = "https://img.olafdsouza.com";
+const ACCOUNT_ID = "e2b5a4ea5442b05be2f53900f0896bf7";
+/** Keep in sync with photoUrl() in src/lib/food-core.ts. */
+const VARIANTS = [
+  { name: "sq", resize: { width: 192, height: 192, fit: "cover", position: "attention" } },
+  { name: "480", resize: { width: 480, withoutEnlargement: true } },
+  { name: "1200", resize: { width: 1200, withoutEnlargement: true } },
+];
+const photoKey = (id, variant) => `food/${id}-${variant}.webp`;
 
 // ---------- helpers ----------
 
@@ -36,12 +51,13 @@ export function slugify(text) {
     .replace(/^-+|-+$/g, "");
 }
 
+const cityName = (city) => city.split(",")[0].trim();
+
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** "Hyperion Coffee Co - Ann Arbor" → "Hyperion Coffee Co" when the suffix is the place's own city. */
 export function stripCitySuffix(name, city) {
-  const cityName = city.split(",")[0].trim();
-  const suffix = new RegExp(`\\s*[-–|(]\\s*${escapeRegex(cityName)}\\)?\\s*$`, "i");
+  const suffix = new RegExp(`\\s*[-–|(]\\s*${escapeRegex(cityName(city))}\\)?\\s*$`, "i");
   return name.replace(suffix, "").trim() || name;
 }
 
@@ -68,7 +84,7 @@ export function kindOf(place) {
   return cuisines.some(isTea) && !cuisines.some(isCoffee) ? "tea" : "coffee";
 }
 
-/** [day (0 = Monday), open, close]; a null close means open around the clock. Split shifts stay separate. */
+/** [day (0 = Sunday), open, close]; a null close means open around the clock. Split shifts stay separate. */
 function compactHours(hours) {
   if (!hours?.length) return undefined;
   return [...hours]
@@ -103,10 +119,22 @@ function regionResolver(configured) {
     resolve(city) {
       const known = byCity.get(city);
       if (known) return known.slug;
-      const name = city.split(",")[0].trim();
+      const name = cityName(city);
       const slug = slugify(name);
       derived.set(slug, { slug, name, cities: [city] });
       return slug;
+    },
+    /**
+     * The value guides filter on, when it isn't the neighborhood: the city itself in an
+     * area like South Bay, or the suburb in a city region (Ypsilanti within Ann Arbor).
+     */
+    area(city) {
+      const region = byCity.get(city);
+      if (!region || region.cities.length < 2) return undefined;
+      const names = region.cities.map(cityName);
+      const isCityRegion = names.includes(region.name);
+      const town = cityName(city).replace(/^Township of /, "").replace(/ (Charter )?Township$/, "");
+      return !isCityRegion || town !== region.name ? town : undefined;
     },
     all(places) {
       const counts = new Map();
@@ -140,6 +168,7 @@ function buildPlace(raw, data, regions) {
     .map((photo) => ({
       id: data.assets[photo.asset_id].sha256.slice(0, PHOTO_ID_LENGTH),
       ...(photo.caption?.trim() && { caption: photo.caption.trim() }),
+      file: data.assets[photo.asset_id].file,
     }));
   const latestVisit = raw.visits?.find((v) => v.id === raw.latest_visit_id) ?? raw.visits?.at(-1);
 
@@ -153,6 +182,7 @@ function buildPlace(raw, data, regions) {
     city: raw.city,
     region: regions.resolve(raw.city),
     neighborhood: raw.neighborhood || undefined,
+    area: regions.area(raw.city),
     borough: raw.borough || undefined,
     lat: raw.latitude,
     lng: raw.longitude,
@@ -189,7 +219,7 @@ export function assignSlugs(places) {
     }
     const distinct = (fn) => new Set(group.map(fn)).size === group.length;
     const suffix = distinct((p) => p.city)
-      ? (p) => slugify(p.city.split(",")[0])
+      ? (p) => slugify(cityName(p.city))
       : distinct((p) => p.neighborhood ?? "")
         ? (p) => slugify(p.neighborhood)
         : (p) => String(p.id);
@@ -292,12 +322,74 @@ function printDiff(d, first) {
   section(`New photos (${d.newPhotos})`, d.newPhotoPlaces);
 }
 
-// ---------- upload (stub) ----------
+// ---------- photos ----------
 
-function uploadPhotos(next, previous) {
-  const known = new Set((previous?.places ?? []).flatMap((p) => (p.photos ?? []).map((ph) => ph.id)));
-  const pending = next.places.flatMap((p) => (p.photos ?? []).map((ph) => ph.id)).filter((id) => !known.has(id));
-  console.log(`\n--upload: ${pending.length} photos to resize (480/1200 webp) and push to R2. Not implemented yet.`);
+async function pool(items, concurrency, fn) {
+  const queue = [...items];
+  await Promise.all(Array.from({ length: concurrency }, async () => {
+    while (queue.length) await fn(queue.shift());
+  }));
+}
+
+/**
+ * Resizes every photo into WEB_DIR (skipping ones already there) and replaces the
+ * transient `file` with the 1200px variant's dimensions, so pages can reserve space.
+ */
+async function processPhotos(places, dir) {
+  fs.mkdirSync(WEB_DIR, { recursive: true });
+  const files = new Map(places.flatMap((p) => p.photos ?? []).map((ph) => [ph.id, ph.file]));
+  const dims = new Map();
+  let created = 0;
+  await pool([...files], 4, async ([id, file]) => {
+    for (const variant of VARIANTS) {
+      const out = path.join(WEB_DIR, path.basename(photoKey(id, variant.name)));
+      if (fs.existsSync(out)) continue;
+      await sharp(path.join(dir, file)).rotate().resize(variant.resize).webp({ quality: 74, effort: 5 }).toFile(out);
+      created++;
+    }
+    const { width, height } = await sharp(path.join(WEB_DIR, path.basename(photoKey(id, "1200")))).metadata();
+    dims.set(id, { w: width, h: height });
+  });
+  for (const place of places) {
+    place.photos = place.photos?.map(({ file, ...photo }) => ({ ...photo, ...dims.get(photo.id) }));
+  }
+  return { total: files.size, created };
+}
+
+const run = promisify(execFile);
+
+async function isHosted(key) {
+  try {
+    return (await fetch(`${IMAGE_HOST}/${key}`, { method: "HEAD" })).ok;
+  } catch {
+    return false;
+  }
+}
+
+async function uploadPhotos(places) {
+  if (Number(process.versions.node.split(".")[0]) < 22) {
+    throw new Error("--upload runs wrangler, which needs Node 22: nvm exec 22 pnpm food:import <zip> --upload");
+  }
+  const keys = [...new Set(places.flatMap((p) => p.photos ?? []).flatMap((ph) => VARIANTS.map((v) => photoKey(ph.id, v.name))))];
+  const missing = [];
+  await pool(keys, 16, async (key) => {
+    if (!(await isHosted(key))) missing.push(key);
+  });
+  console.log(`\nUploading ${missing.length} of ${keys.length} image files to R2 (${BUCKET})…`);
+  let done = 0;
+  await pool(missing, 8, async (key) => {
+    await run(
+      "pnpm",
+      [
+        "exec", "wrangler", "r2", "object", "put", `${BUCKET}/${key}`, "--remote",
+        "--file", path.join(WEB_DIR, path.basename(key)),
+        "--content-type", "image/webp",
+        "--cache-control", "public, max-age=31536000, immutable",
+      ],
+      { env: { ...process.env, CLOUDFLARE_ACCOUNT_ID: ACCOUNT_ID } }
+    );
+    if (++done % 100 === 0 || done === missing.length) console.log(`  ${done}/${missing.length}`);
+  });
 }
 
 // ---------- main ----------
@@ -320,7 +412,7 @@ function summarize(next, created) {
   for (const file of created) console.log(`  ${file}`);
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2);
   const upload = args.includes("--upload");
   const input = args.find((a) => !a.startsWith("--"));
@@ -339,9 +431,11 @@ function main() {
     (a, b) => b.score - a.score || a.name.localeCompare(b.name)
   );
   const photoIds = places.flatMap((p) => (p.photos ?? []).map((ph) => ph.id));
-  if (new Set(photoIds).size !== new Set(raws.flatMap((r) => r.photo_ids ?? []).map((id) => data.assets[data.photos[id]?.asset_id]?.sha256)).size) {
+  const hashes = raws.flatMap((r) => r.photo_ids ?? []).map((id) => data.assets[data.photos[id]?.asset_id]?.sha256);
+  if (new Set(photoIds).size !== new Set(hashes).size) {
     throw new Error("truncated photo ids collide; raise PHOTO_ID_LENGTH");
   }
+  const photoStats = await processPhotos(places, dir);
 
   const next = {
     exportedAt: data.exported_at,
@@ -355,8 +449,14 @@ function main() {
   const created = createNotebookOverlays(places, rawById, data);
 
   summarize(next, created);
+  console.log(`\nPhotos: ${photoStats.total} (${photoStats.created} new resized files in ${WEB_DIR})`);
   printDiff(diff(previous, next), !previous);
-  if (upload) uploadPhotos(next, previous);
+  if (upload) await uploadPhotos(places);
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) main();
+if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
+  main().catch((error) => {
+    console.error(error.message);
+    process.exit(1);
+  });
+}
