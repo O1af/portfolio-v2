@@ -1,5 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { buildGuides, mergePlace, type Overlay, type Region, type SourcePlace } from "./food-core";
+import {
+  applyListFilters,
+  buildGuides,
+  mergePlace,
+  parseListFilters,
+  type CustomGuideDef,
+  type Overlay,
+  type Region,
+  type SourcePlace,
+} from "./food-core";
 
 const source = (over: Partial<SourcePlace> = {}): SourcePlace => ({
   id: 1,
@@ -35,8 +44,9 @@ describe("mergePlace", () => {
     expect(mergePlace(source(), sneaky).score).toBe(8.4);
   });
 
-  it("overlay dishes replace imported dishes only when provided", () => {
-    expect(mergePlace(source(), overlay()).dishes).toEqual([{ name: "latte" }]);
+  it("publishes only reviewed dishes from the overlay, never caption prefills", () => {
+    expect(mergePlace(source()).dishes).toEqual([]);
+    expect(mergePlace(source(), overlay()).dishes).toEqual([]);
     expect(mergePlace(source(), overlay({ dishes: [{ name: "mocha", mustOrder: true }] })).dishes).toEqual([
       { name: "mocha", mustOrder: true },
     ]);
@@ -75,5 +85,55 @@ describe("buildGuides", () => {
   it("labels coffee guides with tea when any tea spot is present", () => {
     expect(buildGuides(many(8), [region])[0].label).toBe("Coffee");
     expect(buildGuides(many(8, { kind: "tea" }), [region])[0].label).toBe("Coffee & tea");
+  });
+});
+
+describe("custom guides", () => {
+  const region: Region = { slug: "south-bay", name: "South Bay", cities: ["San Jose, CA", "Campbell, CA"], count: 0 };
+  const places = [
+    mergePlace(source({ id: 1, slug: "taqueria", category: "restaurants", kind: undefined, region: "south-bay", city: "San Jose, CA", cuisines: ["Mexican", "Tacos"], score: 9.1 })),
+    mergePlace(source({ id: 2, slug: "burrito", category: "restaurants", kind: undefined, region: "south-bay", city: "Campbell, CA", cuisines: ["Mexican"], score: 9.5 })),
+    mergePlace(source({ id: 3, slug: "pho", category: "restaurants", kind: undefined, region: "south-bay", city: "San Jose, CA", cuisines: ["Vietnamese"], score: 9.9 })),
+  ];
+  const def = (over: Partial<CustomGuideDef>): CustomGuideDef => ({
+    slug: "mexican",
+    region: "south-bay",
+    title: "Best Mexican in San Jose",
+    description: "",
+    intro: "",
+    ...over,
+  });
+
+  it("selects by filter, ranked by score, within the region", () => {
+    const [guide] = buildGuides(places, [region], [def({ filter: { cuisines: ["mexican"], cities: ["San Jose"] } })]);
+    expect(guide.path).toBe("south-bay/mexican");
+    expect(guide.places.map((p) => p.slug)).toEqual(["taqueria"]);
+  });
+
+  it("keeps a hand-picked order and applies the limit", () => {
+    const [guide] = buildGuides(places, [region], [def({ places: ["taqueria", "pho", "burrito"], limit: 2 })]);
+    expect(guide.places.map((p) => p.slug)).toEqual(["taqueria", "pho"]);
+  });
+
+  it("rejects unknown places and slugs that collide with a category", () => {
+    expect(() => buildGuides(places, [region], [def({ places: ["nope"] })])).toThrow(/unknown place/);
+    expect(() => buildGuides(places, [region], [def({ slug: "coffee" })])).toThrow(/collides/);
+  });
+});
+
+describe("list filters", () => {
+  it("keeps valid params and drops malformed ones", () => {
+    expect(parseListFilters({ kind: "tea", nbhd: " Kerrytown ", min: "9" })).toEqual({ kind: "tea", nbhd: "Kerrytown", min: 9 });
+    expect(parseListFilters({ kind: "wine", min: "11", nbhd: 3 })).toEqual({});
+  });
+
+  it("filters rows by kind, area and minimum score", () => {
+    const rows = [
+      { kind: "tea" as const, area: "Kerrytown", score: 9.2 },
+      { kind: "coffee" as const, area: "Kerrytown", score: 8.1 },
+      { kind: "coffee" as const, area: "Northside", score: 9.6 },
+    ];
+    expect(applyListFilters(rows, { kind: "coffee", min: 9 })).toEqual([rows[2]]);
+    expect(applyListFilters(rows, { nbhd: "Kerrytown" })).toEqual([rows[0], rows[1]]);
   });
 });

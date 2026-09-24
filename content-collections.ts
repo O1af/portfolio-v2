@@ -2,7 +2,9 @@ import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
 import remarkGfm from "remark-gfm";
 import rehypeExternalLinks from "rehype-external-links";
+import { execFileSync } from "node:child_process";
 import os from "node:os";
+import path from "node:path";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -26,6 +28,40 @@ if (os.cpus().length === 0) {
   });
 }
 
+type MdxContext = Parameters<typeof compileMDX>[0];
+type MdxDocument = Parameters<typeof compileMDX>[1];
+
+// Render MDX to static HTML here (Node) instead of shipping compiled MDX
+// code: evaluating it at request time needs `new Function`, which the
+// Cloudflare Workers runtime forbids — it broke SSR of post bodies.
+async function renderToHtml(context: MdxContext, document: MdxDocument) {
+  const mdx = await compileMDX(context, document, {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [
+      [rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
+    ],
+  });
+  const scope = { React, ReactDOM, _jsx_runtime };
+  const MDXComponent = new Function(...Object.keys(scope), mdx)(
+    ...Object.values(scope)
+  ).default;
+  return renderToStaticMarkup(React.createElement(MDXComponent));
+}
+
+/** Last commit date of a content file (CI checks out full history), if it has one. */
+function gitDate(directory: string, filePath: string): string | undefined {
+  try {
+    const date = execFileSync("git", ["log", "-1", "--format=%cs", "--", path.join(directory, filePath)], {
+      encoding: "utf8",
+    }).trim();
+    return date || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const isoDay = (date?: Date) => date?.toISOString().slice(0, 10);
+
 const posts = defineCollection({
   name: "posts",
   directory: "content/posts",
@@ -40,28 +76,11 @@ const posts = defineCollection({
     keywords: z.array(z.string()).default([]),
     content: z.string(),
   }),
-  transform: async (document, context) => {
-    // Render MDX to static HTML here (Node) instead of shipping compiled MDX
-    // code: evaluating it at request time needs `new Function`, which the
-    // Cloudflare Workers runtime forbids — it broke SSR of post bodies.
-    const mdx = await compileMDX(context, document, {
-      remarkPlugins: [remarkGfm],
-      rehypePlugins: [
-        [rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] }],
-      ],
-    });
-    const scope = { React, ReactDOM, _jsx_runtime };
-    const MDXComponent = new Function(...Object.keys(scope), mdx)(
-      ...Object.values(scope)
-    ).default;
-    const html = renderToStaticMarkup(React.createElement(MDXComponent));
-    const slug = document._meta.path;
-    return {
-      ...document,
-      html,
-      slug,
-    };
-  },
+  transform: async (document, context) => ({
+    ...document,
+    html: await renderToHtml(context, document),
+    slug: document._meta.path,
+  }),
 });
 
 // Hand-written overlays for food places (see content/food/README.md). Plain
@@ -79,9 +98,47 @@ const foodPlaces = defineCollection({
     updated: z.coerce.date().optional(),
     content: z.string(),
   }),
-  transform: (document) => ({ ...document, slug: document._meta.path }),
+  transform: (document) => ({
+    ...document,
+    slug: document._meta.path,
+    lastModified: gitDate("content/food/places", document._meta.filePath) ?? isoDay(document.updated),
+  }),
+});
+
+// Hand-written guides ("Best Mexican in San Jose"). The body is the intro,
+// rendered to HTML. See content/food/README.md for the fields.
+const foodGuides = defineCollection({
+  name: "foodGuides",
+  directory: "content/food/guides",
+  include: "*.md",
+  schema: z.object({
+    title: z.string(),
+    region: z.string(),
+    description: z.string(),
+    places: z.array(z.string()).optional(),
+    filter: z
+      .object({
+        category: z.enum(["restaurants", "coffee", "dessert", "bakeries", "bars"]).optional(),
+        kind: z.enum(["coffee", "tea"]).optional(),
+        cuisines: z.array(z.string()).optional(),
+        cities: z.array(z.string()).optional(),
+        neighborhoods: z.array(z.string()).optional(),
+        min_score: z.number().optional(),
+      })
+      .optional(),
+    limit: z.number().int().positive().optional(),
+    draft: z.boolean().default(false),
+    updated: z.coerce.date().optional(),
+    content: z.string(),
+  }),
+  transform: async (document, context) => ({
+    ...document,
+    slug: document._meta.path,
+    intro: await renderToHtml(context, document),
+    lastModified: gitDate("content/food/guides", document._meta.filePath) ?? isoDay(document.updated),
+  }),
 });
 
 export default defineConfig({
-  collections: [posts, foodPlaces],
+  collections: [posts, foodPlaces, foodGuides],
 });
