@@ -7,7 +7,7 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 ## Primary Pages
 - [Home](https://olafdsouza.com/): Portfolio, experience, and project overview.
 - [Blog](https://olafdsouza.com/blog): Writing on operating systems, LLMs, distributed systems, and CS coursework.
-- [Food](https://olafdsouza.com/food): Ranked guides to the 341+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
+- [Food](https://olafdsouza.com/food): Ranked guides to the 340+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
 - [Connections](https://olafdsouza.com/connections): NYT Connections tracking board.
 
 ## Blog Posts

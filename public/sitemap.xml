@@ -56,7 +56,7 @@
   </url>
   <url>
     <loc>https://olafdsouza.com/food</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -68,7 +68,7 @@
   </url>
   <url>
     <loc>https://olafdsouza.com/food/ann-arbor</loc>
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -128,7 +128,7 @@
   </url>
   <url>
     <loc>https://olafdsouza.com/food/ann-arbor/restaurants</loc>
-    <lastmod>2026-05-04</lastmod>
+    <lastmod>2026-09-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -2688,13 +2688,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/66812cce956af09d-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/poke-poke-sushi-unrolled</loc>
-    <lastmod>2026-01-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/861428ea3467bf8a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/parcelle-greenwich-village</loc>
