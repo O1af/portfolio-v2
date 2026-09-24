@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
+import { MotionConfig } from "motion/react";
 import { lazy, Suspense, useEffect } from "react";
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/components/sections/Hero";
@@ -94,7 +95,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Header />
       <main id="main-content" {...stylex.props(styles.main)}>
         <div {...stylex.props(styles.content)}>
@@ -111,7 +112,7 @@ function App() {
         </div>
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   );
 }
 
