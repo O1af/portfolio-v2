@@ -46,7 +46,7 @@ Intro, in markdown. Write something here: without it the page duplicates an auto
 ## Photos
 
 `pnpm food:import` unpacks the export into `.food-export/` (gitignored) and resizes every photo into three
-WebP files (192px square thumbnail, 480px, 1200px), with metadata stripped. Add `--upload` to push any that
+WebP files (128px and 192px square thumbnails, 480px, 800px, 1200px), with metadata stripped. Add `--upload` to push any that
 aren't on `img.olafdsouza.com` yet to the `portfolio-images` R2 bucket. Upload runs wrangler, which needs
 Node 22:
 

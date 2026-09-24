@@ -30,8 +30,10 @@ const IMAGE_HOST = "https://img.olafdsouza.com";
 const ACCOUNT_ID = "e2b5a4ea5442b05be2f53900f0896bf7";
 /** Keep in sync with photoUrl() in src/lib/food-core.ts. */
 const VARIANTS = [
+  { name: "sq128", resize: { width: 128, height: 128, fit: "cover", position: "attention" } },
   { name: "sq", resize: { width: 192, height: 192, fit: "cover", position: "attention" } },
   { name: "480", resize: { width: 480, withoutEnlargement: true } },
+  { name: "800", resize: { width: 800, withoutEnlargement: true } },
   { name: "1200", resize: { width: 1200, withoutEnlargement: true } },
 ];
 const photoKey = (id, variant) => `food/${id}-${variant}.webp`;

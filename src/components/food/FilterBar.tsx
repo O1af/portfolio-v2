@@ -29,7 +29,7 @@ export function FilterBar({ region, guide, filters, hasTea, areas }: Props) {
       search={next}
       replace
       resetScroll={false}
-      aria-pressed={on}
+      aria-current={on ? "true" : undefined}
       {...stylex.props(styles.chip, on && styles.chipOn)}
     >
       {label}

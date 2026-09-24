@@ -25,6 +25,8 @@ export function Thumb({ photo, name }: { photo?: string; name: string }) {
         <img
           ref={ref}
           src={photoUrl(photo, "sq")}
+          srcSet={`${photoUrl(photo, "sq128")} 128w, ${photoUrl(photo, "sq")} 192w`}
+          sizes="(min-width: 640px) 84px, 64px"
           alt=""
           width={192}
           height={192}

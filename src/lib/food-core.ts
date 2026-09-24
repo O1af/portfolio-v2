@@ -9,7 +9,7 @@ export type PlaceStatus = "closed" | "temporarily-closed";
 export type Hours = [day: number, open: string, close: string];
 /** A photo on the image host; w × h is the largest variant's size. */
 export type Photo = { id: string; caption?: string; w?: number; h?: number };
-export type PhotoVariant = "sq" | "480" | "1200";
+export type PhotoVariant = "sq128" | "sq" | "480" | "800" | "1200";
 
 export const IMAGE_HOST = "https://img.olafdsouza.com";
 

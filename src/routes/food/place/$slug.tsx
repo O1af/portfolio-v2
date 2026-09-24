@@ -237,8 +237,8 @@ function PlacePhoto({ photo, name, lead }: { photo: Photo; name: string; lead?: 
     <figure {...stylex.props(styles.figure)}>
       <img
         src={photoUrl(photo.id, lead ? "1200" : "480")}
-        srcSet={`${photoUrl(photo.id, "480")} 480w, ${photoUrl(photo.id, "1200")} 1200w`}
-        sizes={lead ? "(min-width: 42rem) 42rem, 100vw" : "(min-width: 42rem) 21rem, 50vw"}
+        srcSet={`${photoUrl(photo.id, "480")} 480w, ${photoUrl(photo.id, "800")} 800w, ${photoUrl(photo.id, "1200")} 1200w`}
+        sizes={lead ? "(min-width: 44.5rem) 42rem, calc(100vw - 2.5rem)" : "(min-width: 44.5rem) 20.6rem, calc(50vw - 1.6rem)"}
         width={photo.w}
         height={photo.h}
         alt={alt}
