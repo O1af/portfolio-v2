@@ -15,7 +15,8 @@
     "prepare": "simple-git-hooks",
     "food:import": "node scripts/food-import.mjs",
     "food:edit": "node scripts/food-edit.mjs",
-    "images:covers": "node scripts/optimize-covers.mjs"
+    "images:covers": "node scripts/optimize-covers.mjs",
+    "food:og": "node scripts/food-og.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm images:covers && pnpm seo:generate && git add public/covers public/sitemap.xml public/llms.txt public/robots.txt"
@@ -44,6 +45,8 @@
     "@content-collections/core": "^0.13.1",
     "@content-collections/mdx": "^0.2.2",
     "@content-collections/vite": "^0.2.9",
+    "@fontsource/geist": "^5.3.0",
+    "@fontsource/geist-mono": "^5.3.0",
     "@stylexjs/unplugin": "^0.19.0",
     "@tanstack/devtools-vite": "^0.3.12",
     "@testing-library/dom": "^10.4.1",
@@ -53,6 +56,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.2.0",
     "jsdom": "^27.4.0",
+    "satori": "^0.33.5",
     "sharp": "^0.35.4",
     "simple-git-hooks": "^2.13.1",
     "typescript": "^5.9.3",

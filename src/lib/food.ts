@@ -5,22 +5,21 @@
 
 import { allFoodGuides, allFoodPlaces } from "content-collections";
 import type { FoodSearchEntry } from "@/components/search/search-index";
+import ogManifest from "../../content/food/og.json";
 import ratingsJson from "../../content/food/ratings.json";
 import {
   areaOf,
   areasOf,
-  buildGuides,
+  assembleFood,
   cityName,
-  mergePlace,
+  IMAGE_HOST,
   regionPhrase,
   CATEGORY_LABEL,
   type Category,
-  type CustomGuideDef,
   type Dish,
   type Guide,
   type Hours,
   type Kind,
-  type Overlay,
   type Photo,
   type Place,
   type PlaceStatus,
@@ -28,46 +27,18 @@ import {
   type Region,
 } from "./food-core";
 
-const ratings = ratingsJson as RatingsFile;
+const data = assembleFood(ratingsJson as RatingsFile, allFoodPlaces, allFoodGuides, {
+  includeDrafts: import.meta.env.DEV,
+});
 
-const overlays = new Map<number, Overlay>(
-  allFoodPlaces.map((doc) => [
-    doc.id,
-    {
-      id: doc.id,
-      status: doc.status,
-      dishes: doc.dishes?.map((d) => ({ name: d.name, ...(d.must_order && { mustOrder: true }) })),
-      updated: doc.lastModified,
-      body: doc.content,
-    },
-  ])
-);
-
-const customGuides: CustomGuideDef[] = allFoodGuides
-  .filter((doc) => !doc.draft || import.meta.env.DEV)
-  .map((doc) => ({
-    slug: doc.slug,
-    region: doc.region,
-    title: doc.title,
-    description: doc.description,
-    intro: doc.intro,
-    places: doc.places,
-    filter: doc.filter && {
-      category: doc.filter.category,
-      kind: doc.filter.kind,
-      cuisines: doc.filter.cuisines,
-      cities: doc.filter.cities,
-      neighborhoods: doc.filter.neighborhoods,
-      minScore: doc.filter.min_score,
-    },
-    limit: doc.limit,
-    updated: doc.lastModified,
-  }));
-
-export const places: Place[] = ratings.places.map((source) => mergePlace(source, overlays.get(source.id)));
+export const { places, guides, regions } = data;
 export const bySlug = new Map(places.map((p) => [p.slug, p]));
-export const regions: Region[] = ratings.regions;
-export const guides: Guide[] = buildGuides(places, regions, customGuides);
+
+/** Share-card URL for a page, from content/food/og.json (written by `pnpm food:og --upload`). */
+const og = (key: string): string | undefined => {
+  const hash = (ogManifest as Record<string, string>)[key];
+  return hash ? `${IMAGE_HOST}/og/${hash}.jpg` : undefined;
+};
 
 const guideByPath = new Map(guides.map((g) => [g.path, g]));
 const autoGuideOf = (p: Place) => guideByPath.get(`${p.region}/${p.category}`);
@@ -128,11 +99,13 @@ const guideLink = (g: Guide): GuideLink => ({
 });
 
 export type HubData = {
+  og?: string;
   stats: { places: number; nines: number; photos: number; regions: number };
   regions: (RegionRef & { count: number; cities?: string; guides: GuideLink[] })[];
 };
 
 export const hub: HubData = {
+  og: og("hub"),
   stats: {
     places: visible.length,
     nines: visible.filter((p) => p.score >= 9).length,
@@ -150,6 +123,7 @@ export const hub: HubData = {
 };
 
 export type RegionView = RegionRef & {
+  og?: string;
   count: number;
   cities?: string;
   guides: GuideLink[];
@@ -168,6 +142,7 @@ export function regionView(slug: string): RegionView | undefined {
     .slice(0, 10);
   return {
     ...regionRef(region),
+    og: og(`region/${region.slug}`),
     count: members.length,
     cities: describeCities(region),
     guides: regionGuides.map(guideLink),
@@ -177,6 +152,7 @@ export function regionView(slug: string): RegionView | undefined {
 }
 
 export type GuideView = {
+  og?: string;
   region: RegionRef;
   segment: string;
   title: string;
@@ -197,6 +173,7 @@ export function guideView(region: string, segment: string): GuideView | undefine
   const guide = guideByPath.get(`${region}/${segment}`);
   if (!guide) return undefined;
   return {
+    og: og(`guide/${guide.path}`),
     region: regionRef(guide.region),
     segment: guide.segment,
     title: guide.title,
@@ -217,6 +194,7 @@ export function guideView(region: string, segment: string): GuideView | undefine
 type Neighbor = { slug: string; name: string; rank: number };
 
 export type PlaceView = {
+  og?: string;
   slug: string;
   name: string;
   score: number;
@@ -260,6 +238,7 @@ export function placeView(slug: string): PlaceView | undefined {
   const guide = autoGuideOf(place);
   const index = guide?.places.indexOf(place) ?? -1;
   return {
+    og: og(`place/${place.slug}`),
     slug: place.slug,
     name: place.name,
     score: place.score,

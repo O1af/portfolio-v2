@@ -53,3 +53,14 @@ Node 22:
 ```sh
 nvm exec 22 pnpm food:import ~/Downloads/export.zip --upload
 ```
+
+## Share images
+
+`pnpm food:og` renders a 1200×630 card for every food page (hub, regions, guides, places) into
+`.food-export/og/` to preview. With `--upload` it pushes new cards to R2 and rewrites `og.json`, which maps each
+page to its card. Cards are named by a hash of what they show, so a changed score, rank or photo gets a new URL.
+Run it after an import or after editing overlays or guides; pages without a card fall back to their photo.
+
+```sh
+nvm exec 22 pnpm food:og --upload
+```

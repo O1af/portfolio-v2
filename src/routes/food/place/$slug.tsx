@@ -50,6 +50,7 @@ export const Route = createFileRoute("/food/place/$slug")({
           title: `${place.name}, ${town}: ${formatScore(place.score)}/10 | ${personalInfo.name}`,
           description,
           url,
+          og: place.og,
           image: place.photos[0],
           type: "article",
         }),

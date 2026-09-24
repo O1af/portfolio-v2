@@ -19,7 +19,7 @@ export const Route = createFileRoute("/food/")({
       .map((r) => r.name)
       .join(", ")} and more, ranked with notes and photos.`;
     return {
-      meta: foodMeta({ title: `Food guides: ${stats.places} places I've rated | ${personalInfo.name}`, description, url }),
+      meta: foodMeta({ title: `Food guides: ${stats.places} places I've rated | ${personalInfo.name}`, description, url, og: loaderData.og }),
       links: [{ rel: "canonical", href: url }],
       scripts: [
         jsonLd({

@@ -24,8 +24,17 @@ export function socialImage(photo?: Photo) {
   return photo ? photoUrl(photo.id, "1200") : `${siteUrl}${personalInfo.profileImage}`;
 }
 
-export function foodMeta(input: { title: string; description: string; url: string; image?: Photo; type?: "website" | "article" }) {
-  const image = socialImage(input.image);
+/** Prefers the generated share card (1200×630), then the page's photo, then the profile picture. */
+export function foodMeta(input: {
+  title: string;
+  description: string;
+  url: string;
+  og?: string;
+  image?: Photo;
+  type?: "website" | "article";
+}) {
+  const image = input.og ?? socialImage(input.image);
+  const size = input.og ? { w: 1200, h: 630 } : input.image?.w && input.image.h ? { w: input.image.w, h: input.image.h } : undefined;
   return [
     { title: input.title },
     { name: "description", content: input.description },
@@ -38,10 +47,10 @@ export function foodMeta(input: { title: string; description: string; url: strin
       siteName: personalInfo.name,
       type: input.type,
     }),
-    ...(input.image?.w && input.image.h
+    ...(size
       ? [
-          { property: "og:image:width", content: String(input.image.w) },
-          { property: "og:image:height", content: String(input.image.h) },
+          { property: "og:image:width", content: String(size.w) },
+          { property: "og:image:height", content: String(size.h) },
         ]
       : []),
   ];

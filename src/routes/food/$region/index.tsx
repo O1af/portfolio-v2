@@ -22,7 +22,7 @@ export const Route = createFileRoute("/food/$region/")({
     const guideNames = region.guides.map((g) => g.label.toLowerCase()).join(", ");
     const description = `The ${region.count} places I've rated in ${region.phrase}, ranked: ${guideNames}. Scores, notes and photos from every visit.`;
     return {
-      meta: foodMeta({ title: `Where to eat in ${region.phrase}: ${region.count} places, ranked | ${personalInfo.name}`, description, url }),
+      meta: foodMeta({ title: `Where to eat in ${region.phrase}: ${region.count} places, ranked | ${personalInfo.name}`, description, url, og: region.og }),
       links: [{ rel: "canonical", href: url }],
       scripts: [
         jsonLd({ ...itemList(`Top rated in ${region.phrase}`, url, region.top), description }),

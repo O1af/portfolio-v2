@@ -31,7 +31,7 @@ export const Route = createFileRoute("/food/$region/$guide")({
       ? guide.description
       : `${guide.description} ${count} places, ${guide.noted} with notes, from ${guide.rows[0].name} (${guide.rows[0].score.toFixed(1)}) down.`;
     return {
-      meta: foodMeta({ title: `${title} | ${personalInfo.name}`, description, url, image: guide.image, type: "article" }),
+      meta: foodMeta({ title: `${title} | ${personalInfo.name}`, description, url, og: guide.og, image: guide.image, type: "article" }),
       links: [{ rel: "canonical", href: url }],
       scripts: [
         jsonLd(guideSchema(guide, url)),

@@ -370,7 +370,8 @@ const run = promisify(execFile);
 
 async function isHosted(key) {
   try {
-    return (await fetch(`${IMAGE_HOST}/${key}`, { method: "HEAD" })).ok;
+    // The query string keeps this probe out of the real URL's edge cache (a cached 404 lingers ~3 min).
+    return (await fetch(`${IMAGE_HOST}/${key}?probe=${Date.now()}`, { method: "HEAD" })).ok;
   } catch {
     return false;
   }

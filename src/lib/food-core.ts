@@ -321,3 +321,80 @@ export function applyListFilters<T extends { kind?: Kind; area?: string; score: 
       (!filters.min || r.score >= filters.min)
   );
 }
+
+// ---------- assembling the dataset from its files ----------
+
+/** A parsed content/food/places/<slug>.md, as content-collections emits it. */
+export type OverlayDoc = {
+  id: number;
+  status: OverlayStatus;
+  dishes?: { name: string; must_order?: boolean }[];
+  lastModified?: string;
+  content: string;
+};
+
+/** A parsed content/food/guides/<slug>.md, as content-collections emits it. */
+export type GuideDoc = {
+  slug: string;
+  region: string;
+  title: string;
+  description: string;
+  intro: string;
+  places?: string[];
+  filter?: {
+    category?: Category;
+    kind?: Kind;
+    cuisines?: string[];
+    cities?: string[];
+    neighborhoods?: string[];
+    min_score?: number;
+  };
+  limit?: number;
+  draft: boolean;
+  lastModified?: string;
+};
+
+export type FoodData = { places: Place[]; guides: Guide[]; regions: Region[] };
+
+/** ratings.json + overlays + guides → merged places and every guide. Shared by the site and the scripts. */
+export function assembleFood(
+  ratings: RatingsFile,
+  overlayDocs: OverlayDoc[],
+  guideDocs: GuideDoc[],
+  { includeDrafts = false } = {}
+): FoodData {
+  const overlays = new Map<number, Overlay>(
+    overlayDocs.map((doc) => [
+      doc.id,
+      {
+        id: doc.id,
+        status: doc.status,
+        dishes: doc.dishes?.map((d) => ({ name: d.name, ...(d.must_order && { mustOrder: true }) })),
+        updated: doc.lastModified,
+        body: doc.content,
+      },
+    ])
+  );
+  const customs: CustomGuideDef[] = guideDocs
+    .filter((doc) => !doc.draft || includeDrafts)
+    .map((doc) => ({
+      slug: doc.slug,
+      region: doc.region,
+      title: doc.title,
+      description: doc.description,
+      intro: doc.intro,
+      places: doc.places,
+      filter: doc.filter && {
+        category: doc.filter.category,
+        kind: doc.filter.kind,
+        cuisines: doc.filter.cuisines,
+        cities: doc.filter.cities,
+        neighborhoods: doc.filter.neighborhoods,
+        minScore: doc.filter.min_score,
+      },
+      limit: doc.limit,
+      updated: doc.lastModified,
+    }));
+  const places = ratings.places.map((source) => mergePlace(source, overlays.get(source.id)));
+  return { places, guides: buildGuides(places, ratings.regions, customs), regions: ratings.regions };
+}
