@@ -1,33 +1,29 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
-import { motion } from "motion/react";
-import { Image } from "@unpic/react";
+import { motion, MotionConfig } from "motion/react";
+import { coverSources } from "@/lib/covers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { ArrowLeft } from "lucide-react";
 import { siteUrl, personalInfo } from "@/components/Info";
 import { formatPublishedDate, publishedDateToISOString } from "@/lib/date";
-import { sortedPosts } from "@/lib/posts";
-import { countWords, estimateReadingMinutes } from "@/lib/reading-time";
+import { getPost } from "@/lib/posts-api";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/blog/$slug")({
-  loader: ({ params }) => {
-    const post = sortedPosts.find((p) => p.slug === params.slug);
-    if (!post) {
+  loader: async ({ params }) => {
+    const page = await getPost({ data: { slug: params.slug } });
+    if (!page) {
       throw notFound();
     }
-    return {
-      post,
-      readingMinutes: estimateReadingMinutes(post.content),
-      wordCount: countWords(post.content),
-    };
+    return page;
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
 
-    const { post, readingMinutes, wordCount } = loaderData;
+    const { post, wordCount } = loaderData;
+    const { readingMinutes } = post;
     const postUrl = `${siteUrl}/blog/${post.slug}`;
     const imageUrl = post.image
       ? `${siteUrl}${post.image}`
@@ -99,12 +95,11 @@ export const Route = createFileRoute("/blog/$slug")({
 });
 
 function BlogPost() {
-  const { post, readingMinutes } = Route.useLoaderData();
-  const postIndex = sortedPosts.findIndex((p) => p.slug === post.slug);
-  const nextPost = postIndex >= 0 ? sortedPosts[postIndex + 1] : undefined;
+  const { post, next: nextPost } = Route.useLoaderData();
+  const { readingMinutes } = post;
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Header />
       <main id="main-content" {...stylex.props(styles.main)}>
         <article {...stylex.props(styles.article)}>
@@ -136,12 +131,12 @@ function BlogPost() {
 
             {post.image && (
               <div {...stylex.props(styles.imageFrame)}>
-                <Image
-                  src={post.image}
+                <img
+                  {...coverSources(post.image)}
+                  sizes="(min-width: 45rem) 42rem, calc(100vw - 3rem)"
                   alt={post.title}
                   width={1200}
                   height={800}
-                  layout="constrained"
                   loading="eager"
                   fetchPriority="high"
                   {...stylex.props(styles.image)}
@@ -176,7 +171,7 @@ function BlogPost() {
         <ScrollProgress />
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   );
 }
 

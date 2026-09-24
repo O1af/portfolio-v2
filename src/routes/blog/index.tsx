@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
-import { motion } from "motion/react";
-import { Image } from "@unpic/react";
+import { motion, MotionConfig } from "motion/react";
+import { coverSources } from "@/lib/covers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { siteUrl, personalInfo, siteMetadata } from "@/components/Info";
 import { formatPublishedDate } from "@/lib/date";
-import { readingMinutesBySlug, sortedPosts } from "@/lib/posts";
+import { getPostList } from "@/lib/posts-api";
 import { buildSocialMeta, jsonLd } from "@/lib/seo";
 
 const MONOGRAM_STOPWORDS = new Set(["a", "an", "the", "of", "in", "on", "at", "with"]);
@@ -22,7 +22,8 @@ function monogram(title: string): string {
 }
 
 export const Route = createFileRoute("/blog/")({
-  head: () => ({
+  loader: () => getPostList(),
+  head: ({ loaderData: posts = [] }) => ({
     meta: [
       { title: siteMetadata.blogTitle },
       { name: "description", content: siteMetadata.blogMetaDescription },
@@ -49,7 +50,7 @@ export const Route = createFileRoute("/blog/")({
           name: personalInfo.name,
           url: siteUrl,
         },
-        blogPost: sortedPosts.map((post) => ({
+        blogPost: posts.map((post) => ({
           "@type": "BlogPosting",
           headline: post.title,
           description: post.summary,
@@ -67,8 +68,9 @@ export const Route = createFileRoute("/blog/")({
 });
 
 function BlogIndex() {
+  const posts = Route.useLoaderData();
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Header />
       <main id="main-content" {...stylex.props(styles.main)}>
         <div {...stylex.props(styles.content)}>
@@ -86,14 +88,14 @@ function BlogIndex() {
           </motion.div>
 
           <div {...stylex.props(styles.posts)}>
-            {sortedPosts.map((post, index) => (
+            {posts.map((post, index) => (
               <motion.div
                 key={post.slug}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
                 {...stylex.props(
-                  index < sortedPosts.length - 1 && styles.divider,
+                  index < posts.length - 1 && styles.divider,
                 )}
               >
                 <Link
@@ -103,13 +105,15 @@ function BlogIndex() {
                 >
                   {post.image ? (
                     <div {...stylex.props(styles.thumbnail)}>
-                      <Image
-                        src={post.image}
+                      <img
+                        {...coverSources(post.image)}
+                        sizes="(min-width: 640px) 168px, calc(100vw - 3rem)"
                         alt=""
                         width={336}
                         height={210}
-                        layout="constrained"
-                        loading="lazy"
+                        // The first card is the largest thing on screen: load it right away.
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchPriority={index === 0 ? "high" : "auto"}
                         decoding="async"
                         {...stylex.props(styles.image)}
                       />
@@ -131,7 +135,7 @@ function BlogIndex() {
                     )}
                     <p {...stylex.props(styles.meta)}>
                       {formatPublishedDate(post.date)} ·{" "}
-                      {readingMinutesBySlug.get(post.slug)} min read
+                      {post.readingMinutes} min read
                     </p>
                   </div>
                 </Link>
@@ -141,7 +145,7 @@ function BlogIndex() {
         </div>
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   );
 }
 
