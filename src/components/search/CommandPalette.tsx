@@ -5,7 +5,11 @@ import { Kbd } from "@/components/ui/kbd";
 
 // The dialog (cmdk, base-ui, the search index) is ~50 KB gzipped and most
 // visitors never open it: fetch it on hover/focus, render it on first open.
-const loadDialog = () => import("@/components/search/SearchDialog");
+// Warming the search index alongside the dialog means results are ready on open.
+const loadDialog = () =>
+  Promise.all([import("@/components/search/SearchDialog"), import("@/components/search/search-index")]).then(
+    ([dialog]) => dialog
+  );
 const SearchDialog = lazy(loadDialog);
 
 export function CommandPalette() {

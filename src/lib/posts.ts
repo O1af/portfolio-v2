@@ -13,7 +13,7 @@ export type PostSummary = Pick<Post, "slug" | "title" | "summary" | "date" | "au
 };
 
 export type PostPage = {
-  post: PostSummary & Pick<Post, "html" | "imageOrientation">;
+  post: PostSummary & Pick<Post, "html">;
   wordCount: number;
   next?: { slug: string; title: string };
 };
@@ -37,7 +37,7 @@ export function postPage(slug: string): PostPage | undefined {
   const post = sortedPosts[index];
   const next = sortedPosts[index + 1];
   return {
-    post: { ...summarize(post), html: post.html, imageOrientation: post.imageOrientation },
+    post: { ...summarize(post), html: post.html },
     wordCount: countWords(post.content),
     next: next && { slug: next.slug, title: next.title },
   };

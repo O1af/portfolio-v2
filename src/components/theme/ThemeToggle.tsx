@@ -6,6 +6,8 @@ import { useTheme } from "@/components/theme/ThemeProvider";
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  // Only animate icon swaps the visitor caused, never on page load.
+  const [toggled, setToggled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -16,14 +18,17 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      onClick={toggleTheme}
+      onClick={() => {
+        setToggled(true);
+        toggleTheme();
+      }}
       {...stylex.props(styles.button)}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
       {/* Keyed so the new icon remounts and plays the entrance animation. */}
       <span
         key={isDark ? "sun" : "moon"}
-        {...stylex.props(styles.iconContainer, mounted && styles.animateIn)}
+        {...stylex.props(styles.iconContainer, toggled && styles.animateIn)}
         suppressHydrationWarning
       >
         {isDark ? (
