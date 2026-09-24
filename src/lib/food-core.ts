@@ -163,11 +163,11 @@ export type Guide = {
   updated?: string;
 };
 
-/** Guides sort by score; closed places sink to the bottom. */
+/** Guides sort by score; closed places sink to the bottom. Plain string order breaks ties (no ICU, it's hot). */
 export function compareForGuide(a: Place, b: Place): number {
   const closedA = a.status === "closed" ? 1 : 0;
   const closedB = b.status === "closed" ? 1 : 0;
-  return closedA - closedB || b.score - a.score || a.name.localeCompare(b.name);
+  return closedA - closedB || b.score - a.score || (a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 }
 
 const lower = (values?: string[]) => values?.map((v) => v.toLowerCase());
@@ -222,7 +222,7 @@ function customGuide(def: CustomGuideDef, region: Region, visible: Place[], bySl
     members = members.filter((p) => !p.hidden);
   } else {
     const filter = def.filter ?? {};
-    members = visible.filter((p) => p.region === region.slug && matchesFilter(p, filter)).sort(compareForGuide);
+    members = visible.filter((p) => p.region === region.slug && matchesFilter(p, filter));
   }
   if (def.limit) members = members.slice(0, def.limit);
   return {
@@ -241,13 +241,19 @@ function customGuide(def: CustomGuideDef, region: Region, visible: Place[], bySl
 
 /** Automatic region × category guides (≥ GUIDE_MIN_PLACES places), then hand-written ones. */
 export function buildGuides(places: Place[], regions: Region[], customs: CustomGuideDef[] = []): Guide[] {
-  const visible = places.filter((p) => !p.hidden);
+  // Sort once, then bucket: every bucket inherits guide order without its own sort.
+  const visible = places.filter((p) => !p.hidden).sort(compareForGuide);
+  const buckets = new Map<string, Place[]>();
+  for (const p of visible) {
+    const key = `${p.region}/${p.category}`;
+    const bucket = buckets.get(key);
+    if (bucket) bucket.push(p);
+    else buckets.set(key, [p]);
+  }
   const guides: Guide[] = [];
   for (const region of regions) {
     for (const category of CATEGORIES) {
-      const members = visible
-        .filter((p) => p.region === region.slug && p.category === category)
-        .sort(compareForGuide);
+      const members = buckets.get(`${region.slug}/${category}`) ?? [];
       if (members.length >= GUIDE_MIN_PLACES) guides.push(autoGuide(region, category, members));
     }
   }
