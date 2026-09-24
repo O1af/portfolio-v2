@@ -45,13 +45,22 @@ export const Route = createFileRoute("/food/place/$slug")({
       { name: place.name, url },
     ];
     return {
-      meta: foodMeta({
-        title: `${place.name}, ${town}: ${formatScore(place.score)}/10 | ${personalInfo.name}`,
-        description,
-        url,
-        image: place.photos[0],
-        type: "article",
-      }),
+      meta: [
+        ...foodMeta({
+          title: `${place.name}, ${town}: ${formatScore(place.score)}/10 | ${personalInfo.name}`,
+          description,
+          url,
+          image: place.photos[0],
+          type: "article",
+        }),
+        // Photo-only pages stay reachable from guides but out of search results until they have a note.
+        ...(place.indexable
+          ? []
+          : [
+              { name: "robots", content: "noindex, follow" },
+              { name: "googlebot", content: "noindex, follow" },
+            ]),
+      ],
       links: [{ rel: "canonical", href: url }],
       scripts: [jsonLd(placeSchema(place, url)), jsonLd(breadcrumbs(crumbs))],
     };

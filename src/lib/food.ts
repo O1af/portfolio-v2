@@ -11,6 +11,7 @@ import {
   buildGuides,
   cityName,
   mergePlace,
+  regionPhrase,
   type Category,
   type CustomGuideDef,
   type Dish,
@@ -73,7 +74,7 @@ const visible = places.filter((p) => !p.hidden);
 
 // ---------- views ----------
 
-export type RegionRef = { slug: string; name: string };
+export type RegionRef = { slug: string; name: string; phrase: string };
 
 export type Row = {
   slug: string;
@@ -104,7 +105,7 @@ const toRow = (p: Place, rank: number): Row => ({
   closed: p.status === "closed",
 });
 
-const regionRef = (r: Region): RegionRef => ({ slug: r.slug, name: r.name });
+const regionRef = (r: Region): RegionRef => ({ slug: r.slug, name: r.name, phrase: regionPhrase(r) });
 
 /** "San Jose, Campbell, Santa Clara" for an area; "incl. Ypsilanti" for a city with suburbs folded in. */
 function describeCities(region: Region): string | undefined {
@@ -236,6 +237,8 @@ export type PlaceView = {
   note?: string;
   dishes: Dish[];
   photos: Photo[];
+  /** False for photo-only pages: rendered, linked, but kept out of search results. */
+  indexable: boolean;
   /** Position in the region × category guide, when that guide exists. */
   guide?: { segment: string; label: string; rank: number; total: number; prev?: Neighbor; next?: Neighbor };
 };
@@ -277,6 +280,7 @@ export function placeView(slug: string): PlaceView | undefined {
     note: place.note,
     dishes: place.dishes,
     photos: place.photos,
+    indexable: place.indexable,
     guide:
       guide && index >= 0
         ? {

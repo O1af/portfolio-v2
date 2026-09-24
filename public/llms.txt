@@ -7,7 +7,7 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 ## Primary Pages
 - [Home](https://olafdsouza.com/): Portfolio, experience, and project overview.
 - [Blog](https://olafdsouza.com/blog): Writing on operating systems, LLMs, distributed systems, and CS coursework.
-- [Food](https://olafdsouza.com/food): Ranked guides to the 589+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
+- [Food](https://olafdsouza.com/food): Ranked guides to the 341+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
 - [Connections](https://olafdsouza.com/connections): NYT Connections tracking board.
 
 ## Blog Posts
@@ -27,9 +27,9 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 - [Best coffee in Ann Arbor](https://olafdsouza.com/food/ann-arbor/coffee): Every coffee, tea and boba spot I've rated in Ann Arbor, ranked by score.
 - [Best dessert in Ann Arbor](https://olafdsouza.com/food/ann-arbor/dessert): Every dessert spot I've rated in Ann Arbor, ranked by score.
 - [Best bars in Ann Arbor](https://olafdsouza.com/food/ann-arbor/bars): Every bar I've rated in Ann Arbor, ranked by score.
-- [Best restaurants in South Bay](https://olafdsouza.com/food/south-bay/restaurants): Every restaurant I've rated in South Bay, ranked by score.
-- [Best coffee in South Bay](https://olafdsouza.com/food/south-bay/coffee): Every coffee, tea and boba spot I've rated in South Bay, ranked by score.
-- [Best dessert in South Bay](https://olafdsouza.com/food/south-bay/dessert): Every dessert spot I've rated in South Bay, ranked by score.
+- [Best restaurants in the South Bay](https://olafdsouza.com/food/south-bay/restaurants): Every restaurant I've rated in the South Bay, ranked by score.
+- [Best coffee in the South Bay](https://olafdsouza.com/food/south-bay/coffee): Every coffee, tea and boba spot I've rated in the South Bay, ranked by score.
+- [Best dessert in the South Bay](https://olafdsouza.com/food/south-bay/dessert): Every dessert spot I've rated in the South Bay, ranked by score.
 - [Best restaurants in Metro Detroit](https://olafdsouza.com/food/metro-detroit/restaurants): Every restaurant I've rated in Metro Detroit, ranked by score.
 - [Best coffee in Metro Detroit](https://olafdsouza.com/food/metro-detroit/coffee): Every coffee, tea and boba spot I've rated in Metro Detroit, ranked by score.
 - [Best dessert in Metro Detroit](https://olafdsouza.com/food/metro-detroit/dessert): Every dessert spot I've rated in Metro Detroit, ranked by score.

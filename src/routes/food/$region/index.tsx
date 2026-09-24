@@ -20,12 +20,12 @@ export const Route = createFileRoute("/food/$region/")({
     if (!region) return {};
     const url = foodUrl(`/${region.slug}`);
     const guideNames = region.guides.map((g) => g.label.toLowerCase()).join(", ");
-    const description = `The ${region.count} places I've rated in ${region.name}, ranked: ${guideNames}. Scores, notes and photos from every visit.`;
+    const description = `The ${region.count} places I've rated in ${region.phrase}, ranked: ${guideNames}. Scores, notes and photos from every visit.`;
     return {
-      meta: foodMeta({ title: `Where to eat in ${region.name}: ${region.count} places, ranked | ${personalInfo.name}`, description, url }),
+      meta: foodMeta({ title: `Where to eat in ${region.phrase}: ${region.count} places, ranked | ${personalInfo.name}`, description, url }),
       links: [{ rel: "canonical", href: url }],
       scripts: [
-        jsonLd({ ...itemList(`Top rated in ${region.name}`, url, region.top), description }),
+        jsonLd({ ...itemList(`Top rated in ${region.phrase}`, url, region.top), description }),
         jsonLd(breadcrumbs([{ name: region.name, url }])),
       ],
     };
@@ -45,9 +45,9 @@ function RegionPage() {
           <span key="here">{region.name}</span>,
         ]}
       </Crumbs>
-      <PageTitle>Where to eat in {region.name}</PageTitle>
+      <PageTitle>Where to eat in {region.phrase}</PageTitle>
       <Lead>
-        Every place I've rated in {region.name}
+        Every place I've rated in {region.phrase}
         {region.cities ? ` (${region.cities})` : ""}, {region.count} in all, split into ranked guides.
         {region.updated && ` Updated ${formatMonthYear(region.updated)}.`}
       </Lead>

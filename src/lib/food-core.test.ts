@@ -52,6 +52,12 @@ describe("mergePlace", () => {
     ]);
   });
 
+  it("indexes only pages that carry a note", () => {
+    expect(mergePlace(source()).indexable).toBe(true);
+    expect(mergePlace(source({ note: undefined })).indexable).toBe(false);
+    expect(mergePlace(source(), overlay({ status: "done", body: "" })).indexable).toBe(false);
+  });
+
   it("gives a page only to places with a photo or a note, never to hidden ones", () => {
     expect(mergePlace(source({ photos: undefined, note: undefined })).hasPage).toBe(false);
     expect(mergePlace(source({ photos: undefined })).hasPage).toBe(true);

@@ -164,7 +164,7 @@ async function getFood() {
       updated: newest(allGuides.filter((g) => g.region === r.slug).map((g) => g.updated)),
     }));
   const pages = places
-    .filter((p) => p.hasPage)
+    .filter((p) => p.indexable)
     .map((p) => ({
       slug: p.slug,
       name: p.name,

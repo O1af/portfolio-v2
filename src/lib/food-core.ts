@@ -46,7 +46,16 @@ export type SourcePlace = {
   photos?: Photo[];
 };
 
-export type Region = { slug: string; name: string; cities: string[]; count: number };
+export type Region = {
+  slug: string;
+  name: string;
+  /** How the region reads mid-sentence ("the South Bay"); defaults to the name. */
+  phrase?: string;
+  cities: string[];
+  count: number;
+};
+
+export const regionPhrase = (region: Pick<Region, "name" | "phrase">) => region.phrase ?? region.name;
 
 export type RatingsFile = { exportedAt: string; regions: Region[]; places: SourcePlace[] };
 
@@ -68,6 +77,8 @@ export type Place = Omit<SourcePlace, "dishes" | "photos"> & {
   photos: Photo[];
   hidden: boolean;
   hasPage: boolean;
+  /** Worth a search result: has a page and a written note (photo-only pages are noindex). */
+  indexable: boolean;
   /** ISO date of the last hand edit, when an overlay exists. */
   edited?: string;
 };
@@ -105,13 +116,15 @@ export function mergePlace(source: SourcePlace, overlay?: Overlay): Place {
   const note = overlay?.status === "done" ? overlay.body.trim() || undefined : source.note;
   const hidden = overlay?.status === "hidden";
   const photos = source.photos ?? [];
+  const hasPage = !hidden && (photos.length > 0 || Boolean(note));
   return {
     ...source,
     note,
     dishes: overlay?.dishes ?? [],
     photos,
     hidden,
-    hasPage: !hidden && (photos.length > 0 || Boolean(note)),
+    hasPage,
+    indexable: hasPage && Boolean(note),
     edited: overlay?.updated,
   };
 }
@@ -203,9 +216,9 @@ function autoGuide(region: Region, category: Category, places: Place[]): Guide {
     region,
     category,
     custom: false,
-    title: `Best ${category} in ${region.name}`,
+    title: `Best ${category} in ${regionPhrase(region)}`,
     label: hasTea ? "Coffee & tea" : CATEGORY_LABEL[category],
-    description: `Every ${noun} I've rated in ${region.name}, ranked by score.`,
+    description: `Every ${noun} I've rated in ${regionPhrase(region)}, ranked by score.`,
     places,
     updated: newestDate(places),
   };

@@ -96,8 +96,8 @@ function GuidePage() {
   );
 }
 
-function EmptyState({ guide, region, filters }: { guide: string; region: { slug: string; name: string }; filters: ListFilters }) {
-  const where = filters.nbhd ?? region.name;
+function EmptyState({ guide, region, filters }: { guide: string; region: { phrase: string }; filters: ListFilters }) {
+  const where = filters.nbhd ?? region.phrase;
   return (
     <div {...stylex.props(styles.empty)}>
       <p {...stylex.props(styles.emptyTitle)}>
