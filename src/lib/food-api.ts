@@ -2,6 +2,7 @@
 // the dynamic import keeps the full dataset in the server bundle.
 
 import { createServerFn } from "@tanstack/react-start";
+import type { FoodSearchEntry } from "@/components/search/search-index";
 import type { GuideView, HubData, PlaceView, RegionView } from "./food";
 
 const slugInput = (data: unknown) => {
@@ -33,3 +34,7 @@ export const getGuide = createServerFn({ method: "GET" })
 export const getPlace = createServerFn({ method: "GET" })
   .validator(slugInput)
   .handler(async ({ data }): Promise<PlaceView | null> => (await import("./food")).placeView(data.slug) ?? null);
+
+export const getFoodSearch = createServerFn({ method: "GET" }).handler(
+  async (): Promise<FoodSearchEntry[]> => (await import("./food")).foodSearch
+);

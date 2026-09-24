@@ -21,6 +21,7 @@ import {
   Linkedin,
   Mail,
   Search,
+  Utensils,
 } from "lucide-react";
 
 import { personalInfo, socialUrls } from "@/components/Info";
@@ -37,6 +38,7 @@ import {
 } from "@/components/ui/command";
 import { scrollToHashTarget } from "@/lib/hash-scroll";
 import type { SearchItem } from "@/components/search/search-index";
+import { getFoodSearch } from "@/lib/food-api";
 
 
 function itemIcon(item: SearchItem) {
@@ -47,6 +49,7 @@ function itemIcon(item: SearchItem) {
   }
 
   if (item.group === "Blog") return FileText;
+  if (item.group === "Food") return Utensils;
 
   const title = item.title.toLowerCase();
   if (title.includes("experience")) return Briefcase;
@@ -64,6 +67,7 @@ const QUICK_ACTION_IDS = new Set([
   "action-linkedin",
   "nav-home",
   "nav-blog",
+  "nav-food",
   "nav-connections",
 ]);
 
@@ -108,7 +112,9 @@ export default function SearchDialog({
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [selectedValue, setSelectedValue] = useState("");
-  const [index, setIndex] = useState<SearchItem[] | null>(null);
+  const [siteItems, setSiteItems] = useState<SearchItem[] | null>(null);
+  const [foodItems, setFoodItems] = useState<SearchItem[]>([]);
+  const index = useMemo(() => (siteItems ? [...siteItems, ...foodItems] : null), [siteItems, foodItems]);
   const [searchIndex, setSearchIndex] = useState<typeof import("@/components/search/search-index").searchIndex>();
   const deferredQuery = useDeferredValue(query);
 
@@ -123,12 +129,17 @@ export default function SearchDialog({
   );
 
   useEffect(() => {
-    void import("@/components/search/search-index").then((module) =>
+    const modulePromise = import("@/components/search/search-index");
+    void modulePromise.then((module) =>
       startTransition(() => {
         setSearchIndex(() => module.searchIndex);
-        setIndex(module.buildSearchIndex());
+        setSiteItems(module.buildSearchIndex());
       })
     );
+    // Food entries come from the server; they join the index when they arrive (search works without them).
+    void Promise.all([modulePromise, getFoodSearch()])
+      .then(([module, food]) => startTransition(() => setFoodItems(module.foodSearchItems(food))))
+      .catch(() => undefined);
   }, []);
 
   useEffect(() => {

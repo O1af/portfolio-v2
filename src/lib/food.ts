@@ -4,6 +4,7 @@
 // never ends up in the client bundle.
 
 import { allFoodGuides, allFoodPlaces } from "content-collections";
+import type { FoodSearchEntry } from "@/components/search/search-index";
 import ratingsJson from "../../content/food/ratings.json";
 import {
   areaOf,
@@ -12,6 +13,7 @@ import {
   cityName,
   mergePlace,
   regionPhrase,
+  CATEGORY_LABEL,
   type Category,
   type CustomGuideDef,
   type Dish,
@@ -294,3 +296,23 @@ export function placeView(slug: string): PlaceView | undefined {
         : undefined,
   };
 }
+
+/** What ⌘K searches: every guide and every place with a page. */
+export const foodSearch: FoodSearchEntry[] = [
+  ...guides.map((g) => ({
+    kind: "guide" as const,
+    region: g.region.slug,
+    segment: g.segment,
+    title: g.title,
+    count: g.places.length,
+  })),
+  ...visible
+    .filter((p) => p.hasPage)
+    .map((p) => ({
+      kind: "place" as const,
+      slug: p.slug,
+      name: p.name,
+      subtitle: [areaOf(p) ?? cityName(p.city), CATEGORY_LABEL[p.category], p.score.toFixed(1)].join(" · "),
+      keywords: [cityName(p.city), ...(p.neighborhood ? [p.neighborhood] : []), ...(p.cuisines ?? [])],
+    })),
+];
