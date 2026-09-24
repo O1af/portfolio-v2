@@ -11,6 +11,10 @@ const config = defineConfig(({ mode }) => {
   const isTest = mode === "test" || process.env.VITEST === "true";
 
   return {
+    define: {
+      // Changes every build; the server entry keys its edge cache on it.
+      __BUILD_ID__: JSON.stringify(Date.now().toString(36)),
+    },
     plugins: [
       devtools(),
       isTest ? null : cloudflare({ viteEnvironment: { name: "ssr" } }),

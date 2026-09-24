@@ -12,6 +12,8 @@ import { jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/food/$region/$guide")({
   validateSearch: (search: Record<string, unknown>): ListFilters => parseListFilters(search),
+  staleTime: Infinity,
+  preloadStaleTime: Infinity,
   loader: async ({ params }) => {
     const guide = await getGuide({ data: { region: params.region, guide: params.guide } });
     if (!guide) throw notFound();

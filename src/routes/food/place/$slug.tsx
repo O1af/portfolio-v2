@@ -23,6 +23,8 @@ import { breadcrumbs, foodMeta, foodUrl, guideUrl, placeSchema, placeUrl } from 
 import { jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/food/place/$slug")({
+  staleTime: Infinity,
+  preloadStaleTime: Infinity,
   loader: async ({ params }) => {
     const place = await getPlace({ data: { slug: params.slug } });
     if (!place) throw notFound();

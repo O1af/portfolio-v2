@@ -7,6 +7,8 @@ import { breadcrumbs, foodMeta, foodUrl } from "@/lib/food-seo";
 import { jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/food/")({
+  staleTime: Infinity,
+  preloadStaleTime: Infinity,
   loader: () => getHub(),
   head: ({ loaderData }) => {
     if (!loaderData) return {};

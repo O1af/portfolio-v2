@@ -9,6 +9,8 @@ import { breadcrumbs, foodMeta, foodUrl, itemList } from "@/lib/food-seo";
 import { jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/food/$region/")({
+  staleTime: Infinity,
+  preloadStaleTime: Infinity,
   loader: async ({ params }) => {
     const region = await getRegion({ data: { slug: params.region } });
     if (!region) throw notFound();
