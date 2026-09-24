@@ -75,6 +75,14 @@ export function cleanNote(text) {
   return cleaned || undefined;
 }
 
+/** Placeholder captions that say nothing about the dish; dropped so alt text falls back to the place. */
+const GENERIC_CAPTION = /^(food|foods|drinks?|dessert|vibes?|forgot|menu|pic|photo)$/i;
+
+export function cleanCaption(text) {
+  const caption = text?.trim();
+  return caption && !GENERIC_CAPTION.test(caption) ? caption : undefined;
+}
+
 const isTea = (cuisine) => /\b(tea|boba|matcha)\b/i.test(cuisine);
 const isCoffee = (cuisine) => /coffee/i.test(cuisine);
 
@@ -167,7 +175,7 @@ function buildPlace(raw, data, regions) {
     .sort((a, b) => a.order - b.order)
     .map((photo) => ({
       id: data.assets[photo.asset_id].sha256.slice(0, PHOTO_ID_LENGTH),
-      ...(photo.caption?.trim() && { caption: photo.caption.trim() }),
+      ...(cleanCaption(photo.caption) && { caption: cleanCaption(photo.caption) }),
       file: data.assets[photo.asset_id].file,
     }));
   const latestVisit = raw.visits?.find((v) => v.id === raw.latest_visit_id) ?? raw.visits?.at(-1);
