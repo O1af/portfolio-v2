@@ -8,6 +8,7 @@ type Props = {
   filters: ListFilters;
   hasTea: boolean;
   areas: string[];
+  areaNoun: "city" | "neighborhood";
 };
 
 export const hasFilters = (f: ListFilters) => Boolean(f.kind || f.nbhd || f.min);
@@ -19,7 +20,7 @@ export function describeFilters(f: ListFilters): string {
 }
 
 /** Chips are plain links (work without JS); the neighborhood select navigates on change. */
-export function FilterBar({ region, guide, filters, hasTea, areas }: Props) {
+export function FilterBar({ region, guide, filters, hasTea, areas, areaNoun }: Props) {
   const navigate = useNavigate();
   const params = { region, guide };
   const chip = (label: string, next: ListFilters, on: boolean) => (
@@ -52,7 +53,7 @@ export function FilterBar({ region, guide, filters, hasTea, areas }: Props) {
       {chip("8+", { ...filters, min: filters.min === 8 ? undefined : 8 }, filters.min === 8)}
       {areas.length > 1 && (
         <select
-          aria-label="Neighborhood"
+          aria-label={areaNoun === "city" ? "City" : "Neighborhood"}
           value={filters.nbhd ?? ""}
           onChange={(e) =>
             void navigate({
@@ -65,7 +66,7 @@ export function FilterBar({ region, guide, filters, hasTea, areas }: Props) {
           }
           {...stylex.props(styles.chip, styles.select, Boolean(filters.nbhd) && styles.chipOn)}
         >
-          <option value="">Any neighborhood</option>
+          <option value="">{areaNoun === "city" ? "Any city" : "Any neighborhood"}</option>
           {areas.map((area) => (
             <option key={area} value={area}>
               {area}

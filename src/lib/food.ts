@@ -80,6 +80,9 @@ const toRow = (p: Place, rank: number): Row => ({
   closed: p.status === "closed",
 });
 
+/** An area made of several cities (South Bay) rather than one city with suburbs (Ann Arbor). */
+const isAreaRegion = (r: Region) => r.cities.length > 1 && !r.cities.map(cityName).includes(r.name);
+
 const regionRef = (r: Region): RegionRef => ({ slug: r.slug, name: r.name, phrase: regionPhrase(r) });
 
 /** "San Jose, Campbell, Santa Clara" for an area; "incl. Ypsilanti" for a city with suburbs folded in. */
@@ -210,6 +213,8 @@ export type GuideView = {
   noted: number;
   hasTea: boolean;
   areas: string[];
+  /** What the area filter holds: cities in an area region (South Bay), else neighborhoods. */
+  areaNoun: "city" | "neighborhood";
   rows: Row[];
   image?: Photo;
 };
@@ -231,6 +236,7 @@ export function guideView(region: string, segment: string): GuideView | undefine
     noted: guide.places.filter((p) => p.note).length,
     hasTea: guide.places.some((p) => p.kind === "tea"),
     areas: areasOf(guide.places),
+    areaNoun: isAreaRegion(guide.region) ? "city" : "neighborhood",
     rows: guide.places.map((p, i) => toRow(p, i + 1)),
     image: guide.places.find((p) => p.photos.length)?.photos[0],
   };

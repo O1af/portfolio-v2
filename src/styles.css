@@ -533,3 +533,8 @@ pre {
 .prose td {
   color: var(--muted-foreground);
 }
+
+/* Guide pages: hide results while a filtered URL waits for hydration (see $guide.tsx). */
+html[data-filtering] [data-food-results] {
+  visibility: hidden;
+}

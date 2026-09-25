@@ -121,7 +121,7 @@ function PlacePage() {
           </span>
           {guide && (
             <span {...stylex.props(styles.of)}>
-              #{guide.rank} of {guide.total}
+              #{guide.rank} of {guide.total} {lowerLabel(guide.label)}
             </span>
           )}
         </div>
@@ -133,7 +133,6 @@ function PlacePage() {
           <>
             <br />
             Visited {formatVisitDate(place.visited)}
-            {guide && guide.total > 1 && ` · better than ${guide.total - guide.rank} of ${guide.total - 1} ${guideName} spots I've rated`}
           </>
         )}
       </p>
@@ -145,8 +144,6 @@ function PlacePage() {
             : "Temporarily closed at last check."}
         </p>
       )}
-
-      <Photos photos={place.photos} name={place.name} />
 
       <section {...stylex.props(styles.section)}>
         <h2 {...stylex.props(styles.h2)}>My take</h2>
@@ -172,6 +169,8 @@ function PlacePage() {
           </ul>
         )}
       </section>
+
+      <Photos photos={place.photos} name={place.name} />
 
       <div {...stylex.props(styles.facts)}>
         <section>
@@ -306,15 +305,15 @@ const styles = stylex.create({
   },
   bigScore: {
     color: "var(--foreground)",
-    fontFamily: "var(--font-mono)",
-    fontSize: "2rem",
+    fontSize: "2.25rem",
     lineHeight: "2.25rem",
     fontWeight: 600,
-    letterSpacing: "-0.03em",
+    letterSpacing: "-0.045em",
     fontVariantNumeric: "tabular-nums",
   },
   of: {
     marginTop: "0.15rem",
+    whiteSpace: "nowrap",
     color: "var(--dim)",
     fontSize: "11px",
   },

@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { personalInfo } from "@/components/Info";
 import { describeFilters, FilterBar, hasFilters } from "@/components/food/FilterBar";
@@ -35,6 +36,11 @@ export const Route = createFileRoute("/food/$region/$guide")({
       meta: foodMeta({ title: `${title} | ${personalInfo.name}`, description, url, og: guide.og, image: guide.image, type: "article" }),
       links: [{ rel: "canonical", href: url }],
       scripts: [
+        // Prerendered HTML is the unfiltered list. When the URL carries filters, hide the
+        // results until hydration applies them (unhidden after 3 s regardless, in case JS fails).
+        {
+          children: `if(/[?&](kind|nbhd|min)=/.test(location.search)){var d=document.documentElement;d.setAttribute("data-filtering","");setTimeout(function(){d.removeAttribute("data-filtering")},3000)}`,
+        },
         jsonLd(guideSchema(guide, url)),
         jsonLd(
           breadcrumbs([
@@ -52,7 +58,11 @@ function GuidePage() {
   const guide = Route.useLoaderData();
   // The prerendered HTML is the unfiltered list; filters from the URL apply once hydrated.
   const search = Route.useSearch();
-  const filters = useHydrated() ? search : {};
+  const hydrated = useHydrated();
+  const filters = hydrated ? search : {};
+  useEffect(() => {
+    if (hydrated) document.documentElement.removeAttribute("data-filtering");
+  }, [hydrated]);
   const rows = applyListFilters(guide.rows, filters);
   const total = guide.rows.length;
   const filterLabel = describeFilters(filters);
@@ -90,18 +100,25 @@ function GuidePage() {
         filters={filters}
         hasTea={guide.hasTea}
         areas={guide.areas}
+        areaNoun={guide.areaNoun}
       />
-      <p {...stylex.props(styles.count)} aria-live="polite">
-        {rows.length === total ? `${total} places` : `${rows.length} of ${total}`}
-        {filterLabel && ` · ${filterLabel}`} · score out of 10
-        <span {...stylex.props(styles.keys)}>
-          {" · "}
-          <kbd {...stylex.props(styles.kbd)}>j</kbd> <kbd {...stylex.props(styles.kbd)}>k</kbd>{" "}
-          <kbd {...stylex.props(styles.kbd)}>↵</kbd>
-        </span>
-      </p>
+      <div data-food-results="">
+        <p {...stylex.props(styles.count)} aria-live="polite">
+          {rows.length === total ? `${total} places` : `${rows.length} of ${total}`}
+          {filterLabel && ` · ${filterLabel}`} · score out of 10
+          <span {...stylex.props(styles.keys)}>
+            {" · "}
+            <kbd {...stylex.props(styles.kbd)}>j</kbd> <kbd {...stylex.props(styles.kbd)}>k</kbd>{" "}
+            <kbd {...stylex.props(styles.kbd)}>↵</kbd>
+          </span>
+        </p>
 
-      {rows.length > 0 ? <PlaceRows rows={rows} focused={focused} /> : <EmptyState guide={guide.label} region={guide.region} filters={filters} />}
+        {rows.length > 0 ? (
+          <PlaceRows rows={rows} focused={focused} />
+        ) : (
+          <EmptyState guide={guide.label} region={guide.region} filters={filters} />
+        )}
+      </div>
 
       <HowIRate />
     </FoodMain>

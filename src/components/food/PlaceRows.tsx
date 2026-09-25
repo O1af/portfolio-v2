@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
+import { ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Row } from "@/lib/food";
 import { photoUrl } from "@/lib/food-core";
@@ -54,6 +55,8 @@ function RowBody({ row }: { row: Row }) {
         {row.note && <span {...stylex.props(styles.note)}>{row.note}</span>}
       </span>
       <span {...stylex.props(styles.score)}>{formatScore(row.score)}</span>
+      {/* Only rows with a page open anything; the chevron says so on touch screens, which have no hover. */}
+      {row.hasPage ? <ChevronRight {...stylex.props(styles.chevron)} aria-hidden="true" /> : <span />}
     </>
   );
 }
@@ -96,8 +99,8 @@ const styles = stylex.create({
     "--name-decoration": { default: "none", ":hover": "underline", ":focus-visible": "underline" },
     display: "grid",
     gridTemplateColumns: {
-      default: "1.25rem 64px 1fr auto",
-      "@media (min-width: 640px)": "1.5rem 84px 1fr auto",
+      default: "1.25rem 64px 1fr auto 0.875rem",
+      "@media (min-width: 640px)": "1.5rem 84px 1fr auto 0.875rem",
     },
     alignItems: "start",
     gap: { default: "0.75rem", "@media (min-width: 640px)": "1rem" },
@@ -180,6 +183,13 @@ const styles = stylex.create({
     lineHeight: "1.55",
     WebkitBoxOrient: "vertical",
     WebkitLineClamp: 2,
+  },
+  chevron: {
+    alignSelf: "center",
+    width: "0.875rem",
+    height: "0.875rem",
+    marginLeft: "-0.25rem",
+    color: "var(--dim)",
   },
   score: {
     paddingTop: "0.1rem",
