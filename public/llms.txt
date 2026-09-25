@@ -38,6 +38,17 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 - [Best bakeries in San Francisco](https://olafdsouza.com/food/san-francisco/bakeries): Every bakery I've rated in San Francisco, ranked by score.
 - [Best restaurants in Chicago](https://olafdsouza.com/food/chicago/restaurants): Every restaurant I've rated in Chicago, ranked by score.
 - [Best restaurants in Boston](https://olafdsouza.com/food/boston/restaurants): Every restaurant I've rated in Boston, ranked by score.
+- [Best restaurants in the East Village](https://olafdsouza.com/food/new-york/east-village-restaurants): Every restaurant I've rated in the East Village, New York, ranked by score.
+- [Best restaurants in the Flatiron District](https://olafdsouza.com/food/new-york/flatiron-district-restaurants): Every restaurant I've rated in the Flatiron District, New York, ranked by score.
+- [Best coffee in the East Village](https://olafdsouza.com/food/new-york/east-village-coffee): Every coffee, tea and boba spot I've rated in the East Village, New York, ranked by score.
+- [Best restaurants in the Old West Side](https://olafdsouza.com/food/ann-arbor/old-west-side-restaurants): Every restaurant I've rated in the Old West Side, Ann Arbor, ranked by score.
+- [Best restaurants in Burns Park](https://olafdsouza.com/food/ann-arbor/burns-park-restaurants): Every restaurant I've rated in Burns Park, Ann Arbor, ranked by score.
+- [Best coffee in Burns Park](https://olafdsouza.com/food/ann-arbor/burns-park-coffee): Every coffee, tea and boba spot I've rated in Burns Park, Ann Arbor, ranked by score.
+- [Best restaurants in San Jose](https://olafdsouza.com/food/south-bay/san-jose-restaurants): Every restaurant I've rated in San Jose, ranked by score.
+- [Best coffee in San Jose](https://olafdsouza.com/food/south-bay/san-jose-coffee): Every coffee, tea and boba spot I've rated in San Jose, ranked by score.
+- [Best dessert in San Jose](https://olafdsouza.com/food/south-bay/san-jose-dessert): Every dessert spot I've rated in San Jose, ranked by score.
+- [Best restaurants in Novi](https://olafdsouza.com/food/metro-detroit/novi-restaurants): Every restaurant I've rated in Novi, ranked by score.
+- [Best restaurants in Northville](https://olafdsouza.com/food/metro-detroit/northville-restaurants): Every restaurant I've rated in Northville, ranked by score.
 
 ## Optional
 - [Sitemap](https://olafdsouza.com/sitemap.xml): Full XML sitemap of the site.

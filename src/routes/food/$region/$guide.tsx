@@ -45,6 +45,7 @@ export const Route = createFileRoute("/food/$region/$guide")({
         jsonLd(
           breadcrumbs([
             { name: guide.region.name, url: foodUrl(`/${guide.region.slug}`) },
+            ...(guide.parent ? [{ name: guide.parent.label, url: guideUrl(guide.region.slug, guide.parent.segment) }] : []),
             { name: guide.label, url },
           ])
         ),
@@ -79,6 +80,18 @@ function GuidePage() {
           <Link key="region" to="/food/$region" params={{ region: guide.region.slug }} {...stylex.props(crumbStyles.link)}>
             {guide.region.name}
           </Link>,
+          ...(guide.parent
+            ? [
+                <Link
+                  key="parent"
+                  to="/food/$region/$guide"
+                  params={{ region: guide.region.slug, guide: guide.parent.segment }}
+                  {...stylex.props(crumbStyles.link)}
+                >
+                  {guide.parent.label}
+                </Link>,
+              ]
+            : []),
         ]}
       </Crumbs>
       <PageTitle>{guide.title}</PageTitle>

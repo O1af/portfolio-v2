@@ -163,8 +163,10 @@ export type Guide = {
   path: string;
   segment: string;
   region: Region;
-  /** Set for the automatic region × category guides. */
+  /** Set for the automatic region × category guides (and their area guides). */
   category?: Category;
+  /** Set for area guides: one neighborhood (or city, in an area region) of a category guide. */
+  area?: string;
   custom: boolean;
   title: string;
   /** Short name for lists and breadcrumbs. */
@@ -206,6 +208,38 @@ const latest = (dates: (string | undefined)[]) =>
   dates.reduce<string | undefined>((max, d) => (d && (!max || d > max) ? d : max), undefined);
 
 const newestDate = (places: Place[]) => latest(places.map((p) => latest([p.edited, p.visited])));
+
+/** "East Village" → "the East Village"; names like "San Jose" or "Burns Park" read fine bare. */
+export const areaPhrase = (area: string) => (/\b(Village|District|Side|Loop)$/.test(area) ? `the ${area}` : area);
+
+const slugify = (text: string) =>
+  text
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+function areaGuide(region: Region, category: Category, area: string, places: Place[]): Guide {
+  const hasTea = category === "coffee" && places.some((p) => p.kind === "tea");
+  const noun = hasTea ? "coffee, tea and boba spot" : CATEGORY_NOUN[category];
+  const where = areaPhrase(area);
+  // A neighborhood gets its city for context; a city (San Jose in the South Bay) stands alone.
+  const isCity = region.cities.some((c) => cityName(c) === area);
+  return {
+    path: `${region.slug}/${slugify(area)}-${category}`,
+    segment: `${slugify(area)}-${category}`,
+    region,
+    category,
+    area,
+    custom: false,
+    title: `Best ${category} in ${where}`,
+    label: `${area} ${hasTea ? "coffee & tea" : category}`,
+    description: `Every ${noun} I've rated in ${where}${isCity ? "" : `, ${region.name}`}, ranked by score.`,
+    places,
+    updated: newestDate(places),
+  };
+}
 
 function autoGuide(region: Region, category: Category, places: Place[]): Guide {
   const hasTea = category === "coffee" && places.some((p) => p.kind === "tea");
@@ -264,12 +298,26 @@ export function buildGuides(places: Place[], regions: Region[], customs: CustomG
     else buckets.set(key, [p]);
   }
   const guides: Guide[] = [];
+  const areaGuides: Guide[] = [];
   for (const region of regions) {
     for (const category of CATEGORIES) {
       const members = buckets.get(`${region.slug}/${category}`) ?? [];
-      if (members.length >= GUIDE_MIN_PLACES) guides.push(autoGuide(region, category, members));
+      if (members.length < GUIDE_MIN_PLACES) continue;
+      guides.push(autoGuide(region, category, members));
+      // Area guides: same rule, one neighborhood (or city) at a time, unless it would repeat the whole guide.
+      const byArea = new Map<string, Place[]>();
+      for (const p of members) {
+        const area = areaOf(p);
+        if (area) byArea.set(area, [...(byArea.get(area) ?? []), p]);
+      }
+      for (const [area, inArea] of byArea) {
+        if (inArea.length >= GUIDE_MIN_PLACES && inArea.length < members.length) {
+          areaGuides.push(areaGuide(region, category, area, inArea));
+        }
+      }
     }
   }
+  guides.push(...areaGuides);
 
   const regionBySlug = new Map(regions.map((r) => [r.slug, r]));
   const bySlug = new Map(places.map((p) => [p.slug, p]));

@@ -57,6 +57,13 @@ function RegionPage() {
         <GuideList region={region.slug} guides={region.guides} />
       </section>
 
+      {region.areaGuides.length > 0 && (
+        <section {...stylex.props(styles.section)}>
+          <SectionHeading title={region.areaNoun === "city" ? "By city" : "By neighborhood"} />
+          <GuideList region={region.slug} guides={region.areaGuides} />
+        </section>
+      )}
+
       <section {...stylex.props(styles.section)}>
         <SectionHeading title="Top rated" meta="across every category" />
         <PlaceRows rows={region.top} />

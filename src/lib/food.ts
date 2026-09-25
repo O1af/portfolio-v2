@@ -132,7 +132,7 @@ export const hub: HubData = {
       ...regionRef(region),
       count: visible.filter((p) => p.region === region.slug).length,
       cities: describeCities(region),
-      guides: guidesIn(region.slug).map(guideLink),
+      guides: guidesIn(region.slug).filter((g) => !g.area).map(guideLink),
       picks: visible
         .filter((p) => p.region === region.slug && p.hasPage && p.photos.length && p.status !== "closed")
         .sort(byScoreDesc)
@@ -176,6 +176,9 @@ export function elsewhereView(): ElsewhereView | undefined {
 }
 
 export type RegionView = RegionRef & {
+  /** Neighborhood (or city) guides, e.g. "East Village restaurants". */
+  areaGuides: GuideLink[];
+  areaNoun: "city" | "neighborhood";
   og?: string;
   /** Places in categories too small for their own guide. */
   more: Row[];
@@ -200,7 +203,9 @@ export function regionView(slug: string): RegionView | undefined {
     og: og(`region/${region.slug}`),
     count: members.length,
     cities: describeCities(region),
-    guides: regionGuides.map(guideLink),
+    guides: regionGuides.filter((g) => !g.area).map(guideLink),
+    areaGuides: regionGuides.filter((g) => g.area).map(guideLink),
+    areaNoun: isAreaRegion(region) ? "city" : "neighborhood",
     top: top.map((p, i) => toRow(p, i + 1)),
     more: members.filter((p) => !inCategoryGuide(p)).sort(byScoreDesc).map((p, i) => toRow(p, i + 1)),
     updated: regionGuides.map((g) => g.updated).sort().at(-1),
@@ -208,6 +213,8 @@ export function regionView(slug: string): RegionView | undefined {
 }
 
 export type GuideView = {
+  /** For an area guide, the category guide it narrows (for breadcrumbs). */
+  parent?: { segment: string; label: string };
   og?: string;
   region: RegionRef;
   segment: string;
@@ -245,6 +252,7 @@ export function guideView(region: string, segment: string): GuideView | undefine
     hasTea: guide.places.some((p) => p.kind === "tea"),
     areas: areasOf(guide.places),
     areaNoun: isAreaRegion(guide.region) ? "city" : "neighborhood",
+    parent: guide.area && guide.category ? { segment: guide.category, label: guideByPath.get(`${guide.region.slug}/${guide.category}`)!.label } : undefined,
     rows: guide.places.map((p, i) => toRow(p, i + 1)),
     image: guide.places.find((p) => p.photos.length)?.photos[0],
   };

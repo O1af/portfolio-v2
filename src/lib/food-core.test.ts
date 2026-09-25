@@ -143,3 +143,23 @@ describe("list filters", () => {
     expect(applyListFilters(rows, { nbhd: "Kerrytown" })).toEqual([rows[0], rows[1]]);
   });
 });
+
+describe("area guides", () => {
+  const region: Region = { slug: "new-york", name: "New York", cities: ["New York, NY"], count: 0 };
+  const place = (i: number, neighborhood: string) =>
+    mergePlace(source({ id: i, slug: `p${i}`, category: "restaurants", kind: undefined, region: "new-york", city: "New York, NY", neighborhood, score: 9 - i * 0.01 }));
+  const places = [...Array.from({ length: 8 }, (_, i) => place(i, "East Village")), ...Array.from({ length: 3 }, (_, i) => place(20 + i, "Chinatown"))];
+
+  it("adds a guide for any neighborhood with at least eight places in a category", () => {
+    const guides = buildGuides(places, [region]);
+    expect(guides.map((g) => g.path)).toEqual(["new-york/restaurants", "new-york/east-village-restaurants"]);
+    const [, area] = guides;
+    expect(area.title).toBe("Best restaurants in the East Village");
+    expect(area.description).toBe("Every restaurant I've rated in the East Village, New York, ranked by score.");
+    expect(area.places).toHaveLength(8);
+  });
+
+  it("skips an area guide that would repeat the whole category guide", () => {
+    expect(buildGuides(places.slice(0, 8), [region]).map((g) => g.path)).toEqual(["new-york/restaurants"]);
+  });
+});
