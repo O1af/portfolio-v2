@@ -43,6 +43,8 @@ const og = (key: string): string | undefined => {
 const guideByPath = new Map(guides.map((g) => [g.path, g]));
 const autoGuideOf = (p: Place) => guideByPath.get(`${p.region}/${p.category}`);
 const guidesIn = (region: string) => guides.filter((g) => g.region.slug === region);
+const inCategoryGuide = (p: Place) => autoGuideOf(p) !== undefined;
+const byScoreDesc = (a: Place, b: Place) => b.score - a.score || (a.name < b.name ? -1 : 1);
 const visible = places.filter((p) => !p.hidden);
 
 // ---------- views ----------
@@ -98,10 +100,14 @@ const guideLink = (g: Guide): GuideLink => ({
   custom: g.custom,
 });
 
+export type PlaceLink = { slug: string; name: string; score: number; city: string };
+
 export type HubData = {
   og?: string;
   stats: { places: number; nines: number; photos: number; regions: number };
   regions: (RegionRef & { count: number; cities?: string; guides: GuideLink[] })[];
+  /** Regions too small for a guide: their place pages are linked from here so none are orphaned. */
+  elsewhere: (RegionRef & { places: PlaceLink[] })[];
 };
 
 export const hub: HubData = {
@@ -120,10 +126,22 @@ export const hub: HubData = {
       cities: describeCities(region),
       guides: guidesIn(region.slug).map(guideLink),
     })),
+  elsewhere: regions
+    .filter((region) => guidesIn(region.slug).length === 0)
+    .map((region) => ({
+      ...regionRef(region),
+      places: visible
+        .filter((p) => p.region === region.slug && p.hasPage)
+        .sort(byScoreDesc)
+        .map((p) => ({ slug: p.slug, name: p.name, score: p.score, city: cityName(p.city) })),
+    }))
+    .filter((region) => region.places.length > 0),
 };
 
 export type RegionView = RegionRef & {
   og?: string;
+  /** Places in categories too small for their own guide. */
+  more: Row[];
   count: number;
   cities?: string;
   guides: GuideLink[];
@@ -147,6 +165,7 @@ export function regionView(slug: string): RegionView | undefined {
     cities: describeCities(region),
     guides: regionGuides.map(guideLink),
     top: top.map((p, i) => toRow(p, i + 1)),
+    more: members.filter((p) => !inCategoryGuide(p)).sort(byScoreDesc).map((p, i) => toRow(p, i + 1)),
     updated: regionGuides.map((g) => g.updated).sort().at(-1),
   };
 }

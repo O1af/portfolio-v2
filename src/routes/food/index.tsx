@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
 import { personalInfo } from "@/components/Info";
 import { FoodMain, GuideList, Lead, PageTitle, SectionHeading } from "@/components/food/layout";
@@ -41,7 +41,7 @@ export const Route = createFileRoute("/food/")({
 });
 
 function FoodHub() {
-  const { stats, regions } = Route.useLoaderData();
+  const { stats, regions, elsewhere } = Route.useLoaderData();
   const statItems = [
     [stats.places, "places rated"],
     [stats.nines, "scored 9+"],
@@ -69,11 +69,31 @@ function FoodHub() {
         <section key={region.slug} {...stylex.props(styles.section)}>
           <SectionHeading
             title={region.name}
+            region={region.slug}
             meta={`${region.count} places${region.cities ? ` · ${region.cities}` : ""}`}
           />
           <GuideList region={region.slug} guides={region.guides} />
         </section>
       ))}
+
+      {elsewhere.length > 0 && (
+        <section {...stylex.props(styles.section)}>
+          <SectionHeading title="Elsewhere" meta="places from trips" />
+          <ul {...stylex.props(styles.places)}>
+            {elsewhere.flatMap((region) =>
+              region.places.map((place) => (
+                <li key={place.slug}>
+                  <Link to="/food/place/$slug" params={{ slug: place.slug }} {...stylex.props(styles.place)}>
+                    <span {...stylex.props(styles.placeName)}>{place.name}</span>
+                    <span {...stylex.props(styles.placeMeta)}>{place.city}</span>
+                    <span {...stylex.props(styles.placeScore)}>{place.score.toFixed(1)}</span>
+                  </Link>
+                </li>
+              ))
+            )}
+          </ul>
+        </section>
+      )}
     </FoodMain>
   );
 }
@@ -103,5 +123,43 @@ const styles = stylex.create({
   },
   section: {
     marginTop: "3rem",
+  },
+  places: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: "0.25rem",
+    listStyle: "none",
+  },
+  place: {
+    "--place-decoration": { default: "none", ":hover": "underline" },
+    display: "flex",
+    alignItems: "baseline",
+    gap: "0.5rem",
+    paddingBlock: "0.625rem",
+    borderBottomWidth: "1px",
+    borderColor: "var(--border)",
+    outline: "none",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
+    },
+  },
+  placeName: {
+    color: "var(--foreground)",
+    fontSize: "14px",
+    fontWeight: 500,
+    textDecorationLine: "var(--place-decoration)",
+  },
+  placeMeta: {
+    color: "var(--dim)",
+    fontSize: "12px",
+  },
+  placeScore: {
+    marginLeft: "auto",
+    color: "var(--foreground)",
+    fontFamily: "var(--font-mono)",
+    fontSize: "13px",
+    fontWeight: 600,
+    fontVariantNumeric: "tabular-nums",
   },
 });

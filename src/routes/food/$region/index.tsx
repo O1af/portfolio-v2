@@ -61,6 +61,13 @@ function RegionPage() {
         <SectionHeading title="Top rated" meta="across every category" />
         <PlaceRows rows={region.top} />
       </section>
+
+      {region.more.length > 0 && (
+        <section {...stylex.props(styles.section)}>
+          <SectionHeading title="Other places" meta="in categories too small for their own guide" />
+          <PlaceRows rows={region.more} />
+        </section>
+      )}
     </FoodMain>
   );
 }

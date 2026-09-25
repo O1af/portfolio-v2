@@ -29,7 +29,10 @@ export function FilterBar({ region, guide, filters, hasTea, areas }: Props) {
       search={next}
       replace
       resetScroll={false}
-      aria-current={on ? "true" : undefined}
+      // Link would mark these "current page" by path alone; they're toggles, so
+      // match the exact search (never true for a toggle) and announce state instead.
+      activeOptions={{ includeSearch: true, exact: true }}
+      aria-label={on ? `${label}, selected` : label}
       {...stylex.props(styles.chip, on && styles.chipOn)}
     >
       {label}
@@ -71,7 +74,15 @@ export function FilterBar({ region, guide, filters, hasTea, areas }: Props) {
         </select>
       )}
       {hasFilters(filters) && (
-        <Link to="/food/$region/$guide" params={params} search={{}} replace resetScroll={false} {...stylex.props(styles.clear)}>
+        <Link
+          to="/food/$region/$guide"
+          params={params}
+          search={{}}
+          replace
+          resetScroll={false}
+          activeOptions={{ includeSearch: true, exact: true }}
+          {...stylex.props(styles.clear)}
+        >
           Clear
         </Link>
       )}

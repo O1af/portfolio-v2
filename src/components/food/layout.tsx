@@ -33,10 +33,29 @@ export function Lead({ children }: { children: ReactNode }) {
   return <p {...stylex.props(styles.lead)}>{children}</p>;
 }
 
-export function SectionHeading({ title, meta, as: Tag = "h2" }: { title: string; meta?: ReactNode; as?: "h2" | "h3" }) {
+export function SectionHeading({
+  title,
+  meta,
+  region,
+  as: Tag = "h2",
+}: {
+  title: string;
+  meta?: ReactNode;
+  /** Links the heading to that region's page. */
+  region?: string;
+  as?: "h2" | "h3";
+}) {
   return (
     <div {...stylex.props(styles.sectionHeading)}>
-      <Tag {...stylex.props(styles.sectionTitle)}>{title}</Tag>
+      <Tag {...stylex.props(styles.sectionTitle)}>
+        {region ? (
+          <Link to="/food/$region" params={{ region }} {...stylex.props(styles.headingLink)}>
+            {title}
+          </Link>
+        ) : (
+          title
+        )}
+      </Tag>
       {meta && <span {...stylex.props(styles.sectionMeta)}>{meta}</span>}
     </div>
   );
@@ -122,6 +141,16 @@ const styles = stylex.create({
     fontSize: "15px",
     fontWeight: 600,
     letterSpacing: "-0.025em",
+  },
+  headingLink: {
+    color: "inherit",
+    textDecorationLine: { default: "none", ":hover": "underline" },
+    borderRadius: "0.25rem",
+    outline: "none",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
+    },
   },
   sectionMeta: {
     color: "var(--dim)",
