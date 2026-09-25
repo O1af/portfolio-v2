@@ -1,0 +1,103 @@
+[
+  {
+    "slug": "ann-arbor",
+    "name": "Ann Arbor",
+    "cities": [
+      "Ann Arbor, MI",
+      "Ypsilanti, MI"
+    ]
+  },
+  {
+    "slug": "new-york",
+    "name": "New York",
+    "cities": [
+      "New York, NY"
+    ]
+  },
+  {
+    "slug": "south-bay",
+    "name": "South Bay",
+    "cities": [
+      "San Jose, CA",
+      "Campbell, CA",
+      "Santa Clara, CA",
+      "Sunnyvale, CA",
+      "Mountain View, CA",
+      "Los Gatos, CA",
+      "Saratoga, CA",
+      "Palo Alto, CA",
+      "Fremont, CA",
+      "Cupertino, CA",
+      "Milpitas, CA"
+    ],
+    "phrase": "the South Bay"
+  },
+  {
+    "slug": "metro-detroit",
+    "name": "Metro Detroit",
+    "cities": [
+      "Detroit, MI",
+      "Novi, MI",
+      "Northville, MI",
+      "Township of Northville, MI",
+      "Northville Charter Township, MI",
+      "Dearborn, MI",
+      "Dearborn Heights, MI",
+      "Farmington Hills, MI",
+      "Farmington, MI",
+      "Livonia, MI",
+      "Wixom, MI",
+      "Plymouth, MI",
+      "Canton, MI",
+      "Hamtramck, MI",
+      "Southfield, MI",
+      "West Bloomfield Township, MI",
+      "Garden City, MI",
+      "Royal Oak, MI",
+      "Warren, MI",
+      "Walled Lake, MI",
+      "Commerce Charter Township, MI",
+      "Troy, MI",
+      "Birmingham, MI",
+      "Ferndale, MI"
+    ]
+  },
+  {
+    "slug": "san-francisco",
+    "name": "San Francisco",
+    "cities": [
+      "San Francisco, CA"
+    ]
+  },
+  {
+    "slug": "chicago",
+    "name": "Chicago",
+    "cities": [
+      "Chicago, IL"
+    ]
+  },
+  {
+    "slug": "boston",
+    "name": "Boston",
+    "cities": [
+      "Boston, MA",
+      "Somerville, MA",
+      "Brookline, MA"
+    ]
+  },
+  {
+    "slug": "seattle",
+    "name": "Seattle",
+    "cities": [
+      "Seattle, WA",
+      "Bellevue, WA"
+    ]
+  },
+  {
+    "slug": "washington-dc",
+    "name": "Washington, DC",
+    "cities": [
+      "Washington, DC"
+    ]
+  }
+]

@@ -8,7 +8,7 @@ import {
   siteMetadata,
 } from "@/components/Info";
 
-export type SearchGroup = "Actions" | "Navigate" | "Blog";
+export type SearchGroup = "Actions" | "Navigate" | "Blog" | "Food";
 
 export type SearchItem = {
   id: string;
@@ -25,8 +25,8 @@ export type SearchItem = {
     }
   | {
       type: "route";
-      to: "/" | "/blog" | "/blog/$slug" | "/connections";
-      params?: { slug: string };
+      to: "/" | "/blog" | "/blog/$slug" | "/food" | "/food/$region/$guide" | "/food/place/$slug" | "/connections";
+      params?: Record<string, string>;
       hash?: string;
     }
 );
@@ -265,6 +265,16 @@ export function buildSearchIndex(): SearchItem[] {
       priority: 84,
     },
     {
+      id: "nav-food",
+      type: "route",
+      title: "Food",
+      subtitle: "Ranked restaurants, coffee, bakeries and bars by city",
+      keywords: ["food", "restaurants", "coffee", "eat", "ann arbor", "new york", "guides"],
+      group: "Navigate",
+      to: "/food",
+      priority: 82,
+    },
+    {
       id: "nav-connections",
       type: "route",
       title: "Connections",
@@ -340,6 +350,39 @@ export function buildSearchIndex(): SearchItem[] {
   ];
 
   return [...actionItems, ...sectionItems, ...contentItems];
+}
+
+/** Compact food entries served by getFoodSearch (the dataset itself stays on the server). */
+export type FoodSearchEntry =
+  | { kind: "guide"; region: string; segment: string; title: string; count: number }
+  | { kind: "place"; slug: string; name: string; subtitle: string; keywords: string[] };
+
+export function foodSearchItems(entries: FoodSearchEntry[]): SearchItem[] {
+  return entries.map((entry): SearchItem =>
+    entry.kind === "guide"
+      ? {
+          id: `food-guide-${entry.region}-${entry.segment}`,
+          type: "route" as const,
+          title: entry.title,
+          subtitle: `Food guide · ${entry.count} places`,
+          keywords: ["food", "guide", "best", "restaurants", "coffee"],
+          group: "Food" as const,
+          to: "/food/$region/$guide" as const,
+          params: { region: entry.region, guide: entry.segment },
+          priority: 64,
+        }
+      : {
+          id: `food-place-${entry.slug}`,
+          type: "route" as const,
+          title: entry.name,
+          subtitle: entry.subtitle,
+          keywords: ["food", ...entry.keywords],
+          group: "Food" as const,
+          to: "/food/place/$slug" as const,
+          params: { slug: entry.slug },
+          priority: 30,
+        }
+  );
 }
 
 export function searchIndex(items: SearchItem[], query: string, limit = 16): SearchMatch[] {

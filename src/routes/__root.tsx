@@ -1,6 +1,5 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
-import { MotionConfig } from "motion/react";
 import { ThemeProvider, themeInitScript } from "@/components/theme/ThemeProvider";
 import { siteUrl, personalInfo, siteMetadata, socialUrls } from "@/components/Info";
 import { jsonLd } from "@/lib/seo";
@@ -96,9 +95,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           Skip to Content
         </a>
         <ThemeProvider>
-          <MotionConfig reducedMotion="user">
-            <div {...stylex.props(styles.page)}>{children}</div>
-          </MotionConfig>
+          <div {...stylex.props(styles.page)}>{children}</div>
         </ThemeProvider>
         <Scripts />
       </body>

@@ -7,6 +7,7 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 ## Primary Pages
 - [Home](https://olafdsouza.com/): Portfolio, experience, and project overview.
 - [Blog](https://olafdsouza.com/blog): Writing on operating systems, LLMs, distributed systems, and CS coursework.
+- [Food](https://olafdsouza.com/food): Ranked guides to the 340+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
 - [Connections](https://olafdsouza.com/connections): NYT Connections tracking board.
 
 ## Blog Posts
@@ -16,6 +17,27 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 - [HOPS](https://olafdsouza.com/blog/hops-pipeline-simulator): A discrete-event simulator for pipeline-parallel LLM training on heterogeneous GPUs, validated within 2% of real hardware.
 - [Frame Classification in Congressional Speeches with NLP](https://olafdsouza.com/blog/nlp-project): Using NLP to classify rhetorical framing in U.S. Congressional speeches, our University of Michigan CSE 595 final project.
 - [An Honest Review of Every ULCS Class I Have Taken at Michigan](https://olafdsouza.com/blog/ulcs-class-reviews-michigan): Honest reviews and ratings for every upper-level CS (ULCS) class at the University of Michigan.
+
+## Food Guides
+- [Best restaurants in New York](https://olafdsouza.com/food/new-york/restaurants): Every restaurant I've rated in New York, ranked by score.
+- [Best coffee in New York](https://olafdsouza.com/food/new-york/coffee): Every coffee, tea and boba spot I've rated in New York, ranked by score.
+- [Best dessert in New York](https://olafdsouza.com/food/new-york/dessert): Every dessert spot I've rated in New York, ranked by score.
+- [Best bakeries in New York](https://olafdsouza.com/food/new-york/bakeries): Every bakery I've rated in New York, ranked by score.
+- [Best restaurants in Ann Arbor](https://olafdsouza.com/food/ann-arbor/restaurants): Every restaurant I've rated in Ann Arbor, ranked by score.
+- [Best coffee in Ann Arbor](https://olafdsouza.com/food/ann-arbor/coffee): Every coffee, tea and boba spot I've rated in Ann Arbor, ranked by score.
+- [Best dessert in Ann Arbor](https://olafdsouza.com/food/ann-arbor/dessert): Every dessert spot I've rated in Ann Arbor, ranked by score.
+- [Best bars in Ann Arbor](https://olafdsouza.com/food/ann-arbor/bars): Every bar I've rated in Ann Arbor, ranked by score.
+- [Best restaurants in the South Bay](https://olafdsouza.com/food/south-bay/restaurants): Every restaurant I've rated in the South Bay, ranked by score.
+- [Best coffee in the South Bay](https://olafdsouza.com/food/south-bay/coffee): Every coffee, tea and boba spot I've rated in the South Bay, ranked by score.
+- [Best dessert in the South Bay](https://olafdsouza.com/food/south-bay/dessert): Every dessert spot I've rated in the South Bay, ranked by score.
+- [Best restaurants in Metro Detroit](https://olafdsouza.com/food/metro-detroit/restaurants): Every restaurant I've rated in Metro Detroit, ranked by score.
+- [Best coffee in Metro Detroit](https://olafdsouza.com/food/metro-detroit/coffee): Every coffee, tea and boba spot I've rated in Metro Detroit, ranked by score.
+- [Best dessert in Metro Detroit](https://olafdsouza.com/food/metro-detroit/dessert): Every dessert spot I've rated in Metro Detroit, ranked by score.
+- [Best restaurants in San Francisco](https://olafdsouza.com/food/san-francisco/restaurants): Every restaurant I've rated in San Francisco, ranked by score.
+- [Best dessert in San Francisco](https://olafdsouza.com/food/san-francisco/dessert): Every dessert spot I've rated in San Francisco, ranked by score.
+- [Best bakeries in San Francisco](https://olafdsouza.com/food/san-francisco/bakeries): Every bakery I've rated in San Francisco, ranked by score.
+- [Best restaurants in Chicago](https://olafdsouza.com/food/chicago/restaurants): Every restaurant I've rated in Chicago, ranked by score.
+- [Best restaurants in Boston](https://olafdsouza.com/food/boston/restaurants): Every restaurant I've rated in Boston, ranked by score.
 
 ## Optional
 - [Sitemap](https://olafdsouza.com/sitemap.xml): Full XML sitemap of the site.

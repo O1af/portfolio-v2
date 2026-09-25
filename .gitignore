@@ -18,3 +18,5 @@ todos.json
 !.dev.vars.example
 !.env.example
 .content-collections/
+# local unpacked food export (photos + raw data); never committed
+.food-export/

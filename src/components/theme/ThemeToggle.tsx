@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { Moon, Sun } from "lucide-react";
-import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "@/components/theme/ThemeProvider";
 
 export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  // Only animate icon swaps the visitor caused, never on page load.
+  const [toggled, setToggled] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -17,30 +18,33 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      onClick={toggleTheme}
+      onClick={() => {
+        setToggled(true);
+        toggleTheme();
+      }}
       {...stylex.props(styles.button)}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={isDark ? "sun" : "moon"}
-          initial={{ opacity: 0, rotate: -45, scale: 0.6 }}
-          animate={{ opacity: 1, rotate: 0, scale: 1 }}
-          exit={{ opacity: 0, rotate: 45, scale: 0.6 }}
-          transition={{ duration: 0.15, ease: "easeOut" }}
-          {...stylex.props(styles.iconContainer)}
-          suppressHydrationWarning
-        >
-          {isDark ? (
-            <Sun {...stylex.props(styles.icon)} aria-hidden="true" />
-          ) : (
-            <Moon {...stylex.props(styles.icon)} aria-hidden="true" />
-          )}
-        </motion.span>
-      </AnimatePresence>
+      {/* Keyed so the new icon remounts and plays the entrance animation. */}
+      <span
+        key={isDark ? "sun" : "moon"}
+        {...stylex.props(styles.iconContainer, toggled && styles.animateIn)}
+        suppressHydrationWarning
+      >
+        {isDark ? (
+          <Sun {...stylex.props(styles.icon)} aria-hidden="true" />
+        ) : (
+          <Moon {...stylex.props(styles.icon)} aria-hidden="true" />
+        )}
+      </span>
     </button>
   );
 }
+
+const iconIn = stylex.keyframes({
+  from: { opacity: 0, transform: "rotate(-45deg) scale(0.6)" },
+  to: { opacity: 1, transform: "none" },
+});
 
 const styles = stylex.create({
   button: {
@@ -72,6 +76,14 @@ const styles = stylex.create({
   },
   iconContainer: {
     display: "flex",
+  },
+  animateIn: {
+    animationName: {
+      default: iconIn,
+      "@media (prefers-reduced-motion: reduce)": "none",
+    },
+    animationDuration: "150ms",
+    animationTimingFunction: "ease-out",
   },
   icon: {
     width: "1rem",

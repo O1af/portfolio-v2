@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
-import { motion } from "motion/react";
+import { motion, MotionConfig } from "motion/react";
 import { Toaster } from "sonner";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -35,7 +35,7 @@ function ConnectionsPage() {
   const { theme } = useTheme();
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Header />
       <Toaster
         theme={theme}
@@ -74,7 +74,7 @@ function ConnectionsPage() {
         </div>
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   );
 }
 
