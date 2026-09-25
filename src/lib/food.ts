@@ -103,10 +103,13 @@ const guideLink = (g: Guide): GuideLink => ({
   custom: g.custom,
 });
 
+/** A top-rated place with a photo, for the hub's per-city strips. */
+export type Pick = { slug: string; name: string; score: number; photo: string; area?: string };
+
 export type HubData = {
   og?: string;
   stats: { places: number; nines: number; photos: number; regions: number };
-  regions: (RegionRef & { count: number; cities?: string; guides: GuideLink[] })[];
+  regions: (RegionRef & { count: number; cities?: string; guides: GuideLink[]; picks: Pick[] })[];
   /** Summary of /food/elsewhere, when there is anything there. */
   elsewhere?: { count: number; cities: string };
 };
@@ -130,6 +133,11 @@ export const hub: HubData = {
       count: visible.filter((p) => p.region === region.slug).length,
       cities: describeCities(region),
       guides: guidesIn(region.slug).map(guideLink),
+      picks: visible
+        .filter((p) => p.region === region.slug && p.hasPage && p.photos.length && p.status !== "closed")
+        .sort(byScoreDesc)
+        .slice(0, 3)
+        .map((p) => ({ slug: p.slug, name: p.name, score: p.score, photo: p.photos[0].id, area: areaOf(p) })),
     })),
   elsewhere: elsewherePlaces.length
     ? {

@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import * as stylex from "@stylexjs/stylex";
 import { personalInfo } from "@/components/Info";
 import { FoodMain, GuideList, Lead, PageTitle, SectionHeading } from "@/components/food/layout";
+import type { Pick } from "@/lib/food";
+import { photoUrl } from "@/lib/food-core";
 import { getHub } from "@/lib/food-api";
 import { breadcrumbs, foodMeta, foodUrl } from "@/lib/food-seo";
 import { jsonLd } from "@/lib/seo";
@@ -65,13 +67,14 @@ function FoodHub() {
         ))}
       </dl>
 
-      {regions.map((region) => (
+      {regions.map((region, index) => (
         <section key={region.slug} {...stylex.props(styles.section)}>
           <SectionHeading
             title={region.name}
             region={region.slug}
             meta={`${region.count} places${region.cities ? ` · ${region.cities}` : ""}`}
           />
+          <Picks picks={region.picks} eager={index === 0} />
           <GuideList region={region.slug} guides={region.guides} />
         </section>
       ))}
@@ -89,7 +92,110 @@ function FoodHub() {
   );
 }
 
+/** Top three places with photos in a city: a sideways-scrolling strip on phones, three across on desktop. */
+function Picks({ picks, eager }: { picks: Pick[]; eager: boolean }) {
+  if (picks.length === 0) return null;
+  return (
+    <ul {...stylex.props(styles.picks)}>
+      {picks.map((pick) => (
+        <li key={pick.slug} {...stylex.props(styles.pick)}>
+          <Link to="/food/place/$slug" params={{ slug: pick.slug }} {...stylex.props(styles.pickLink)}>
+            <img
+              src={photoUrl(pick.photo, "480")}
+              srcSet={`${photoUrl(pick.photo, "480")} 480w, ${photoUrl(pick.photo, "800")} 800w`}
+              sizes="(min-width: 640px) 13rem, 70vw"
+              alt=""
+              width={480}
+              height={360}
+              loading={eager ? "eager" : "lazy"}
+              decoding="async"
+              {...stylex.props(styles.pickImage)}
+            />
+            <span {...stylex.props(styles.pickRow)}>
+              <span {...stylex.props(styles.pickName)}>{pick.name}</span>
+              <span {...stylex.props(styles.pickScore)}>{pick.score.toFixed(1)}</span>
+            </span>
+            {pick.area && <span {...stylex.props(styles.pickArea)}>{pick.area}</span>}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 const styles = stylex.create({
+  picks: {
+    display: "grid",
+    gridAutoFlow: { default: "column", "@media (min-width: 640px)": "row" },
+    gridAutoColumns: { default: "70%", "@media (min-width: 640px)": "auto" },
+    gridTemplateColumns: { default: "none", "@media (min-width: 640px)": "repeat(3, 1fr)" },
+    gap: "0.75rem",
+    marginTop: "0.875rem",
+    marginBottom: "0.5rem",
+    // Bleed to the screen edge on phones so the strip reads as scrollable.
+    marginInline: { default: "-1.25rem", "@media (min-width: 640px)": 0 },
+    paddingInline: { default: "1.25rem", "@media (min-width: 640px)": 0 },
+    overflowX: { default: "auto", "@media (min-width: 640px)": "visible" },
+    scrollSnapType: "x mandatory",
+    scrollPaddingInline: "1.25rem",
+    scrollbarWidth: "none",
+    listStyle: "none",
+  },
+  pick: {
+    minWidth: 0,
+    scrollSnapAlign: "start",
+  },
+  pickLink: {
+    "--pick-decoration": { default: "none", ":hover": "underline" },
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "0.75rem",
+    outline: "none",
+    boxShadow: {
+      default: "none",
+      ":focus-visible": "0 0 0 2px var(--background), 0 0 0 4px var(--ring)",
+    },
+  },
+  pickImage: {
+    display: "block",
+    width: "100%",
+    height: "auto",
+    aspectRatio: "4 / 3",
+    objectFit: "cover",
+    borderRadius: "0.75rem",
+    borderWidth: "1px",
+    borderColor: "var(--border)",
+    backgroundColor: "var(--secondary)",
+  },
+  pickRow: {
+    display: "flex",
+    alignItems: "baseline",
+    gap: "0.5rem",
+    marginTop: "0.5rem",
+  },
+  pickName: {
+    minWidth: 0,
+    overflow: "hidden",
+    color: "var(--foreground)",
+    fontSize: "14px",
+    fontWeight: 500,
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    textDecorationLine: "var(--pick-decoration)",
+  },
+  pickScore: {
+    marginLeft: "auto",
+    color: "var(--foreground)",
+    fontFamily: "var(--font-mono)",
+    fontSize: "13px",
+    fontWeight: 600,
+    fontVariantNumeric: "tabular-nums",
+  },
+  pickArea: {
+    marginTop: "0.125rem",
+    color: "var(--dim)",
+    fontSize: "12px",
+  },
   stats: {
     display: "flex",
     flexWrap: "wrap",
