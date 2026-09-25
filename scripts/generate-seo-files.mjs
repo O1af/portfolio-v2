@@ -163,6 +163,10 @@ async function getFood() {
       name: r.name,
       updated: newest(allGuides.filter((g) => g.region === r.slug).map((g) => g.updated)),
     }));
+  const guideless = new Set(ratings.regions.filter((r) => !allGuides.some((g) => g.region === r.slug)).map((r) => r.slug));
+  const elsewhere = places.filter((p) => !p.hidden && guideless.has(p.region));
+  const elsewhereUpdated = newest(elsewhere.map((p) => newest([p.edited, p.visited])));
+
   const pages = places
     .filter((p) => p.indexable)
     .map((p) => ({
@@ -172,7 +176,13 @@ async function getFood() {
       images: p.photos.map((ph) => core.photoUrl(ph.id, "1200")),
     }));
 
-  return { guides: allGuides, regions, pages, updated: newest(allGuides.map((g) => g.updated)) };
+  return {
+    guides: allGuides,
+    regions,
+    pages,
+    elsewhere: elsewhere.length ? { updated: elsewhereUpdated } : undefined,
+    updated: newest(allGuides.map((g) => g.updated)),
+  };
 }
 
 function renderSitemap(posts, food) {
@@ -213,6 +223,9 @@ function renderSitemap(posts, food) {
       changefreq: "weekly",
       priority: "0.8",
     })),
+    ...(food.elsewhere
+      ? [{ loc: absolute("/food/elsewhere"), lastmod: food.elsewhere.updated ?? today, changefreq: "monthly", priority: "0.6" }]
+      : []),
     ...food.guides.map((g) => ({
       loc: absolute(`/food/${g.path}`),
       lastmod: g.updated ?? today,

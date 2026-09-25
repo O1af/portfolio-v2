@@ -3,7 +3,7 @@
 
 import { createServerFn } from "@tanstack/react-start";
 import type { FoodSearchEntry } from "@/components/search/search-index";
-import type { GuideView, HubData, PlaceView, RegionView } from "./food";
+import type { ElsewhereView, GuideView, HubData, PlaceView, RegionView } from "./food";
 
 const slugInput = (data: unknown) => {
   const value = (data as { slug?: unknown })?.slug;
@@ -37,4 +37,8 @@ export const getPlace = createServerFn({ method: "GET" })
 
 export const getFoodSearch = createServerFn({ method: "GET" }).handler(
   async (): Promise<FoodSearchEntry[]> => (await import("./food")).foodSearch
+);
+
+export const getElsewhere = createServerFn({ method: "GET" }).handler(
+  async (): Promise<ElsewhereView | null> => (await import("./food")).elsewhereView() ?? null
 );

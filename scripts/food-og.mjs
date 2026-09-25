@@ -73,6 +73,18 @@ function cards({ core, format, places, guides, regions }) {
       subtitle: `${visible.filter((p) => p.region === r.slug).length} places · ${guides.filter((g) => g.region.slug === r.slug).length} ranked guides`,
       tiles: withPhotos(byScore.filter((p) => p.region === r.slug)),
     })),
+    ...(() => {
+      const trips = visible.filter((p) => !regionsWithGuides.some((r) => r.slug === p.region));
+      return trips.length
+        ? [{
+            key: "elsewhere",
+            kind: "collection",
+            title: "Elsewhere",
+            subtitle: `${trips.length} places from trips, grouped by city`,
+            tiles: withPhotos([...trips].sort((a, b) => b.score - a.score)),
+          }]
+        : [];
+    })(),
     ...guides.map((g) => ({
       key: `guide/${g.path}`,
       kind: "collection",

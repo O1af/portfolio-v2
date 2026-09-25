@@ -92,5 +92,12 @@
       "Seattle, WA",
       "Bellevue, WA"
     ]
+  },
+  {
+    "slug": "washington-dc",
+    "name": "Washington, DC",
+    "cities": [
+      "Washington, DC"
+    ]
   }
 ]

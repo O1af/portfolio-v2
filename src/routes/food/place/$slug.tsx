@@ -40,7 +40,9 @@ export const Route = createFileRoute("/food/place/$slug")({
       ? `${formatScore(place.score)}/10. ${truncate(place.note, 120)}`
       : `${place.name} in ${where}: ${formatScore(place.score)}/10.${rank ?? ""}`;
     const crumbs = [
-      ...(place.region.hasPage ? [{ name: place.region.name, url: foodUrl(`/${place.region.slug}`) }] : []),
+      place.region.hasPage
+        ? { name: place.region.name, url: foodUrl(`/${place.region.slug}`) }
+        : { name: "Elsewhere", url: foodUrl("/elsewhere") },
       ...(place.guide ? [{ name: place.guide.label, url: guideUrl(place.region.slug, place.guide.segment) }] : []),
       { name: place.name, url },
     ];
@@ -87,13 +89,15 @@ function PlacePage() {
           <Link key="food" to="/food" {...stylex.props(crumbStyles.link)}>
             Food
           </Link>,
-          ...(region.hasPage
-            ? [
-                <Link key="region" to="/food/$region" params={{ region: region.slug }} {...stylex.props(crumbStyles.link)}>
-                  {region.name}
-                </Link>,
-              ]
-            : []),
+          region.hasPage ? (
+            <Link key="region" to="/food/$region" params={{ region: region.slug }} {...stylex.props(crumbStyles.link)}>
+              {region.name}
+            </Link>
+          ) : (
+            <Link key="region" to="/food/elsewhere" {...stylex.props(crumbStyles.link)}>
+              Elsewhere
+            </Link>
+          ),
           ...(guide
             ? [
                 <Link

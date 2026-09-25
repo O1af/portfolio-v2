@@ -76,22 +76,13 @@ function FoodHub() {
         </section>
       ))}
 
-      {elsewhere.length > 0 && (
+      {elsewhere && (
         <section {...stylex.props(styles.section)}>
           <SectionHeading title="Elsewhere" meta="places from trips" />
-          <ul {...stylex.props(styles.places)}>
-            {elsewhere.flatMap((region) =>
-              region.places.map((place) => (
-                <li key={place.slug}>
-                  <Link to="/food/place/$slug" params={{ slug: place.slug }} {...stylex.props(styles.place)}>
-                    <span {...stylex.props(styles.placeName)}>{place.name}</span>
-                    <span {...stylex.props(styles.placeMeta)}>{place.city}</span>
-                    <span {...stylex.props(styles.placeScore)}>{place.score.toFixed(1)}</span>
-                  </Link>
-                </li>
-              ))
-            )}
-          </ul>
+          <Link to="/food/elsewhere" {...stylex.props(styles.place)}>
+            <span {...stylex.props(styles.placeName)}>{elsewhere.cities} and more</span>
+            <span {...stylex.props(styles.placeCount)}>{elsewhere.count}</span>
+          </Link>
         </section>
       )}
     </FoodMain>
@@ -124,20 +115,13 @@ const styles = stylex.create({
   section: {
     marginTop: "3rem",
   },
-  places: {
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "0.25rem",
-    listStyle: "none",
-  },
   place: {
     "--place-decoration": { default: "none", ":hover": "underline" },
     display: "flex",
     alignItems: "baseline",
     gap: "0.5rem",
-    paddingBlock: "0.625rem",
-    borderBottomWidth: "1px",
-    borderColor: "var(--border)",
+    marginTop: "0.25rem",
+    paddingBlock: "0.875rem",
     outline: "none",
     boxShadow: {
       default: "none",
@@ -146,20 +130,15 @@ const styles = stylex.create({
   },
   placeName: {
     color: "var(--foreground)",
-    fontSize: "14px",
+    fontSize: "14.5px",
     fontWeight: 500,
     textDecorationLine: "var(--place-decoration)",
   },
-  placeMeta: {
-    color: "var(--dim)",
-    fontSize: "12px",
-  },
-  placeScore: {
+  placeCount: {
     marginLeft: "auto",
-    color: "var(--foreground)",
-    fontFamily: "var(--font-mono)",
-    fontSize: "13px",
-    fontWeight: 600,
+    color: "var(--dim)",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
     fontVariantNumeric: "tabular-nums",
   },
 });

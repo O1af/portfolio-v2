@@ -100,15 +100,17 @@ const guideLink = (g: Guide): GuideLink => ({
   custom: g.custom,
 });
 
-export type PlaceLink = { slug: string; name: string; score: number; city: string };
-
 export type HubData = {
   og?: string;
   stats: { places: number; nines: number; photos: number; regions: number };
   regions: (RegionRef & { count: number; cities?: string; guides: GuideLink[] })[];
-  /** Regions too small for a guide: their place pages are linked from here so none are orphaned. */
-  elsewhere: (RegionRef & { places: PlaceLink[] })[];
+  /** Summary of /food/elsewhere, when there is anything there. */
+  elsewhere?: { count: number; cities: string };
 };
+
+/** Regions too small for any guide (trips, one-off cities); they live on /food/elsewhere. */
+const guidelessRegions = regions.filter((region) => guidesIn(region.slug).length === 0);
+const elsewherePlaces = visible.filter((p) => guidelessRegions.some((r) => r.slug === p.region));
 
 export const hub: HubData = {
   og: og("hub"),
@@ -126,17 +128,41 @@ export const hub: HubData = {
       cities: describeCities(region),
       guides: guidesIn(region.slug).map(guideLink),
     })),
-  elsewhere: regions
-    .filter((region) => guidesIn(region.slug).length === 0)
+  elsewhere: elsewherePlaces.length
+    ? {
+        count: elsewherePlaces.length,
+        // Regions are ordered by how many places they have, so this leads with the biggest.
+        cities: guidelessRegions
+          .filter((r) => elsewherePlaces.some((p) => p.region === r.slug))
+          .slice(0, 3)
+          .map((r) => r.name)
+          .join(" · "),
+      }
+    : undefined,
+};
+
+export type ElsewhereView = {
+  og?: string;
+  count: number;
+  updated?: string;
+  sections: (RegionRef & { rows: Row[] })[];
+};
+
+export function elsewhereView(): ElsewhereView | undefined {
+  if (elsewherePlaces.length === 0) return undefined;
+  const sections = guidelessRegions
     .map((region) => ({
       ...regionRef(region),
-      places: visible
-        .filter((p) => p.region === region.slug && p.hasPage)
-        .sort(byScoreDesc)
-        .map((p) => ({ slug: p.slug, name: p.name, score: p.score, city: cityName(p.city) })),
+      rows: elsewherePlaces.filter((p) => p.region === region.slug).sort(byScoreDesc).map((p, i) => toRow(p, i + 1)),
     }))
-    .filter((region) => region.places.length > 0),
-};
+    .filter((section) => section.rows.length > 0);
+  return {
+    og: og("elsewhere"),
+    count: elsewherePlaces.length,
+    updated: elsewherePlaces.map((p) => p.edited ?? p.visited).sort().at(-1),
+    sections,
+  };
+}
 
 export type RegionView = RegionRef & {
   og?: string;
@@ -221,6 +247,7 @@ export type PlaceView = {
   kind?: Kind;
   cuisines?: string[];
   city: string;
+  /** hasPage: the region has its own page; otherwise the place is listed on /food/elsewhere. */
   region: RegionRef & { hasPage: boolean };
   neighborhood?: string;
   area?: string;
