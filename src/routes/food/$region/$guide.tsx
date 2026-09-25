@@ -10,6 +10,7 @@ import { getGuide } from "@/lib/food-api";
 import { applyListFilters, parseListFilters, type ListFilters } from "@/lib/food-core";
 import { formatMonthYear, recommendationMailto } from "@/lib/food-format";
 import { breadcrumbs, foodMeta, foodUrl, guideSchema, guideUrl } from "@/lib/food-seo";
+import { useHydrated } from "@/lib/use-hydrated";
 import { jsonLd } from "@/lib/seo";
 
 export const Route = createFileRoute("/food/$region/$guide")({
@@ -49,7 +50,9 @@ export const Route = createFileRoute("/food/$region/$guide")({
 
 function GuidePage() {
   const guide = Route.useLoaderData();
-  const filters = Route.useSearch();
+  // The prerendered HTML is the unfiltered list; filters from the URL apply once hydrated.
+  const search = Route.useSearch();
+  const filters = useHydrated() ? search : {};
   const rows = applyListFilters(guide.rows, filters);
   const total = guide.rows.length;
   const filterLabel = describeFilters(filters);
