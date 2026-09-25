@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import * as stylex from "@stylexjs/stylex";
 import { Image } from "@unpic/react";
@@ -27,7 +28,11 @@ export function Hero() {
         </h1>
 
         <p {...stylex.props(styles.bio)}>
-          Umich alum interested in food,{" "}
+          Umich alum interested in{" "}
+          <Link to="/food" {...stylex.props(styles.bioLink)}>
+            food
+          </Link>
+          ,{" "}
           <a
             href="https://www.youtube.com/watch?v=16W7c0mb-rE"
             target="_blank"
