@@ -34,6 +34,12 @@ describe("mergePlace", () => {
     expect(mergePlace(source(), overlay({ body: "my draft" })).note).toBe("imported note");
   });
 
+  it("shows hand-added photos first, gives photo-only places a page, and drops duplicates", () => {
+    const added = [{ id: "new", caption: "box" }, { id: "abc" }];
+    expect(mergePlace(source(), overlay({ photos: added })).photos.map((p) => p.id)).toEqual(["new", "abc"]);
+    expect(mergePlace(source({ photos: undefined, note: undefined }), overlay({ photos: added })).hasPage).toBe(true);
+  });
+
   it("publishes the overlay body when done, and an empty body means no note", () => {
     expect(mergePlace(source(), overlay({ status: "done", body: "my take" })).note).toBe("my take");
     expect(mergePlace(source({ photos: undefined }), overlay({ status: "done" })).note).toBeUndefined();

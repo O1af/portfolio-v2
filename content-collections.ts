@@ -95,6 +95,9 @@ const foodPlaces = defineCollection({
     dishes: z
       .array(z.object({ name: z.string(), must_order: z.boolean().default(false) }))
       .optional(),
+    photos: z
+      .array(z.object({ id: z.string(), caption: z.string().optional(), w: z.number().optional(), h: z.number().optional() }))
+      .optional(),
     updated: z.coerce.date().optional(),
     content: z.string(),
   }),

@@ -12,7 +12,7 @@ Everything under `/food` on the site comes from these files, merged at build tim
 
 ## Place overlays
 
-Frontmatter: `id` (links to the place; slugs can change), `status`, optional `dishes`, `updated`.
+Frontmatter: `id` (links to the place; slugs can change), `status`, optional `dishes` and `photos`, `updated`.
 
 - `draft`: the imported note keeps showing; the body is ignored.
 - `done`: the body shows (an empty body means no note).
@@ -53,6 +53,17 @@ Node 22:
 ```sh
 nvm exec 22 pnpm food:import ~/Downloads/export.zip --upload
 ```
+
+### Adding your own photos
+
+When the export has no photo for a place (or you want a better one), add it to the overlay:
+
+```sh
+nvm exec 22 pnpm food:photo butter-crumble ~/Downloads/box.jpg "Pistachio croissant and cruffin"
+```
+
+It resizes and uploads the image like an imported one and records it under `photos:` in the place's overlay
+(creating a `draft` overlay if there isn't one), so re-imports keep it. Hand-added photos show first.
 
 ## Share images
 

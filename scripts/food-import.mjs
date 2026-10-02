@@ -23,20 +23,20 @@ const EXPORT_DIR = ".food-export";
 const CATEGORY = { RES: "restaurants", COF: "coffee", DES: "dessert", BAK: "bakeries", BAR: "bars" };
 const STATUS = { CLOSED_PERMANENTLY: "closed", CLOSED_TEMPORARILY: "temporarily-closed" };
 const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
-const PHOTO_ID_LENGTH = 16;
-const WEB_DIR = path.join(EXPORT_DIR, "web");
+export const PHOTO_ID_LENGTH = 16;
+export const WEB_DIR = path.join(EXPORT_DIR, "web");
 const BUCKET = "portfolio-images";
 const IMAGE_HOST = "https://img.olafdsouza.com";
 const ACCOUNT_ID = "e2b5a4ea5442b05be2f53900f0896bf7";
 /** Keep in sync with photoUrl() in src/lib/food-core.ts. */
-const VARIANTS = [
+export const VARIANTS = [
   { name: "sq128", resize: { width: 128, height: 128, fit: "cover", position: "attention" } },
   { name: "sq", resize: { width: 192, height: 192, fit: "cover", position: "attention" } },
   { name: "480", resize: { width: 480, withoutEnlargement: true } },
   { name: "800", resize: { width: 800, withoutEnlargement: true } },
   { name: "1200", resize: { width: 1200, withoutEnlargement: true } },
 ];
-const photoKey = (id, variant) => `food/${id}-${variant}.webp`;
+export const photoKey = (id, variant) => `food/${id}-${variant}.webp`;
 
 // ---------- helpers ----------
 
@@ -161,8 +161,11 @@ function regionResolver(configured) {
 
 function extract(input) {
   if (fs.statSync(input).isDirectory()) return input;
-  fs.rmSync(EXPORT_DIR, { recursive: true, force: true });
+  // Clear the previous export but keep the resized photos and share cards (both caches).
   fs.mkdirSync(EXPORT_DIR, { recursive: true });
+  for (const entry of fs.readdirSync(EXPORT_DIR)) {
+    if (entry !== "web" && entry !== "og") fs.rmSync(path.join(EXPORT_DIR, entry), { recursive: true, force: true });
+  }
   execFileSync("unzip", ["-oq", input, "-d", EXPORT_DIR], { stdio: "inherit" });
   return EXPORT_DIR;
 }
@@ -341,24 +344,32 @@ async function pool(items, concurrency, fn) {
   }));
 }
 
+/** Writes a photo's WebP variants into WEB_DIR (skipping existing ones); returns the 1200px variant's size. */
+export async function resizePhoto(id, file) {
+  fs.mkdirSync(WEB_DIR, { recursive: true });
+  let created = 0;
+  for (const variant of VARIANTS) {
+    const out = path.join(WEB_DIR, path.basename(photoKey(id, variant.name)));
+    if (fs.existsSync(out)) continue;
+    await sharp(file).rotate().resize(variant.resize).webp({ quality: 74, effort: 5 }).toFile(out);
+    created++;
+  }
+  const { width, height } = await sharp(path.join(WEB_DIR, path.basename(photoKey(id, "1200")))).metadata();
+  return { w: width, h: height, created };
+}
+
 /**
  * Resizes every photo into WEB_DIR (skipping ones already there) and replaces the
  * transient `file` with the 1200px variant's dimensions, so pages can reserve space.
  */
 async function processPhotos(places, dir) {
-  fs.mkdirSync(WEB_DIR, { recursive: true });
   const files = new Map(places.flatMap((p) => p.photos ?? []).map((ph) => [ph.id, ph.file]));
   const dims = new Map();
   let created = 0;
   await pool([...files], 4, async ([id, file]) => {
-    for (const variant of VARIANTS) {
-      const out = path.join(WEB_DIR, path.basename(photoKey(id, variant.name)));
-      if (fs.existsSync(out)) continue;
-      await sharp(path.join(dir, file)).rotate().resize(variant.resize).webp({ quality: 74, effort: 5 }).toFile(out);
-      created++;
-    }
-    const { width, height } = await sharp(path.join(WEB_DIR, path.basename(photoKey(id, "1200")))).metadata();
-    dims.set(id, { w: width, h: height });
+    const result = await resizePhoto(id, path.join(dir, file));
+    created += result.created;
+    dims.set(id, { w: result.w, h: result.h });
   });
   for (const place of places) {
     place.photos = place.photos?.map(({ file, ...photo }) => ({ ...photo, ...dims.get(photo.id) }));
@@ -377,11 +388,12 @@ async function isHosted(key) {
   }
 }
 
-async function uploadPhotos(places) {
+/** Pushes the variants of these photo ids that aren't on the image host yet to R2. Needs Node 22 (wrangler). */
+export async function uploadPhotos(ids) {
   if (Number(process.versions.node.split(".")[0]) < 22) {
-    throw new Error("--upload runs wrangler, which needs Node 22: nvm exec 22 pnpm food:import <zip> --upload");
+    throw new Error("uploading runs wrangler, which needs Node 22: prefix the command with `nvm exec 22`");
   }
-  const keys = [...new Set(places.flatMap((p) => p.photos ?? []).flatMap((ph) => VARIANTS.map((v) => photoKey(ph.id, v.name))))];
+  const keys = [...new Set(ids)].flatMap((id) => VARIANTS.map((v) => photoKey(id, v.name)));
   const missing = [];
   await pool(keys, 16, async (key) => {
     if (!(await isHosted(key))) missing.push(key);
@@ -462,7 +474,7 @@ async function main() {
   summarize(next, created);
   console.log(`\nPhotos: ${photoStats.total} (${photoStats.created} new resized files in ${WEB_DIR})`);
   printDiff(diff(previous, next), !previous);
-  if (upload) await uploadPhotos(places);
+  if (upload) await uploadPhotos(photoIds);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {

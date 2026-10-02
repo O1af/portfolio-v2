@@ -66,6 +66,8 @@ export type Overlay = {
   id: number;
   status: OverlayStatus;
   dishes?: Dish[];
+  /** Photos added by hand (`pnpm food:photo`), shown before the imported ones. */
+  photos?: Photo[];
   /** ISO date of the last edit (git, falling back to the `updated` frontmatter). */
   updated?: string;
   body: string;
@@ -115,7 +117,8 @@ export const areaOf = (place: Pick<SourcePlace, "area" | "neighborhood">) => pla
 export function mergePlace(source: SourcePlace, overlay?: Overlay): Place {
   const note = overlay?.status === "done" ? overlay.body.trim() || undefined : source.note;
   const hidden = overlay?.status === "hidden";
-  const photos = source.photos ?? [];
+  const added = overlay?.photos ?? [];
+  const photos = [...added, ...(source.photos ?? []).filter((p) => !added.some((a) => a.id === p.id))];
   const hasPage = !hidden && (photos.length > 0 || Boolean(note));
   return {
     ...source,
@@ -377,6 +380,7 @@ export type OverlayDoc = {
   id: number;
   status: OverlayStatus;
   dishes?: { name: string; must_order?: boolean }[];
+  photos?: Photo[];
   lastModified?: string;
   content: string;
 };
@@ -418,6 +422,7 @@ export function assembleFood(
         id: doc.id,
         status: doc.status,
         dishes: doc.dishes?.map((d) => ({ name: d.name, ...(d.must_order && { mustOrder: true }) })),
+        photos: doc.photos,
         updated: doc.lastModified,
         body: doc.content,
       },

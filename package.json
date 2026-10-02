@@ -15,6 +15,7 @@
     "prepare": "simple-git-hooks",
     "food:import": "node scripts/food-import.mjs",
     "food:edit": "node scripts/food-edit.mjs",
+    "food:photo": "node scripts/food-photo.mjs",
     "images:covers": "node scripts/optimize-covers.mjs",
     "food:og": "node scripts/food-og.mjs"
   },
