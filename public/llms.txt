@@ -7,7 +7,7 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 ## Primary Pages
 - [Home](https://olafdsouza.com/): Portfolio, experience, and project overview.
 - [Blog](https://olafdsouza.com/blog): Writing on operating systems, LLMs, distributed systems, and CS coursework.
-- [Food](https://olafdsouza.com/food): Ranked guides to the 340+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
+- [Food](https://olafdsouza.com/food): Ranked guides to the 387+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
 - [Connections](https://olafdsouza.com/connections): NYT Connections tracking board.
 
 ## Blog Posts
@@ -34,6 +34,7 @@ Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum 
 - [Best coffee in Metro Detroit](https://olafdsouza.com/food/metro-detroit/coffee): Every coffee, tea and boba spot I've rated in Metro Detroit, ranked by score.
 - [Best dessert in Metro Detroit](https://olafdsouza.com/food/metro-detroit/dessert): Every dessert spot I've rated in Metro Detroit, ranked by score.
 - [Best restaurants in San Francisco](https://olafdsouza.com/food/san-francisco/restaurants): Every restaurant I've rated in San Francisco, ranked by score.
+- [Best coffee in San Francisco](https://olafdsouza.com/food/san-francisco/coffee): Every coffee, tea and boba spot I've rated in San Francisco, ranked by score.
 - [Best dessert in San Francisco](https://olafdsouza.com/food/san-francisco/dessert): Every dessert spot I've rated in San Francisco, ranked by score.
 - [Best bakeries in San Francisco](https://olafdsouza.com/food/san-francisco/bakeries): Every bakery I've rated in San Francisco, ranked by score.
 - [Best restaurants in Chicago](https://olafdsouza.com/food/chicago/restaurants): Every restaurant I've rated in Chicago, ranked by score.

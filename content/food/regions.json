@@ -73,7 +73,8 @@
     "slug": "chicago",
     "name": "Chicago",
     "cities": [
-      "Chicago, IL"
+      "Chicago, IL",
+      "Schaumburg, IL"
     ]
   },
   {
@@ -98,6 +99,14 @@
     "name": "Washington, DC",
     "cities": [
       "Washington, DC"
+    ]
+  },
+  {
+    "slug": "madison",
+    "name": "Madison",
+    "cities": [
+      "Madison, WI",
+      "Verona, WI"
     ]
   }
 ]
