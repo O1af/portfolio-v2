@@ -72,7 +72,9 @@ export const Route = createFileRoute("/food/place/$slug")({
   component: PlacePage,
 });
 
-function truncate(text: string, max: number) {
+/** One line for meta descriptions: notes can contain line breaks. */
+function truncate(note: string, max: number) {
+  const text = note.replace(/\s+/g, " ");
   return text.length <= max ? text : `${text.slice(0, text.lastIndexOf(" ", max))}…`;
 }
 
