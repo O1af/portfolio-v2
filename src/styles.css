@@ -538,3 +538,8 @@ pre {
 html[data-filtering] [data-food-results] {
   visibility: hidden;
 }
+
+/* Freeze the page behind an open photo viewer. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}

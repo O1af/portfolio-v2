@@ -103,10 +103,10 @@ function Picks({ picks, eager }: { picks: Pick[]; eager: boolean }) {
             <img
               src={photoUrl(pick.photo, "480")}
               srcSet={`${photoUrl(pick.photo, "480")} 480w, ${photoUrl(pick.photo, "800")} 800w`}
-              sizes="(min-width: 640px) 13rem, 70vw"
+              sizes="(min-width: 640px) 13rem, 55vw"
               alt=""
               width={480}
-              height={360}
+              height={600}
               loading={eager ? "eager" : "lazy"}
               decoding="async"
               {...stylex.props(styles.pickImage)}
@@ -127,7 +127,8 @@ const styles = stylex.create({
   picks: {
     display: "grid",
     gridAutoFlow: { default: "column", "@media (min-width: 640px)": "row" },
-    gridAutoColumns: { default: "70%", "@media (min-width: 640px)": "auto" },
+    // Portrait cards (most photos are phone shots), narrow enough on phones that the next one peeks in.
+    gridAutoColumns: { default: "55%", "@media (min-width: 640px)": "auto" },
     gridTemplateColumns: { default: "none", "@media (min-width: 640px)": "repeat(3, 1fr)" },
     gap: "0.75rem",
     marginTop: "0.875rem",
@@ -160,7 +161,7 @@ const styles = stylex.create({
     display: "block",
     width: "100%",
     height: "auto",
-    aspectRatio: "4 / 3",
+    aspectRatio: "4 / 5",
     objectFit: "cover",
     borderRadius: "0.75rem",
     borderWidth: "1px",

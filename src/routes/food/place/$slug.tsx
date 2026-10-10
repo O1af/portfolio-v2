@@ -3,6 +3,7 @@ import * as stylex from "@stylexjs/stylex";
 import { useEffect, useState } from "react";
 import { personalInfo } from "@/components/Info";
 import { Crumbs, FoodMain, crumbStyles } from "@/components/food/layout";
+import { Lightbox } from "@/components/food/Lightbox";
 import type { PlaceView } from "@/lib/food";
 import { getPlace } from "@/lib/food-api";
 import { cityName, photoUrl, type Photo } from "@/lib/food-core";
@@ -148,7 +149,7 @@ function PlacePage() {
       <section {...stylex.props(styles.section)}>
         <h2 {...stylex.props(styles.h2)}>My take</h2>
         {place.note ? (
-          <p {...stylex.props(styles.take, short && styles.takeShort)}>{place.note}</p>
+          <p {...stylex.props(styles.take, styles.takeLines, short && styles.takeShort)}>{place.note}</p>
         ) : (
           <p {...stylex.props(styles.muted)}>
             No notes yet.{" "}
@@ -170,7 +171,7 @@ function PlacePage() {
         )}
       </section>
 
-      <Photos photos={place.photos} name={place.name} />
+      <Photos photos={place.photos} name={place.name} dishes={place.dishes.map((d) => d.name)} />
 
       <div {...stylex.props(styles.facts)}>
         <section>
@@ -227,41 +228,51 @@ function PagerLink({ item, label, alignEnd }: { item: { slug: string; name: stri
   );
 }
 
-function Photos({ photos, name }: { photos: Photo[]; name: string }) {
+/**
+ * Photos keep their own shape: nearly all are portrait phone shots, so tiles are 3:4
+ * (landscape ones span two columns). Tapping one opens the full photo, uncropped.
+ */
+function Photos({ photos, name, dishes }: { photos: Photo[]; name: string; dishes: string[] }) {
+  const [open, setOpen] = useState<number>();
   if (photos.length === 0) return null;
-  const [lead, ...rest] = photos;
+  // A caption that just repeats a dish chip above adds nothing under the tile (the viewer still shows it).
+  const listed = new Set(dishes.map((d) => d.trim().toLowerCase()));
   return (
-    <div {...stylex.props(styles.photos)}>
-      <PlacePhoto photo={lead} name={name} lead />
-      {rest.length > 0 && (
-        <div {...stylex.props(styles.grid)}>
-          {rest.map((photo) => (
-            <PlacePhoto key={photo.id} photo={photo} name={name} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function PlacePhoto({ photo, name, lead }: { photo: Photo; name: string; lead?: boolean }) {
-  const alt = photo.caption ? `${photo.caption} at ${name}` : `Photo from ${name}`;
-  return (
-    <figure {...stylex.props(styles.figure)}>
-      <img
-        src={photoUrl(photo.id, lead ? "1200" : "480")}
-        srcSet={`${photoUrl(photo.id, "480")} 480w, ${photoUrl(photo.id, "800")} 800w, ${photoUrl(photo.id, "1200")} 1200w`}
-        sizes={lead ? "(min-width: 44.5rem) 42rem, calc(100vw - 2.5rem)" : "(min-width: 44.5rem) 20.6rem, calc(50vw - 1.6rem)"}
-        width={photo.w}
-        height={photo.h}
-        alt={alt}
-        loading={lead ? "eager" : "lazy"}
-        fetchPriority={lead ? "high" : "auto"}
-        decoding="async"
-        {...stylex.props(styles.image, lead && styles.leadImage)}
-      />
-      {photo.caption && <figcaption {...stylex.props(styles.caption)}>{photo.caption}</figcaption>}
-    </figure>
+    <section {...stylex.props(styles.section)}>
+      <h2 {...stylex.props(styles.h2)}>Photos</h2>
+      <div {...stylex.props(styles.grid)}>
+        {photos.map((photo, i) => {
+          const wide = Boolean(photo.w && photo.h && photo.w > photo.h);
+          return (
+            <figure key={photo.id} {...stylex.props(styles.figure, wide && styles.wide)}>
+              <button
+                type="button"
+                onClick={() => setOpen(i)}
+                aria-label={`Open photo${photo.caption ? `: ${photo.caption}` : ""}`}
+                {...stylex.props(styles.tile)}
+              >
+                <img
+                  src={photoUrl(photo.id, "480")}
+                  srcSet={`${photoUrl(photo.id, "480")} 480w, ${photoUrl(photo.id, "800")} 800w`}
+                  sizes={wide ? "(min-width: 44.5rem) 27.5rem, calc(100vw - 2.5rem)" : "(min-width: 44.5rem) 13.5rem, calc(50vw - 1.6rem)"}
+                  width={photo.w}
+                  height={photo.h}
+                  alt={photo.caption ? `${photo.caption} at ${name}` : `Photo from ${name}`}
+                  loading={i < 3 ? "eager" : "lazy"}
+                  fetchPriority={i === 0 ? "high" : "auto"}
+                  decoding="async"
+                  {...stylex.props(styles.image, wide && styles.wideImage)}
+                />
+              </button>
+              {photo.caption && !listed.has(photo.caption.trim().toLowerCase()) && (
+                <figcaption {...stylex.props(styles.caption)}>{photo.caption}</figcaption>
+              )}
+            </figure>
+          );
+        })}
+      </div>
+      <Lightbox photos={photos} name={name} index={open} onClose={() => setOpen(undefined)} />
+    </section>
   );
 }
 
@@ -331,31 +342,42 @@ const styles = stylex.create({
     color: "var(--foreground)",
     fontSize: "13px",
   },
-  photos: {
-    marginTop: "1.75rem",
-  },
   grid: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    gridTemplateColumns: { default: "repeat(2, 1fr)", "@media (min-width: 640px)": "repeat(3, 1fr)" },
     gap: "0.75rem",
     marginTop: "0.75rem",
   },
   figure: {
     margin: 0,
+    minWidth: 0,
+  },
+  wide: {
+    gridColumn: "span 2",
+  },
+  tile: {
+    display: "block",
+    width: "100%",
+    padding: 0,
+    borderWidth: 0,
+    backgroundColor: "transparent",
+    cursor: "zoom-in",
   },
   image: {
     display: "block",
     width: "100%",
     height: "auto",
-    aspectRatio: "4 / 3",
+    aspectRatio: "3 / 4",
     objectFit: "cover",
     borderRadius: "0.75rem",
     borderWidth: "1px",
     borderColor: "var(--border)",
     backgroundColor: "var(--secondary)",
+    transition: "opacity 150ms",
+    opacity: { default: 1, ":hover": 0.9 },
   },
-  leadImage: {
-    aspectRatio: { default: "4 / 3", "@media (min-width: 640px)": "3 / 2" },
+  wideImage: {
+    aspectRatio: "auto",
   },
   caption: {
     marginTop: "0.5rem",
@@ -377,6 +399,10 @@ const styles = stylex.create({
     fontSize: "15.5px",
     lineHeight: "1.65",
     textWrap: "pretty",
+  },
+  /** Keeps the line breaks of list-style notes ("croissant - really good"). */
+  takeLines: {
+    whiteSpace: "pre-line",
   },
   takeShort: {
     fontSize: "1.5rem",

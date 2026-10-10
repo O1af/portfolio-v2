@@ -73,7 +73,13 @@ export function parseVisitDate(text) {
 }
 
 export function cleanNote(text) {
-  const cleaned = (text ?? "").replace(/^\s*re-?ranking\s*[:,-]?\s*/i, "").replace(/\s+/g, " ").trim();
+  // Collapse spaces but keep line breaks (one blank line at most): list-style notes read better that way.
+  const cleaned = (text ?? "")
+    .replace(/^\s*re-?ranking\s*[:,-]?\s*/i, "")
+    .replace(/[^\S\n]+/g, " ")
+    .replace(/ *\n */g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
   return cleaned || undefined;
 }
 
