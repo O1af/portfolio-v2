@@ -235,6 +235,11 @@ export type FavoriteBlog = {
 // Bookshelf section — favorite engineering blogs
 export const favoriteBlogs: FavoriteBlog[] = [
   {
+    name: "Building advertising for the way people use AI",
+    href: "https://openai.com/index/new-chatgpt-ads-format-and-measurement/",
+    domain: "openai.com",
+  },
+  {
     name: "Git at any scale",
     href: "https://cursor.com/blog/git-at-any-scale",
     domain: "cursor.com/blog",
