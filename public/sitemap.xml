@@ -56,13 +56,13 @@
   </url>
   <url>
     <loc>https://olafdsouza.com/food</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/new-york</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -104,37 +104,37 @@
   </url>
   <url>
     <loc>https://olafdsouza.com/food/how-i-rate</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/elsewhere</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/new-york/restaurants</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/new-york/coffee</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/new-york/dessert</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/new-york/bakeries</loc>
-    <lastmod>2026-10-02</lastmod>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -247,6 +247,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/new-york/long-island-city-restaurants</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/new-york/east-village-coffee</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>weekly</changefreq>
@@ -347,19 +353,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/92ff2665c6dd32bd-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/bonci-pizzeria</loc>
-    <lastmod>2025-03-10</lastmod>
+    <loc>https://olafdsouza.com/food/place/brothers-cousins-tacos</loc>
+    <lastmod>2026-10-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/d9ca7386574c775e-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1089e975cd3f9ebc-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/db0dbed29d0e5837-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/b104f62a380510d5-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e0f0ab4560f414a8-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/dr-ink</loc>
-    <lastmod>2026-10-02</lastmod>
+    <loc>https://olafdsouza.com/food/place/community-goods</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/e3b0ee266153f9dd-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8a0fbc5e7a7125c0-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/the-scoop-n-scootery</loc>
@@ -367,6 +374,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/b3a5a27c564422e8-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/bonci-pizzeria</loc>
+    <lastmod>2025-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/d9ca7386574c775e-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1089e975cd3f9ebc-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/la-taqueria</loc>
@@ -378,6 +393,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/a13db2bdb0258144-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/verse</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/9eec3f5b5b45e730-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/adda</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
@@ -387,11 +409,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/d9f05d9567f11e8a-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/toby-s-estate-coffee</loc>
-    <lastmod>2026-10-02</lastmod>
+    <loc>https://olafdsouza.com/food/place/indigo-cow</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/61e36329c201237f-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/2fdce4d6ff3a54f7-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/f463b6dc2c57f890-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/que-pasa-taqueria</loc>
@@ -401,25 +424,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/c15dd6b62db43f6e-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/morgenstern-s-finest-ice-cream</loc>
-    <lastmod>2025-09-29</lastmod>
+    <loc>https://olafdsouza.com/food/place/787-coffee-rose-hill</loc>
+    <lastmod>2025-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/b40a3e9a38ae0fb2-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/caffe-paradiso</loc>
-    <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/9a0d1a5002f1e751-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/tacos-mi-reynita</loc>
-    <lastmod>2025-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/d3f5607f998b50a1-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/d5a7ea2c968b409c-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/arsicault-bakery</loc>
@@ -430,6 +439,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/7483c5828ff13c2a-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/tacos-mi-reynita</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/d3f5607f998b50a1-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/bloom-bagels</loc>
     <lastmod>2025-08-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -437,6 +453,43 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/63c4ea5f22b62d7f-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/66667d7958c260ed-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/0cafb52c0a27e35b-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/dr-ink</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e3b0ee266153f9dd-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/morgenstern-s-finest-ice-cream</loc>
+    <lastmod>2025-09-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/b40a3e9a38ae0fb2-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/high-five-ramen</loc>
+    <lastmod>2026-03-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a10b2048e9bf2ea5-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/811f51e21c3b69be-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/cfa23a5ccf6a6004-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/caffe-paradiso</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/9a0d1a5002f1e751-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/mylapore-south-indian-vegetarian</loc>
+    <lastmod>2025-06-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/af8f0504e1de4390-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/spot-dessert-bar-east-village</loc>
@@ -454,48 +507,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/3a115a9ec80d3ac7-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/high-five-ramen</loc>
-    <lastmod>2026-03-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a10b2048e9bf2ea5-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/811f51e21c3b69be-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/cfa23a5ccf6a6004-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/mylapore-south-indian-vegetarian</loc>
-    <lastmod>2025-06-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/af8f0504e1de4390-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/the-electric-coffee-co</loc>
-    <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/ac1508a2978b7d23-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/soothr</loc>
     <lastmod>2025-09-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/7727762603578620-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/cowboy-coffee</loc>
-    <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/bb63ec61aea7fc9f-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/common-meadows-creamery</loc>
-    <lastmod>2026-06-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0990b8c86a881b03-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/frita-batidos-ann-arbor</loc>
@@ -512,11 +528,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/7c9e10d8414ec233-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/heytea-herald-square</loc>
+    <loc>https://olafdsouza.com/food/place/the-electric-coffee-co</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/952aa124b646ddee-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/ac1508a2978b7d23-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/l-appartement-4f-brooklyn-heights</loc>
@@ -526,6 +542,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/faebf333988d1456-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/common-meadows-creamery</loc>
+    <lastmod>2026-06-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0990b8c86a881b03-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/cowboy-coffee</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/bb63ec61aea7fc9f-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/hyderabadi-zaiqa</loc>
     <lastmod>2025-11-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -533,23 +563,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/5223fdd645bde855-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/c13b61bb4c278d6c-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/ff306afc154ede1d-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/na-ya-dessert-cafe</loc>
-    <lastmod>2026-08-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7099d9f7184fd002-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3ea03372d4272f58-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/primero-cafecito</loc>
-    <lastmod>2026-10-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/cd2075cb32846cf4-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/de9a612dcb5b04f9-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/e406de09da4786ea-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/samuthr-thai-restaurant</loc>
@@ -571,11 +584,26 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/8601670ab6b1f75b-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/la-dolce-vita-ann-arbor</loc>
-    <lastmod>2025-12-17</lastmod>
+    <loc>https://olafdsouza.com/food/place/na-ya-dessert-cafe</loc>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/16d3839e9a9ff5cc-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7099d9f7184fd002-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3ea03372d4272f58-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/toby-s-estate-coffee</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/61e36329c201237f-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/heytea-herald-square</loc>
+    <lastmod>2026-10-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/952aa124b646ddee-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/liberty-bagels-midtown</loc>
@@ -585,19 +613,19 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/d1b77344b4c145cf-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/787-coffee-rose-hill</loc>
-    <lastmod>2025-07-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/d5a7ea2c968b409c-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/babs-underground</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/ab7d17b98cf44a2c-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/4fe7e3b0eb71f923-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/la-dolce-vita-ann-arbor</loc>
+    <lastmod>2025-12-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/16d3839e9a9ff5cc-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/b-patisserie</loc>
@@ -616,18 +644,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/07d2d0413600a80e-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/verse</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://olafdsouza.com/food/place/primero-cafecito</loc>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/9eec3f5b5b45e730-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/cd2075cb32846cf4-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/de9a612dcb5b04f9-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e406de09da4786ea-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/mimi-s-frozen-yogurt</loc>
-    <lastmod>2025-11-25</lastmod>
+    <loc>https://olafdsouza.com/food/place/village-square-pizza-midtown</loc>
+    <lastmod>2025-01-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/f16bfa34ce6b29ab-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e4df2df52c72ba8a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/chromatic-coffee-co</loc>
@@ -637,11 +667,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/fb01ca13f08df222-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/village-square-pizza-midtown</loc>
-    <lastmod>2025-01-06</lastmod>
+    <loc>https://olafdsouza.com/food/place/mimi-s-frozen-yogurt</loc>
+    <lastmod>2025-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/e4df2df52c72ba8a-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/f16bfa34ce6b29ab-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/palmetto-superfoods-santana-row</loc>
@@ -659,6 +689,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/d31a846e63fbf589-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/ample-hills-creamery-astoria</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/5b85777676fb32d8-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/saranrom-thai</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
@@ -668,15 +705,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b796a2029e777f1b-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/d9184269b2f9815e-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/a14e387234e5908a-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/j-p-licks</loc>
-    <lastmod>2025-05-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3368915027ef33fa-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/b129aa46f7c6816b-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/10f0eab7c5d5343e-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/radio-bakery</loc>
@@ -693,6 +721,16 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/4d255c76418c098d-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/na-rath-thai</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/812534c17cd46291-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/ca9c306d6c24c674-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/f40affaf66b9dd8d-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/2b2c02b4e8bfafdc-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/molly-tea-manhattan-chinatown</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -700,18 +738,27 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/3deeacf083aa3959-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/easy-breezy-frozen-yogurt-los-gatos</loc>
-    <lastmod>2025-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1c138dd88806b780-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/bengaluru-thindi-garage-btg</loc>
     <lastmod>2026-09-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/025c8a66e2d709be-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/j-p-licks</loc>
+    <lastmod>2025-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3368915027ef33fa-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/b129aa46f7c6816b-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/10f0eab7c5d5343e-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/le-gaz</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8963230583edb5ca-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/khao-tiew</loc>
@@ -724,11 +771,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/fb7c87b3964ae244-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/le-gaz</loc>
-    <lastmod>2026-03-03</lastmod>
+    <loc>https://olafdsouza.com/food/place/brooklyn-curry-project</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/8963230583edb5ca-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/70aebcfb301d273f-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/el-sazon-de-claudia</loc>
@@ -737,13 +784,6 @@
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/f19a95f12b2c9b24-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/e2c8a518dec3621e-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/empire-halal</loc>
-    <lastmod>2026-09-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1597bcabfa494520-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/farook-halal-food</loc>
@@ -761,11 +801,19 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/4390921daaf2d61b-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/van-leeuwen-ice-cream</loc>
-    <lastmod>2025-07-11</lastmod>
+    <loc>https://olafdsouza.com/food/place/tong-nyc</loc>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1cb43de2eeb3f306-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/42aa4d3a127a59b6-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/c76e00ef1e85d3bd-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/easy-breezy-frozen-yogurt-los-gatos</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1c138dd88806b780-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/mei-lai-wah</loc>
@@ -773,6 +821,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/79ef770500b33780-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/van-leeuwen-ice-cream</loc>
+    <lastmod>2025-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1cb43de2eeb3f306-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/academic-coffee</loc>
@@ -797,19 +852,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/e8ade40de1d8fb59-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/papi-tacos-churros</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/99a4ca2e2eac5be4-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/bfe7c3de874574f4-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/tiny-tapp-cafe</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/22e31fe425c0dba1-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/aa60df9c7240f74b-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/los-tacos-no-1</loc>
-    <lastmod>2025-01-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1c1cf1a783dbeb2a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/matcha-cafe-maiko</loc>
@@ -828,11 +884,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/491e5eefb6555613-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/kith-treats-williamsburg</loc>
-    <lastmod>2026-03-04</lastmod>
+    <loc>https://olafdsouza.com/food/place/los-tacos-no-1</loc>
+    <lastmod>2025-01-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7ea4e46f2eacc32a-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1c1cf1a783dbeb2a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/luna-mexican-kitchen-the-pruneyard</loc>
@@ -841,6 +897,14 @@
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/f7f0a898aa530398-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/833db951d3878c28-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/the-boro-cafe-bakery</loc>
+    <lastmod>2025-12-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/c0349b6fb91b6752-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0bd6909031d182bc-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/miss-kim</loc>
@@ -858,12 +922,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/7b376fee16b917b6-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/the-boro-cafe-bakery</loc>
-    <lastmod>2025-12-16</lastmod>
+    <loc>https://olafdsouza.com/food/place/kith-treats-williamsburg</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/c0349b6fb91b6752-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0bd6909031d182bc-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7ea4e46f2eacc32a-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/millie-s-coffee-co</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/4c86ae30b8038316-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/the-jefferson-market</loc>
@@ -880,13 +950,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/e330e5ba1febf91b-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/tuk-tuk-thai-isan-street-food</loc>
-    <lastmod>2026-09-20</lastmod>
+    <loc>https://olafdsouza.com/food/place/sunday-morning</loc>
+    <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/d45051afb7b5d4e9-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/b48c96b2c84bf06a-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/bfe3b44d06763e0f-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/338fae5bd07db8ca-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/zareen-s-sunnyvale</loc>
@@ -897,18 +965,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/18db1c12973bff6b-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/sunday-morning</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/338fae5bd07db8ca-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/mimosas-brunch-bubbles</loc>
     <lastmod>2025-06-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/dea06853a63aea26-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/tuk-tuk-thai-isan-street-food</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/d45051afb7b5d4e9-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/b48c96b2c84bf06a-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/bfe3b44d06763e0f-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/anita-la-mamma-del-gelato</loc>
@@ -918,18 +988,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/1dc73751d4179990-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/stonemill-matcha</loc>
-    <lastmod>2025-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7eacdb4a28ffb876-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/pecking-house-chinatown</loc>
     <lastmod>2025-11-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/47e4c8df57656f9b-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/stonemill-matcha</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7eacdb4a28ffb876-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/clinton-st-baking-company</loc>
@@ -946,20 +1016,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/11555d1108d04bb9-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/jj-s-custard-co</loc>
-    <lastmod>2025-04-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/027feb0820d55848-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/apothecary-espresso-and-coffee</loc>
-    <lastmod>2023-12-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a58398e05782820b-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/pho-lucky</loc>
     <lastmod>2026-05-08</lastmod>
     <changefreq>monthly</changefreq>
@@ -969,11 +1025,39 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/1ff06af7b8b58994-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/apothecary-espresso-and-coffee</loc>
+    <lastmod>2023-12-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a58398e05782820b-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/jj-s-custard-co</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/027feb0820d55848-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/margaritaville</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/2b375896a5eca59a-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/trish-s-mini-donuts</loc>
     <lastmod>2025-06-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/0c58574143bcb6c3-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/counter-service</loc>
+    <lastmod>2026-02-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3c56b9d082e0208c-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/hidden-grounds-chai-coffee-house-manhattan</loc>
@@ -984,18 +1068,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/232fe8c80dd97a75-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/margaritaville</loc>
+    <loc>https://olafdsouza.com/food/place/the-laundromat-sf</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/2b375896a5eca59a-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/counter-service</loc>
-    <lastmod>2026-02-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3c56b9d082e0208c-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/4f3932255119db10-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/tuptim-thai-cuisine</loc>
@@ -1006,20 +1083,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/80fdb24bf8255881-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/arabica</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7eb5c55d5d536652-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/the-laundromat-sf</loc>
-    <lastmod>2026-09-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/4f3932255119db10-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/fishbone-s-west</loc>
     <lastmod>2025-03-10</lastmod>
     <changefreq>monthly</changefreq>
@@ -1028,11 +1091,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/78535445d813188d-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/chicha-san-chen</loc>
-    <lastmod>2025-11-26</lastmod>
+    <loc>https://olafdsouza.com/food/place/louis-coffee-bar</loc>
+    <lastmod>2026-10-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/fe868076b42736c9-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/93ed453504a5c156-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/arabica</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7eb5c55d5d536652-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/chaat-bhavan</loc>
@@ -1043,19 +1113,19 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/96fbd02c8edcc96d-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/chicha-san-chen</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/fe868076b42736c9-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/la-pina-loca</loc>
     <lastmod>2026-01-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/468d48f58c0a05e1-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/ddac89d6551bef50-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/dayglow</loc>
-    <lastmod>2026-06-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a88a9d73dcb6575c-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/rollin-bagels-food-truck</loc>
@@ -1065,11 +1135,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/dadc04a071b2ecad-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/louki-s</loc>
-    <lastmod>2026-09-30</lastmod>
+    <loc>https://olafdsouza.com/food/place/dayglow</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3cc86bc907d6f508-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a88a9d73dcb6575c-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/ippudo-san-francisco</loc>
@@ -1079,18 +1149,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/021229c51f70b08e-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/kinhfolk</loc>
-    <lastmod>2026-06-07</lastmod>
+    <loc>https://olafdsouza.com/food/place/lost-borough-ice-cream</loc>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/f084836ac2f99554-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/cahoots-cafe</loc>
-    <lastmod>2025-12-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/c1a398774ac1aa03-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/44bca13fcd7ea84d-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/eat-thai-ann-arbor</loc>
@@ -1101,6 +1164,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/5746d26381c9db5f-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/14e443de39450435-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/5c230827425446b2-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/kinhfolk</loc>
+    <lastmod>2026-06-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/f084836ac2f99554-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/louki-s</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3cc86bc907d6f508-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/brooklyn-bagel-coffee-company</loc>
@@ -1117,11 +1194,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/211ed92cb981901f-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/bridge-community-cafe</loc>
-    <lastmod>2026-01-11</lastmod>
+    <loc>https://olafdsouza.com/food/place/cahoots-cafe</loc>
+    <lastmod>2025-12-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/60232eec0b137f29-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/c1a398774ac1aa03-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/ma-lou-s-fried-chicken</loc>
@@ -1129,13 +1206,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/19deb1c31e5bda54-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/culture-an-american-yogurt-company-juice-bar-by-culture</loc>
-    <lastmod>2025-07-22</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/6cd8f63660700df2-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/blom-mead-cider</loc>
@@ -1147,6 +1217,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/0121cc1344ab593d-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/bridge-community-cafe</loc>
+    <lastmod>2026-01-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/60232eec0b137f29-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/faicco-s-italian-specialties</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -1154,18 +1231,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/43e7207d9ac9b920-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/mythos-fit</loc>
-    <lastmod>2026-09-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/8fb5582cfc0a28bb-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/taqueria-chingon</loc>
     <lastmod>2026-03-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/e35846ecde9b08bf-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/culture-an-american-yogurt-company-juice-bar-by-culture</loc>
+    <lastmod>2025-07-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/6cd8f63660700df2-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/la-espiga-dorada-bakery</loc>
@@ -1184,25 +1261,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/af71b0f6ee715559-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/teado-tea-shop</loc>
-    <lastmod>2025-11-26</lastmod>
+    <loc>https://olafdsouza.com/food/place/mythos-fit</loc>
+    <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/bacb2cc15cea93ba-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8fb5582cfc0a28bb-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/go-greek-yogurt</loc>
-    <lastmod>2026-05-24</lastmod>
+    <loc>https://olafdsouza.com/food/place/the-buffs</loc>
+    <lastmod>2026-10-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7c0ff88c57deb8b4-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/zingerman-s-next-door-cafe</loc>
-    <lastmod>2025-10-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/8bcca4e9b5cb02b9-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/b424eb511acef5b0-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/dumpling-story</loc>
@@ -1211,6 +1281,20 @@
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/296ae4d0f477525c-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/a6c3e535618d5bf3-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/teado-tea-shop</loc>
+    <lastmod>2025-11-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/bacb2cc15cea93ba-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/zingerman-s-next-door-cafe</loc>
+    <lastmod>2025-10-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8bcca4e9b5cb02b9-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/blue-pad-thai-1992</loc>
@@ -1227,12 +1311,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/5931995c26f45716-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/bi-rite-creamery</loc>
-    <lastmod>2025-06-22</lastmod>
+    <loc>https://olafdsouza.com/food/place/go-greek-yogurt</loc>
+    <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/95d5bcce8f7f45ea-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/99406b86f18b3f72-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7c0ff88c57deb8b4-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/james-hook-co</loc>
@@ -1255,26 +1338,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/6612946371c03303-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/detroit-perk-coffee-house</loc>
-    <lastmod>2026-03-31</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/e55d5385758bb85f-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/mike-s-pastry</loc>
-    <lastmod>2025-05-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/f31741e4325db87b-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a6034ff58512ebba-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/taqueria-ramirez</loc>
     <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/1883a5100edb22e6-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/detroit-perk-coffee-house</loc>
+    <lastmod>2026-03-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e55d5385758bb85f-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/little-ruby-s-east-village</loc>
@@ -1284,11 +1359,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b95764bee6690dbe-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/787-coffee-east-village</loc>
-    <lastmod>2026-05-10</lastmod>
+    <loc>https://olafdsouza.com/food/place/bi-rite-creamery</loc>
+    <lastmod>2025-06-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3efa68c4c5c53df7-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/95d5bcce8f7f45ea-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/99406b86f18b3f72-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/justin-s-salt-bread</loc>
@@ -1296,6 +1372,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/a2f9e67cc87e1335-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/787-coffee-east-village</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3efa68c4c5c53df7-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/dubuhaus</loc>
@@ -1307,18 +1390,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b022e95d3229fa34-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/jabal-coffee-house-ann-arbor</loc>
-    <lastmod>2026-03-25</lastmod>
+    <loc>https://olafdsouza.com/food/place/mike-s-pastry</loc>
+    <lastmod>2025-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/103aae047309c178-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/jamba</loc>
-    <lastmod>2025-11-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/062de37a924b532f-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/f31741e4325db87b-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a6034ff58512ebba-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/mala-land</loc>
@@ -1328,10 +1405,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/5743689056e75a44-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/the-common-cup</loc>
-    <lastmod>2024-06-05</lastmod>
+    <loc>https://olafdsouza.com/food/place/g-s-coffee-shop</loc>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/34ee161f89c889bd-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/jabal-coffee-house-ann-arbor</loc>
+    <lastmod>2026-03-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/103aae047309c178-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/taco-bell-cantina</loc>
@@ -1339,6 +1424,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/bfdebdcbf2e0f07a-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/the-common-cup</loc>
+    <lastmod>2024-06-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/bun-bo-hue-an-nam</loc>
@@ -1356,18 +1447,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b256173269acaa5f-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/jamba</loc>
+    <lastmod>2025-11-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/062de37a924b532f-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/breadbelly</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/5325dccf1c008c70-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/coffee-water-lab</loc>
-    <lastmod>2025-05-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3a9ec63656f3bae2-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/peridot</loc>
@@ -1377,11 +1468,25 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/0a9cd2c61f205155-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/coffee-water-lab</loc>
+    <lastmod>2025-05-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3a9ec63656f3bae2-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/just-salad</loc>
     <lastmod>2026-07-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/657fef9744924dd6-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/panineria</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/fb0863b842990822-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/fonty-s-deli-dukaan</loc>
@@ -1398,6 +1503,14 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/7ddbe12db9a50d36-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/naisnow-tea-and-bakery-long-island-city</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7ab33b5069bb7861-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/997aa65616517fd0-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/brava-empanadas</loc>
     <lastmod>2025-12-28</lastmod>
     <changefreq>monthly</changefreq>
@@ -1405,12 +1518,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/44758b4a5c901597-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/naisnow-tea-and-bakery-long-island-city</loc>
-    <lastmod>2026-09-24</lastmod>
+    <loc>https://olafdsouza.com/food/place/union-cafe</loc>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7ab33b5069bb7861-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/997aa65616517fd0-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/6a453cb3ff8d2754-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/inday</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a8c27c9d4621cf61-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/puerto-rico-s-finest-coffee-co</loc>
@@ -1420,11 +1539,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/5334472075b08226-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/inday</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://olafdsouza.com/food/place/backayard-caribbean-grill</loc>
+    <lastmod>2026-08-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a8c27c9d4621cf61-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1deb4417cc482332-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/blue-bottle-coffee</loc>
@@ -1440,27 +1559,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/7d139e9a9d0517d2-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/backayard-caribbean-grill</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1deb4417cc482332-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/chahalo-lic</loc>
-    <lastmod>2026-10-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/5fffd9422d351fa3-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/kween-s</loc>
-    <lastmod>2025-06-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a27f6b34f8aabd94-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/joe-pat-s-nyc</loc>
@@ -1480,12 +1578,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/4731a4b6dfc6f260-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/sey-coffee</loc>
-    <lastmod>2026-07-20</lastmod>
+    <loc>https://olafdsouza.com/food/place/chahalo-lic</loc>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/42999df04a0bbb71-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/8fffb2fc9a7b6f45-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/5fffd9422d351fa3-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/freighters-eatery-taproom</loc>
@@ -1493,6 +1590,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/665ccfea469c1748-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/kween-s</loc>
+    <lastmod>2025-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a27f6b34f8aabd94-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/bj-s-restaurant-brewhouse</loc>
@@ -1503,12 +1607,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/07b95f5e95e0e1ac-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/little-flower-cafe</loc>
-    <lastmod>2026-03-04</lastmod>
+    <loc>https://olafdsouza.com/food/place/sey-coffee</loc>
+    <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0984a0046190ae2e-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/686cab98ec07281b-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/42999df04a0bbb71-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8fffb2fc9a7b6f45-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/other-half-brewing-domino-park</loc>
@@ -1535,11 +1639,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/02d6bc203c0622a3-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/fosters-freeze</loc>
-    <lastmod>2026-09-03</lastmod>
+    <loc>https://olafdsouza.com/food/place/little-flower-cafe</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/831f4f6237e015e1-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0984a0046190ae2e-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/686cab98ec07281b-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/l-appartement-4f-west-village</loc>
@@ -1555,11 +1660,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/2eea0b77ebf2d9dc-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/churros</loc>
-    <lastmod>2026-08-23</lastmod>
+    <loc>https://olafdsouza.com/food/place/fosters-freeze</loc>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/22267f4178891fa4-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/831f4f6237e015e1-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/dearborn-meat-market</loc>
@@ -1576,6 +1681,13 @@
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/1e2fd5bfdb98f493-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/ef1dc531b896217f-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/churros</loc>
+    <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/22267f4178891fa4-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/santa-halal-food</loc>
@@ -1599,13 +1711,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/ffaffed3b878a581-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/cafe-lyria</loc>
-    <lastmod>2026-06-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/478ccf4e2d1d581c-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/santo-taco</loc>
     <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
@@ -1613,11 +1718,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/7eef73543c3f8b16-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/sweet-sjc</loc>
-    <lastmod>2026-09-01</lastmod>
+    <loc>https://olafdsouza.com/food/place/cafe-lyria</loc>
+    <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0fb885b7e271fcec-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/478ccf4e2d1d581c-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/fresh-pick</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a3344b43422a44be-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/bark-barbecue</loc>
@@ -1634,11 +1746,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/81d406be9fa4e69f-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/espresso-elevado</loc>
-    <lastmod>2025-12-28</lastmod>
+    <loc>https://olafdsouza.com/food/place/sweet-sjc</loc>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/61a6249dfddeba50-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0fb885b7e271fcec-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/darjeeling-kitchen-cafe</loc>
@@ -1648,19 +1760,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/cef54ce89d8b7426-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/espresso-elevado</loc>
+    <lastmod>2025-12-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/61a6249dfddeba50-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/magnolia-bakery-rockefeller-center</loc>
     <lastmod>2026-09-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/7766ef0a4d5583d3-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/qahwah-house</loc>
-    <lastmod>2025-12-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/c24d37929aaaf6b5-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1a842e9e954c3241-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/71-ny-halal-food</loc>
@@ -1670,11 +1781,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/3e1cb776ad6dab41-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/pinkberry</loc>
-    <lastmod>2026-04-14</lastmod>
+    <loc>https://olafdsouza.com/food/place/qahwah-house</loc>
+    <lastmod>2025-12-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/8baf65c745879cb1-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/c24d37929aaaf6b5-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1a842e9e954c3241-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/the-last-word</loc>
@@ -1691,13 +1803,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b098fa8abbc18ac1-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/the-elk</loc>
-    <lastmod>2025-11-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/390421ea90dd9d6e-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/upside-pizza</loc>
     <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -1711,11 +1816,18 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/tiny-s-apple-cider</loc>
-    <lastmod>2025-08-17</lastmod>
+    <loc>https://olafdsouza.com/food/place/pinkberry</loc>
+    <lastmod>2026-04-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0069e6ae954531dc-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8baf65c745879cb1-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/the-elk</loc>
+    <lastmod>2025-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/390421ea90dd9d6e-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/claude-bakery-nyc</loc>
@@ -1732,18 +1844,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/57162edf829ded56-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/tiny-s-apple-cider</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0069e6ae954531dc-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/dutch-bros-coffee</loc>
     <lastmod>2025-06-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/bc425aab6e327b68-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/cauldron-ice-cream</loc>
-    <lastmod>2026-08-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/edf42c22e32fcc5a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/poke-fish-sushi</loc>
@@ -1764,13 +1876,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/64c8dc2ccbc8fc7b-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/butterfield-market-cafe</loc>
-    <lastmod>2026-09-26</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/cf6670a9fe04e8d7-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/bombobar</loc>
     <lastmod>2025-01-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -1779,11 +1884,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/5fa4edce05e9dcee-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/current-coffee</loc>
-    <lastmod>2026-06-07</lastmod>
+    <loc>https://olafdsouza.com/food/place/cauldron-ice-cream</loc>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/2383e25c100557bd-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/edf42c22e32fcc5a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/hunan-taste-restaurant</loc>
@@ -1795,6 +1900,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/195e748efb6e275c-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/butterfield-market-cafe</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/cf6670a9fe04e8d7-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/wanglang</loc>
     <lastmod>2026-06-23</lastmod>
     <changefreq>monthly</changefreq>
@@ -1802,18 +1914,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/792a3b39372420d7-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/chocolate-shoppe-ice-cream</loc>
-    <lastmod>2026-09-20</lastmod>
+    <loc>https://olafdsouza.com/food/place/current-coffee</loc>
+    <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/bdec534ae2f9a569-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/no-stress-coffee</loc>
-    <lastmod>2026-09-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/970d2133754058a5-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/2383e25c100557bd-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/bertucelli-s-la-villa-gourmet</loc>
@@ -1823,11 +1928,35 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/862a9a2c331ee5c2-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/no-stress-coffee</loc>
+    <lastmod>2026-09-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/970d2133754058a5-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/chocolate-shoppe-ice-cream</loc>
+    <lastmod>2026-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/bdec534ae2f9a569-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/partners-coffee</loc>
     <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/0bf1611aef9f106a-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/tabe</loc>
+    <lastmod>2026-03-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/180d1fa65cdf5002-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e8f8bfa3d202c5c8-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/c0a31914393178da-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/39068d66f622983b-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/candy-coated-creamery</loc>
@@ -1845,21 +1974,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/63e9891132aa6c90-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/nothing-bundt-cakes</loc>
-    <lastmod>2026-01-22</lastmod>
+    <loc>https://olafdsouza.com/food/place/spiedo</loc>
+    <lastmod>2025-09-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/adae6d1176b14897-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/tabe</loc>
-    <lastmod>2026-03-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/180d1fa65cdf5002-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/e8f8bfa3d202c5c8-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/c0a31914393178da-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/39068d66f622983b-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/dfbddcdc0e4cc703-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/elsewhere-espresso</loc>
@@ -1869,11 +1988,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/586a58696a534826-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/spiedo</loc>
-    <lastmod>2025-09-18</lastmod>
+    <loc>https://olafdsouza.com/food/place/nothing-bundt-cakes</loc>
+    <lastmod>2026-01-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/dfbddcdc0e4cc703-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/adae6d1176b14897-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/back-a-yard-caribbean-grill</loc>
@@ -1891,6 +2010,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b2380131eb2e2d55-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/madman-espresso-greenwich-village</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e410678ee5505d22-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/utopia-bagels</loc>
     <lastmod>2025-11-26</lastmod>
     <changefreq>monthly</changefreq>
@@ -1905,13 +2031,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/018bdac015cb88a9-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/layla-ringo-s</loc>
-    <lastmod>2026-01-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/119fdbf15f92b41a-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/gupshup</loc>
     <lastmod>2026-07-20</lastmod>
     <changefreq>monthly</changefreq>
@@ -1923,12 +2042,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/e4893cbef438f213-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/chip-city</loc>
-    <lastmod>2025-05-16</lastmod>
+    <loc>https://olafdsouza.com/food/place/layla-ringo-s</loc>
+    <lastmod>2026-01-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/c669787ddbdd5a7a-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0596f5e387d6f1ac-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/119fdbf15f92b41a-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/pho-dang</loc>
@@ -1938,11 +2056,40 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/a182ed2352b16425-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/thonglor-thai-restaurant-queen</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/98139f2ed1bca72d-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/dj-s-bakery</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/7b5572cc80197219-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/gulp</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/fc77ff14eee8580e-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/chip-city</loc>
+    <lastmod>2025-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/c669787ddbdd5a7a-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0596f5e387d6f1ac-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/thai-diner</loc>
+    <lastmod>2026-03-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/9d561c3fb44b7b30-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/acro</loc>
@@ -1952,11 +2099,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/08e1c400d738a953-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/thai-diner</loc>
-    <lastmod>2026-03-02</lastmod>
+    <loc>https://olafdsouza.com/food/place/son-del-north</loc>
+    <lastmod>2026-03-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/9d561c3fb44b7b30-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/73b32916b16e4edd-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/hey-yogurt</loc>
@@ -1973,32 +2120,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/fec37f1c1ed610a7-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/bun-chai-yemeni-coffee-tea</loc>
-    <lastmod>2025-09-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/157de5599926df74-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/son-del-north</loc>
-    <lastmod>2026-03-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/73b32916b16e4edd-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/halalfood</loc>
     <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/08a1f415b9954ea3-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/bubby-s</loc>
-    <lastmod>2026-03-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/44470501bbef22f4-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/best-bagel-coffee</loc>
@@ -2008,11 +2134,25 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/462782ed31f784c1-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/bubby-s</loc>
+    <lastmod>2026-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/44470501bbef22f4-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/azalea</loc>
     <lastmod>2026-02-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/cede58db96f6ca01-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/bun-chai-yemeni-coffee-tea</loc>
+    <lastmod>2025-09-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/157de5599926df74-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/the-bird</loc>
@@ -2029,13 +2169,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/940b36527a4908ef-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/8847599e67cc7414-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/8847599e67cc7414-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/moka-co</loc>
-    <lastmod>2025-09-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1df47793dbf7fbd2-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/chili-s-grill-bar</loc>
@@ -2063,6 +2196,21 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/74b939ef533b96d5-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/moka-co</loc>
+    <lastmod>2025-09-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1df47793dbf7fbd2-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/el-carboncito-al-estilo-rancho</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/2e1f02e14d9f29aa-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/6fbee602716b8b2e-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/pavlo-mochi</loc>
     <lastmod>2026-05-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -2075,6 +2223,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/ef6ac28ada871358-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/erewhon</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/ad8f7d1f0cf8eb62-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/551f44ab05a10401-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/blank-street-coffee</loc>
@@ -2104,14 +2260,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/223dd611df62a1c3-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/prince-tea-house-east-village</loc>
-    <lastmod>2026-05-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/acedfa1ff0070046-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7db7c32d601fd86d-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/fish-cheeks</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>monthly</changefreq>
@@ -2119,6 +2267,14 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/6b8e6b3d70eb61dd-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/68f1e3a16eef2738-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/3938ae37311bf79b-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/prince-tea-house-east-village</loc>
+    <lastmod>2026-05-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/acedfa1ff0070046-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7db7c32d601fd86d-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/umma-cafe</loc>
@@ -2135,18 +2291,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/bb1fec683321a193-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/lazeez-eats</loc>
-    <lastmod>2025-12-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/8d13e4fa9d46d070-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/dom-bakeries</loc>
     <lastmod>2025-12-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/19c2276c3dedde40-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/lazeez-eats</loc>
+    <lastmod>2025-12-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8d13e4fa9d46d070-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/euro-grill</loc>
@@ -2208,19 +2364,19 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/cecf3591774f602b-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/bruegger-s-bagels</loc>
-    <lastmod>2025-12-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/61d0aff20a7cda89-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/moose-pastry-tea</loc>
     <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/befbbd4829efb6a5-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/4df515e7113d5829-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/bruegger-s-bagels</loc>
+    <lastmod>2025-12-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/61d0aff20a7cda89-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/halal-gyro-express-kebab</loc>
@@ -2237,6 +2393,14 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/80ef9e58c3396428-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/slows-bar-bq-ann-arbor</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/e5d87748b90db8f0-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/edc5410d308297bd-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/black-diesel-coffee</loc>
     <lastmod>2025-12-03</lastmod>
     <changefreq>monthly</changefreq>
@@ -2244,12 +2408,10 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/b68c25c9d3fbad92-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/slows-bar-bq-ann-arbor</loc>
-    <lastmod>2026-05-01</lastmod>
+    <loc>https://olafdsouza.com/food/place/desi-ruchulu-indian-cuisine</loc>
+    <lastmod>2026-02-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/e5d87748b90db8f0-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/edc5410d308297bd-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/milk-bar</loc>
@@ -2259,10 +2421,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/3cf1dee3cd92eeb8-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/desi-ruchulu-indian-cuisine</loc>
-    <lastmod>2026-02-02</lastmod>
+    <loc>https://olafdsouza.com/food/place/sizzling-spot</loc>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/4f3793ea4023c68e-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/1824-cocktails-coffee</loc>
@@ -2284,6 +2447,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/dece979efceb6717-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/yoon-s-bakery</loc>
+    <lastmod>2025-12-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/92a87488fe6d9455-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/hana-gelateria</loc>
@@ -2312,13 +2482,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/d3091ed3e04019c3-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/yoon-s-bakery</loc>
-    <lastmod>2025-12-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/92a87488fe6d9455-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/watchhouse-park-ave-south</loc>
@@ -2447,19 +2610,19 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/893705f3755edf52-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/altitude-sky-lounge</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a9a93366ec4cc130-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/madras-masala-express</loc>
     <lastmod>2025-10-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/2d8922f51df9cb9b-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/19da074274a1ced1-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/altitude-sky-lounge</loc>
-    <lastmod>2025-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/a9a93366ec4cc130-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/meli-froyo</loc>
@@ -2528,12 +2691,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/7292a2d243f4797c-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/dog-bone</loc>
-    <lastmod>2026-05-16</lastmod>
+    <loc>https://olafdsouza.com/food/place/subtext</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/d524b510b53520ae-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/4f78284e193b3294-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7f6b5f14f4ac30df-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1999d67a9a6ad35f-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/ea06acd5681cf227-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/enthaice-thai-kitchen</loc>
@@ -2566,19 +2730,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/aabbe85e899806de-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/lic-bagels-deli</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/95ea2722713993d8-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/burger-king</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/810b5073c3c11d28-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/creperie-nyc</loc>
-    <lastmod>2026-07-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/dd2917cc656f7a4e-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3ef5a30cf0ef9cb2-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/oslo-coffee-roasters</loc>
@@ -2595,18 +2758,20 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/3cbb1a89d7d77c50-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/sao-mai</loc>
-    <lastmod>2026-06-01</lastmod>
+    <loc>https://olafdsouza.com/food/place/creperie-nyc</loc>
+    <lastmod>2026-07-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/dc83e83369fb908a-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/dd2917cc656f7a4e-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3ef5a30cf0ef9cb2-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/levain-bakery-west-loop-chicago</loc>
-    <lastmod>2025-10-16</lastmod>
+    <loc>https://olafdsouza.com/food/place/plaza-express-deli</loc>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/572ecd65de5741cc-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1bf1ef5d8984f084-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/5a9797f2e3cff33f-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/the-red-dot-coffee-company</loc>
@@ -2616,11 +2781,33 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/d8e3ee452c920828-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/sao-mai</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/dc83e83369fb908a-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/sumi-sushi</loc>
     <lastmod>2025-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/5954f3d340ffe2a6-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/dog-bone</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/d524b510b53520ae-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/4f78284e193b3294-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/levain-bakery-west-loop-chicago</loc>
+    <lastmod>2025-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/572ecd65de5741cc-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/hayati-coffee</loc>
@@ -2666,13 +2853,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/76b7500e9cec565a-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/yogurtland-sjsu</loc>
-    <lastmod>2025-08-17</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1f9d5101f92662cf-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/arcane-estate-coffee</loc>
     <lastmod>2026-05-11</lastmod>
     <changefreq>monthly</changefreq>
@@ -2680,11 +2860,25 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/edc9229edd819fce-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/yogurtland-sjsu</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1f9d5101f92662cf-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/amer-s-delicatessen</loc>
     <lastmod>2025-12-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/f68b700e00b6c2d1-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/joe-the-juice</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/577a6a5b5f5de2d4-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/yumi-yogurt</loc>
@@ -2701,18 +2895,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/f960ed70f360db01-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/arteassan-long-island-city</loc>
-    <lastmod>2026-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/3861c75732a82ad4-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/hunchos-halal-spot</loc>
     <lastmod>2026-09-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/b84f4d994085dbd0-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/arteassan-long-island-city</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3861c75732a82ad4-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/baba-dari-mediterranean-grill</loc>
@@ -2750,18 +2944,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/1ac7aeeb1bf93026-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/beyond-juicery-eatery</loc>
-    <lastmod>2025-03-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/1aa1534d60e2d788-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/curry-village-pizza-deck</loc>
     <lastmod>2025-08-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/ad9d81bac516b546-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/beyond-juicery-eatery</loc>
+    <lastmod>2025-03-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1aa1534d60e2d788-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/drip-collective</loc>
@@ -2771,18 +2965,11 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/54ed835e62e04316-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/iggy-s-eggies</loc>
-    <lastmod>2025-01-06</lastmod>
+    <loc>https://olafdsouza.com/food/place/john-brown-bbq</loc>
+    <lastmod>2026-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/10aba65115e3529e-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/nightcap</loc>
-    <lastmod>2026-04-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/185f60a6017808ee-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/95875779bf26dd15-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/madman-espresso</loc>
@@ -2790,6 +2977,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/ccfa80b3c6b92fbe-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/iggy-s-eggies</loc>
+    <lastmod>2025-01-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/10aba65115e3529e-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/la-cabra-bakery</loc>
@@ -2814,18 +3008,25 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/fe34ea6ad3302285-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/nightcap</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/185f60a6017808ee-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/tartine-bakery</loc>
+    <lastmod>2025-08-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/bf4932d527a9e89d-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/sixth-street-burger</loc>
     <lastmod>2026-08-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/ea81cb8f89b8222d-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/tajeen-halal-food-truck</loc>
-    <lastmod>2026-06-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/7d933692a8badd07-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/devocion</loc>
@@ -2836,11 +3037,18 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/8d465915d331931e-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/tartine-bakery</loc>
-    <lastmod>2025-08-17</lastmod>
+    <loc>https://olafdsouza.com/food/place/tajeen-halal-food-truck</loc>
+    <lastmod>2026-06-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/bf4932d527a9e89d-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/7d933692a8badd07-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/padoca-bakery-cakes</loc>
+    <lastmod>2026-10-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/8b0886e859679287-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/blazin-coop-s-nashville-hot-chicken</loc>
@@ -2864,6 +3072,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/c0d91d93df971973-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/o-cafe</loc>
+    <lastmod>2025-12-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0809f7d422610e63-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/moge-tee-ann-arbor</loc>
     <lastmod>2026-04-06</lastmod>
     <changefreq>monthly</changefreq>
@@ -2883,13 +3098,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/e9d0fdaef8371a11-1200.webp</image:loc></image:image>
-  </url>
-  <url>
-    <loc>https://olafdsouza.com/food/place/o-cafe</loc>
-    <lastmod>2025-12-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0809f7d422610e63-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/sweeting</loc>
@@ -2920,13 +3128,6 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/cd39be35dfdd0032-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/vanilla-gorilla-cafe</loc>
-    <lastmod>2026-07-21</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/15612867207d1a57-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/la-pecora-bianca-soho</loc>
     <lastmod>2026-06-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -2935,12 +3136,35 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/1c7048481eece3c8-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/vanilla-gorilla-cafe</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/15612867207d1a57-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/moc-mac</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/a2cf3014bd13c300-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/b23eca23c912164e-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/1915-lanzhou-hand-pulled-noodles</loc>
     <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/c0ad893001bfaa42-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/754427264aa059e9-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/ad-astra-bread-co</loc>
+    <lastmod>2025-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/0aaf7962f4edcaec-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/be936723af680ceb-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/swadesi-cafe</loc>
@@ -2957,20 +3181,19 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/ad-astra-bread-co</loc>
-    <lastmod>2025-06-30</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/0aaf7962f4edcaec-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/be936723af680ceb-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/detroit-pizza-pub</loc>
     <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/565b9387a483aa74-1200.webp</image:loc></image:image>
     <image:image><image:loc>https://img.olafdsouza.com/food/c27be4bf5f3d9d22-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/shero-cakes</loc>
+    <lastmod>2026-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/4d555421277ef4ef-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/bleecker-street-pizza</loc>
@@ -3014,6 +3237,13 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/9cea40b98805a332-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/virasat-cafe</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/3e2d65279993850c-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/palio-ann-arbor</loc>
     <lastmod>2025-05-16</lastmod>
     <changefreq>monthly</changefreq>
@@ -3034,11 +3264,25 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/dd0dc360ab9f8c87-1200.webp</image:loc></image:image>
   </url>
   <url>
+    <loc>https://olafdsouza.com/food/place/origin-cafe-wine-bar</loc>
+    <lastmod>2026-10-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/2026ad0cbc6d7c5a-1200.webp</image:loc></image:image>
+  </url>
+  <url>
     <loc>https://olafdsouza.com/food/place/lou-s-soda-fountain</loc>
     <lastmod>2026-09-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/25bdf7ec33deea61-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/empire-halal</loc>
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/1597bcabfa494520-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/saint-coffee-bar</loc>
@@ -3069,14 +3313,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/goddess-and-the-baker-superior-wells</loc>
-    <lastmod>2025-10-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/076ac6e8ec5f77f7-1200.webp</image:loc></image:image>
-    <image:image><image:loc>https://img.olafdsouza.com/food/716b3f2bd9723e70-1200.webp</image:loc></image:image>
-  </url>
-  <url>
     <loc>https://olafdsouza.com/food/place/joe-coffee-company</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -3099,11 +3335,12 @@
     <image:image><image:loc>https://img.olafdsouza.com/food/92cd7c40e31d1692-1200.webp</image:loc></image:image>
   </url>
   <url>
-    <loc>https://olafdsouza.com/food/place/not-as-bitter</loc>
-    <lastmod>2026-06-06</lastmod>
+    <loc>https://olafdsouza.com/food/place/goddess-and-the-baker-superior-wells</loc>
+    <lastmod>2025-10-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-    <image:image><image:loc>https://img.olafdsouza.com/food/66812cce956af09d-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/076ac6e8ec5f77f7-1200.webp</image:loc></image:image>
+    <image:image><image:loc>https://img.olafdsouza.com/food/716b3f2bd9723e70-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/tilly-bagel-shop</loc>
@@ -3111,6 +3348,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://img.olafdsouza.com/food/ee7bb85f1624cb1f-1200.webp</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://olafdsouza.com/food/place/not-as-bitter</loc>
+    <lastmod>2026-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://img.olafdsouza.com/food/66812cce956af09d-1200.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://olafdsouza.com/food/place/epic-king-s-cross-cafeteria</loc>

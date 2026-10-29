@@ -224,8 +224,8 @@ function prune(object) {
   return Object.fromEntries(Object.entries(object).filter(([, v]) => v !== undefined));
 }
 
-/** Slug = kebab name; on collision append the city, then the neighborhood, then the id. */
-export function assignSlugs(places) {
+/** Preserve published slugs; new collisions use city, neighborhood, then id. */
+export function assignSlugs(places, previous = []) {
   const groups = new Map();
   for (const place of places) {
     const base = slugify(place.name);
@@ -243,6 +243,20 @@ export function assignSlugs(places) {
         ? (p) => slugify(p.neighborhood)
         : (p) => String(p.id);
     for (const place of group) place.slug = `${base}-${suffix(place)}`;
+  }
+  const previousSlugs = new Map(previous.map((p) => [p.id, p.slug]));
+  const reserved = new Set(places.flatMap((p) => previousSlugs.get(p.id) ?? []));
+  for (const place of places) {
+    const existing = previousSlugs.get(place.id);
+    if (existing) {
+      place.slug = existing;
+      continue;
+    }
+    const base = place.slug;
+    for (let suffix = 0; reserved.has(place.slug); suffix++) {
+      place.slug = `${base}-${place.id}${suffix ? `-${suffix}` : ""}`;
+    }
+    reserved.add(place.slug);
   }
   return places.map(({ id, slug, ...rest }) => ({ id, slug, ...rest }));
 }
@@ -456,7 +470,8 @@ async function main() {
   const raws = Object.values(data.places);
   const rawById = new Map(raws.map((r) => [r.business_id, r]));
 
-  const places = assignSlugs(raws.map((raw) => buildPlace(raw, data, regions))).sort(
+  const previous = fs.existsSync(OUT_PATH) ? JSON.parse(fs.readFileSync(OUT_PATH, "utf8")) : undefined;
+  const places = assignSlugs(raws.map((raw) => buildPlace(raw, data, regions)), previous?.places).sort(
     (a, b) => b.score - a.score || a.name.localeCompare(b.name)
   );
   const photoIds = places.flatMap((p) => (p.photos ?? []).map((ph) => ph.id));
@@ -471,7 +486,6 @@ async function main() {
     regions: regions.all(places),
     places,
   };
-  const previous = fs.existsSync(OUT_PATH) ? JSON.parse(fs.readFileSync(OUT_PATH, "utf8")) : undefined;
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   fs.writeFileSync(OUT_PATH, serialize(next));

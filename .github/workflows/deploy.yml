@@ -30,8 +30,8 @@ jobs:
 
       - run: pnpm seo:generate
 
-      - name: Test IndexNow integration
-        run: node --test scripts/indexnow.test.mjs
+      - name: Test IndexNow and food import
+        run: node --test scripts/indexnow.test.mjs scripts/food-import.test.mjs
 
       - run: pnpm build
 
