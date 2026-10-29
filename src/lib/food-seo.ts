@@ -1,6 +1,6 @@
 // Structured data and meta helpers for the food pages.
 
-import { personalInfo, siteUrl } from "@/components/Info";
+import { personalInfo, siteUrl, socialUrls } from "@/components/Info";
 import { cityName, photoUrl, type Category, type Photo } from "./food-core";
 import type { GuideView, PlaceView, Row } from "./food";
 import { buildSocialMeta } from "./seo";
@@ -9,7 +9,7 @@ export const foodUrl = (path = "") => `${siteUrl}/food${path}`;
 export const placeUrl = (slug: string) => foodUrl(`/place/${slug}`);
 export const guideUrl = (region: string, segment: string) => foodUrl(`/${region}/${segment}`);
 
-const author = { "@type": "Person", name: personalInfo.name, url: siteUrl };
+export const author = { "@type": "Person", name: personalInfo.name, url: siteUrl, sameAs: Object.values(socialUrls) };
 
 /** schema.org subtype of FoodEstablishment per category. */
 const SCHEMA_TYPE: Record<Category, string> = {

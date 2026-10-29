@@ -2,4 +2,3 @@ User-agent: *
 Disallow:
 
 Sitemap: https://olafdsouza.com/sitemap.xml
-Allow: /llms.txt

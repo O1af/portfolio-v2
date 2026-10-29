@@ -84,7 +84,10 @@ export function HowIRate() {
     <p {...stylex.props(styles.method)}>
       <strong {...stylex.props(styles.methodLead)}>How I rate.</strong> Scores come from Beli's pairwise ranking,
       so a 10 means it beat everything else I've had in the category, not that it's perfect. Nothing here is
-      sponsored.
+      sponsored.{" "}
+      <Link to="/food/how-i-rate" {...stylex.props(styles.methodLink)}>
+        More on how I rate
+      </Link>
     </p>
   );
 }
@@ -98,6 +101,11 @@ export const crumbStyles = stylex.create({
 });
 
 const styles = stylex.create({
+  methodLink: {
+    color: "inherit",
+    textDecorationLine: "underline",
+    textUnderlineOffset: "3px",
+  },
   main: {
     minHeight: "100vh",
     padding: {

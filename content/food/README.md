@@ -43,6 +43,17 @@ draft: true          # only visible in `pnpm dev` until removed
 Intro, in markdown. Write something here: without it the page duplicates an automatic guide.
 ```
 
+### Short answers
+
+Every automatic guide opens with a one-sentence answer, which `llms.txt` repeats. By default it names the top 3
+open places. To write your own, add it to `answers.json`, keyed by the guide's path:
+
+```json
+{ "ann-arbor/coffee": "Hyperion Coffee Co for the best beans in town, then The Boro Cafe & Bakery." }
+```
+
+Place names written exactly as they appear in the guide become links. An unknown path fails the build.
+
 ## Photos
 
 `pnpm food:import` unpacks the export into `.food-export/` (gitignored) and resizes every photo into three

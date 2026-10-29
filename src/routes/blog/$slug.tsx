@@ -31,7 +31,7 @@ export const Route = createFileRoute("/blog/$slug")({
 
     return {
       meta: [
-        { title: `${post.title} | ${personalInfo.name}` },
+        { title: `${post.seoTitle ?? post.title} | ${personalInfo.name}` },
         { name: "description", content: post.summary },
         { name: "author", content: post.author },
         { property: "article:author", content: post.author },

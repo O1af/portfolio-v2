@@ -70,7 +70,7 @@ export const Route = createRootRoute({
           "@type": "Person",
           name: personalInfo.name,
           url: siteUrl,
-          sameAs: [socialUrls.github, socialUrls.linkedin],
+          sameAs: Object.values(socialUrls),
         },
       }),
     ],

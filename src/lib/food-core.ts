@@ -338,6 +338,9 @@ export function buildGuides(places: Place[], regions: Region[], customs: CustomG
   return guides;
 }
 
+/** The short answer at the top of a guide: its best places that are still open. */
+export const guidePicks = (places: Place[], count = 3) => places.filter((p) => p.status !== "closed").slice(0, count);
+
 export function areasOf(places: Place[]): string[] {
   const names = new Set<string>();
   for (const p of places) {

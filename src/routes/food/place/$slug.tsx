@@ -13,12 +13,14 @@ import {
   directionsUrl,
   displayDomain,
   formatDayHours,
+  formatMiles,
   formatScore,
   formatVisitDate,
   lowerLabel,
   placeLocation,
   placeType,
   recommendationMailto,
+  titleKind,
 } from "@/lib/food-format";
 import { breadcrumbs, foodMeta, foodUrl, guideUrl, placeSchema, placeUrl } from "@/lib/food-seo";
 import { jsonLd } from "@/lib/seo";
@@ -36,6 +38,8 @@ export const Route = createFileRoute("/food/place/$slug")({
     const url = placeUrl(place.slug);
     const town = cityName(place.city);
     const where = placeLocation(place.city, place.area, place.neighborhood);
+    // "Eat Thai Ann Arbor", not "Eat Thai Ann Arbor, Ann Arbor".
+    const named = place.name.toLowerCase().includes(town.toLowerCase()) ? place.name : `${place.name}, ${town}`;
     const rank = place.guide && ` #${place.guide.rank} of ${place.guide.total} in my ${place.region.name} ${lowerLabel(place.guide.label)} guide.`;
     const description = place.note
       ? `${formatScore(place.score)}/10. ${truncate(place.note, 120)}`
@@ -50,7 +54,7 @@ export const Route = createFileRoute("/food/place/$slug")({
     return {
       meta: [
         ...foodMeta({
-          title: `${place.name}, ${town}: ${formatScore(place.score)}/10 | ${personalInfo.name}`,
+          title: `${named}: ${titleKind(place.category, place.kind)} review (${formatScore(place.score)}/10) | ${personalInfo.name}`,
           description,
           url,
           og: place.og,
@@ -209,6 +213,8 @@ function PlacePage() {
         </section>
       </div>
 
+      <MoreNearby place={place} />
+
       {guide && (guide.prev || guide.next) && (
         <nav aria-label={`More ${guideName}`} {...stylex.props(styles.pager)}>
           {guide.prev ? <PagerLink item={guide.prev} label="Better" /> : <span />}
@@ -216,6 +222,35 @@ function PlacePage() {
         </nav>
       )}
     </FoodMain>
+  );
+}
+
+function MoreNearby({ place }: { place: PlaceView }) {
+  if (place.nearby.length === 0 && place.areaGuides.length === 0) return null;
+  return (
+    <section {...stylex.props(styles.section)}>
+      <h2 {...stylex.props(styles.h2)}>More nearby</h2>
+      <div {...stylex.props(styles.links)}>
+        {place.nearby.map((near) => (
+          <Link key={near.slug} to="/food/place/$slug" params={{ slug: near.slug }} {...stylex.props(styles.linkRow)}>
+            {near.name}
+            <span {...stylex.props(styles.linkMeta)}>
+              {formatMiles(near.miles)} · {formatScore(near.score)}
+            </span>
+          </Link>
+        ))}
+        {place.areaGuides.map((g) => (
+          <Link
+            key={g.segment}
+            to="/food/$region/$guide"
+            params={{ region: place.region.slug, guide: g.segment }}
+            {...stylex.props(styles.linkRow)}
+          >
+            All {g.label} <span {...stylex.props(styles.linkMeta)}>{g.count} places</span>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 

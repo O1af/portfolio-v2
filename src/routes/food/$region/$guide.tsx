@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import * as stylex from "@stylexjs/stylex";
 import { personalInfo } from "@/components/Info";
 import { describeFilters, FilterBar, hasFilters } from "@/components/food/FilterBar";
@@ -7,9 +7,10 @@ import { Crumbs, FoodMain, HowIRate, Lead, PageTitle, crumbStyles } from "@/comp
 import { MiniHeader } from "@/components/food/MiniHeader";
 import { PlaceRows } from "@/components/food/PlaceRows";
 import { useRowKeys } from "@/components/food/useRowKeys";
+import type { GuideView, Row } from "@/lib/food";
 import { getGuide } from "@/lib/food-api";
 import { applyListFilters, parseListFilters, type ListFilters } from "@/lib/food-core";
-import { formatMonthYear, recommendationMailto } from "@/lib/food-format";
+import { formatMonthYear, formatScore, recommendationMailto } from "@/lib/food-format";
 import { breadcrumbs, foodMeta, foodUrl, guideSchema, guideUrl } from "@/lib/food-seo";
 import { useHydrated } from "@/lib/use-hydrated";
 import { jsonLd } from "@/lib/seo";
@@ -28,7 +29,8 @@ export const Route = createFileRoute("/food/$region/$guide")({
     // Canonical ignores filters: every filtered view points back at the full guide.
     const url = guideUrl(guide.region.slug, guide.segment);
     const count = guide.rows.length;
-    const title = guide.custom ? guide.title : `${guide.title}: ${count} places, ranked`;
+    const year = guide.updated?.slice(0, 4);
+    const title = guide.custom ? guide.title : `${guide.title}${year ? ` (${year})` : ""}: ${count} places, ranked`;
     const description = guide.custom
       ? guide.description
       : `${guide.description} ${count} places, ${guide.noted} with notes, from ${guide.rows[0].name} (${guide.rows[0].score.toFixed(1)}) down.`;
@@ -101,10 +103,7 @@ function GuidePage() {
           dangerouslySetInnerHTML={{ __html: guide.intro }}
         />
       ) : (
-        <Lead>
-          {guide.description} {total} places, {guide.noted} with notes.
-          {guide.updated && ` Updated ${formatMonthYear(guide.updated)}.`}
-        </Lead>
+        <ShortAnswer guide={guide} />
       )}
 
       <FilterBar
@@ -138,6 +137,56 @@ function GuidePage() {
   );
 }
 
+/** The answer first, for readers and the AI answers that quote the top of the page. */
+function ShortAnswer({ guide }: { guide: GuideView }) {
+  const { picks } = guide;
+  return (
+    <Lead>
+      {guide.answer ? (
+        linkPlaces(guide.answer, guide.rows)
+      ) : (
+        <>
+          My top {picks.length}:{" "}
+          {picks.map((row, i) => (
+            <span key={row.slug}>
+              {i > 0 && (i === picks.length - 1 ? " and " : ", ")}
+              <PlaceName row={row} /> ({formatScore(row.score)})
+            </span>
+          ))}
+          .
+        </>
+      )}{" "}
+      Ranked from {guide.rows.length} places I've rated, {guide.noted} with notes.
+      {guide.updated && ` Updated ${formatMonthYear(guide.updated)}.`}
+    </Lead>
+  );
+}
+
+/** Links each place the hand-written answer names, in the order they appear. */
+function linkPlaces(text: string, rows: Row[]): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  let rest = text;
+  for (;;) {
+    const next = rows
+      .map((row) => ({ row, at: rest.indexOf(row.name) }))
+      .filter((hit) => hit.at >= 0)
+      .sort((a, b) => a.at - b.at || b.row.name.length - a.row.name.length)[0];
+    if (!next) break;
+    nodes.push(rest.slice(0, next.at), <PlaceName key={nodes.length} row={next.row} />);
+    rest = rest.slice(next.at + next.row.name.length);
+  }
+  return [...nodes, rest];
+}
+
+function PlaceName({ row }: { row: Row }) {
+  if (!row.hasPage) return <span {...stylex.props(styles.pick)}>{row.name}</span>;
+  return (
+    <Link to="/food/place/$slug" params={{ slug: row.slug }} {...stylex.props(styles.pick, styles.pickLink)}>
+      {row.name}
+    </Link>
+  );
+}
+
 function EmptyState({ guide, region, filters }: { guide: string; region: { phrase: string }; filters: ListFilters }) {
   const where = filters.nbhd ?? region.phrase;
   return (
@@ -168,6 +217,14 @@ const styles = stylex.create({
     color: "var(--muted-foreground)",
     fontSize: "15.5px",
     lineHeight: "1.625",
+  },
+  pick: {
+    color: "var(--foreground)",
+  },
+  pickLink: {
+    textDecorationLine: "underline",
+    textDecorationColor: { default: "var(--border)", ":hover": "currentColor" },
+    textUnderlineOffset: "3px",
   },
   count: {
     marginTop: "1rem",

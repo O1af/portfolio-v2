@@ -5,6 +5,7 @@
 
 import { allFoodGuides, allFoodPlaces } from "content-collections";
 import type { FoodSearchEntry } from "@/components/search/search-index";
+import answersJson from "../../content/food/answers.json";
 import ogManifest from "../../content/food/og.json";
 import ratingsJson from "../../content/food/ratings.json";
 import {
@@ -15,6 +16,7 @@ import {
   IMAGE_HOST,
   regionPhrase,
   CATEGORY_LABEL,
+  guidePicks,
   type Category,
   type Dish,
   type Guide,
@@ -41,6 +43,12 @@ const og = (key: string): string | undefined => {
 };
 
 const guideByPath = new Map(guides.map((g) => [g.path, g]));
+
+/** Hand-written short answers by guide path (content/food/answers.json); other guides list their top picks. */
+const answers = new Map(Object.entries(answersJson as Record<string, string>));
+for (const path of answers.keys()) {
+  if (!guideByPath.has(path)) throw new Error(`answers.json names unknown guide "${path}"`);
+}
 const autoGuideOf = (p: Place) => guideByPath.get(`${p.region}/${p.category}`);
 const guidesIn = (region: string) => guides.filter((g) => g.region.slug === region);
 const inCategoryGuide = (p: Place) => autoGuideOf(p) !== undefined;
@@ -108,7 +116,7 @@ export type Pick = { slug: string; name: string; score: number; photo: string; a
 
 export type HubData = {
   og?: string;
-  stats: { places: number; nines: number; photos: number; regions: number };
+  stats: { places: number; nines: number; notes: number; photos: number; regions: number; since?: string };
   regions: (RegionRef & { count: number; cities?: string; guides: GuideLink[]; picks: Pick[] })[];
   /** Summary of /food/elsewhere, when there is anything there. */
   elsewhere?: { count: number; cities: string };
@@ -123,8 +131,10 @@ export const hub: HubData = {
   stats: {
     places: visible.length,
     nines: visible.filter((p) => p.score >= 9).length,
+    notes: visible.filter((p) => p.note).length,
     photos: new Set(visible.flatMap((p) => p.photos.map((ph) => ph.id))).size,
     regions: new Set(guides.map((g) => g.region.slug)).size,
+    since: visible.map((p) => p.visited).filter(Boolean).sort()[0],
   },
   regions: regions
     .filter((region) => guidesIn(region.slug).length > 0)
@@ -222,6 +232,9 @@ export type GuideView = {
   label: string;
   description: string;
   intro?: string;
+  /** Hand-written short answer; without one the page names `picks`. */
+  answer?: string;
+  picks: Row[];
   custom: boolean;
   category?: Category;
   updated?: string;
@@ -245,6 +258,8 @@ export function guideView(region: string, segment: string): GuideView | undefine
     label: guide.label,
     description: guide.description,
     intro: guide.intro,
+    answer: answers.get(guide.path),
+    picks: guidePicks(guide.places).map((p) => toRow(p, guide.places.indexOf(p) + 1)),
     custom: guide.custom,
     category: guide.category,
     updated: guide.updated,
@@ -259,6 +274,32 @@ export function guideView(region: string, segment: string): GuideView | undefine
 }
 
 type Neighbor = { slug: string; name: string; rank: number };
+
+export type Nearby = { slug: string; name: string; score: number; miles: number };
+
+/** Straight-line miles; plenty accurate within a city. */
+const milesBetween = (a: Place, b: Place) =>
+  69 * Math.hypot(a.lat - b.lat, (a.lng - b.lng) * Math.cos((a.lat * Math.PI) / 180));
+
+/** Scores below this aren't worth suggesting as an alternative. */
+const NEARBY_MIN_SCORE = 7;
+
+/** The closest open places of the same category in the same region that scored well. */
+function nearbyPlaces(place: Place, count = 4): Nearby[] {
+  return visible
+    .filter(
+      (p) =>
+        p !== place &&
+        p.region === place.region &&
+        p.category === place.category &&
+        p.score >= NEARBY_MIN_SCORE &&
+        p.hasPage &&
+        p.status !== "closed"
+    )
+    .map((p) => ({ slug: p.slug, name: p.name, score: p.score, miles: milesBetween(place, p) }))
+    .sort((a, b) => a.miles - b.miles)
+    .slice(0, count);
+}
 
 export type PlaceView = {
   og?: string;
@@ -287,6 +328,9 @@ export type PlaceView = {
   photos: Photo[];
   /** False for photo-only pages: rendered, linked, but kept out of search results. */
   indexable: boolean;
+  nearby: Nearby[];
+  /** Guides to the place's neighborhood (or city), any category. */
+  areaGuides: GuideLink[];
   /** Position in the region × category guide, when that guide exists. */
   guide?: { segment: string; label: string; rank: number; total: number; prev?: Neighbor; next?: Neighbor };
 };
@@ -330,6 +374,8 @@ export function placeView(slug: string): PlaceView | undefined {
     dishes: place.dishes,
     photos: place.photos,
     indexable: place.indexable,
+    nearby: nearbyPlaces(place),
+    areaGuides: guidesIn(place.region).filter((g) => g.area && g.area === areaOf(place)).map(guideLink),
     guide:
       guide && index >= 0
         ? {

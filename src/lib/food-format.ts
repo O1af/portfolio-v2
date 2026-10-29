@@ -4,6 +4,9 @@ import { cityName, type Category, type Hours, type Kind } from "./food-core";
 
 export const formatScore = (score: number) => score.toFixed(1);
 
+export const formatMiles = (miles: number) =>
+  miles < 0.1 ? "<0.1 mi" : `${miles < 10 ? miles.toFixed(1) : Math.round(miles)} mi`;
+
 const MONTH_YEAR = new Intl.DateTimeFormat("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 const LONG_DATE = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
@@ -26,6 +29,10 @@ export function placeType(category: Category, kind?: Kind, cuisines?: string[]):
   if (category === "restaurants" && cuisines?.length) return cuisines.slice(0, 2).join(", ");
   return KIND_OF_PLACE[category];
 }
+
+/** "coffee shop", "tea & boba": what the place is, lowercase, for page titles. */
+export const titleKind = (category: Category, kind?: Kind) =>
+  kind === "tea" ? "tea & boba" : KIND_OF_PLACE[category].toLowerCase();
 
 /** "Old West Side, Ann Arbor"; just the city when the area is the city. */
 export function placeLocation(city: string, area?: string, neighborhood?: string): string {

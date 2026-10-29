@@ -50,6 +50,7 @@ export const socialLinks: SocialLink[] = [
 export const socialUrls = {
   github: "https://github.com/o1af",
   linkedin: "https://linkedin.com/in/olafdsouza",
+  googleMaps: "https://www.google.com/maps/contrib/106624836567647814704",
 };
 
 export const experiences: Experience[] = [

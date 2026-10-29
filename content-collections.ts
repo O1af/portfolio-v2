@@ -68,6 +68,8 @@ const posts = defineCollection({
   include: "*.mdx",
   schema: z.object({
     title: z.string(),
+    /** Search-result title, when it should name more than the headline does. */
+    seoTitle: z.string().optional(),
     summary: z.string(),
     date: z.coerce.date(),
     author: z.string(),

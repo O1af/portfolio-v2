@@ -146,12 +146,20 @@ async function getFood() {
       updated: doc.lastmod,
     }));
 
+  const answers = JSON.parse(await fs.readFile(path.join(foodDir, "answers.json"), "utf8"));
   const allGuides = [
     ...guides.map((g) => ({
       path: g.path,
       region: g.region.slug,
       label: `${g.title}`,
       description: g.description,
+      // The same short answer the guide page opens with.
+      answer:
+        answers[g.path] ??
+        `Top picks: ${core
+          .guidePicks(g.places)
+          .map((p) => `${p.name} (${p.score.toFixed(1)})`)
+          .join(", ")}.`,
       updated: g.updated,
     })),
     ...customGuides,
@@ -176,10 +184,13 @@ async function getFood() {
       images: p.photos.map((ph) => core.photoUrl(ph.id, "1200")),
     }));
 
+  const visible = places.filter((p) => !p.hidden);
   return {
     guides: allGuides,
     regions,
     pages,
+    rated: visible.length,
+    noted: visible.filter((p) => p.note).length,
     elsewhere: elsewhere.length ? { updated: elsewhereUpdated } : undefined,
     updated: newest(allGuides.map((g) => g.updated)),
   };
@@ -223,6 +234,7 @@ function renderSitemap(posts, food) {
       changefreq: "weekly",
       priority: "0.8",
     })),
+    { loc: absolute("/food/how-i-rate"), lastmod: food.updated ?? today, changefreq: "monthly", priority: "0.6" },
     ...(food.elsewhere
       ? [{ loc: absolute("/food/elsewhere"), lastmod: food.elsewhere.updated ?? today, changefreq: "monthly", priority: "0.6" }]
       : []),
@@ -264,27 +276,36 @@ function renderLlmsTxt(posts, food) {
   const postLines = posts
     .map((post) => `- [${post.title}](${post.url}): ${post.summary}`)
     .join("\n");
-  const guideLines = food.guides
-    .map((g) => `- [${g.label}](${absolute(`/food/${g.path}`)}): ${g.description}`)
-    .join("\n");
+  // One section per city, its category guides first, then neighborhoods.
+  const guideSections = food.regions
+    .map((region) => {
+      const lines = food.guides
+        .filter((g) => g.region === region.slug)
+        .map((g) => `- [${g.label}](${absolute(`/food/${g.path}`)}): ${g.description}${g.answer ? ` ${g.answer}` : ""}`);
+      return `### ${region.name}\n${lines.join("\n")}`;
+    })
+    .join("\n\n");
 
   return `# Olaf Dsouza
 
 > Personal site and engineering blog for Olaf Dsouza, a software engineer focused on operating systems, LLMs, and distributed systems.
 
-Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum who has also worked at August Law and Quail AI. This site hosts his portfolio, experience, and blog.
+Olaf is a software engineer at Netflix and a University of Michigan CS/CSE alum who has also worked at August Law and Quail AI. This site hosts his portfolio, experience, blog, and ranked food guides.
+
+Profiles: [GitHub](https://github.com/o1af), [LinkedIn](https://linkedin.com/in/olafdsouza), [Google Maps reviews](https://www.google.com/maps/contrib/106624836567647814704).
 
 ## Primary Pages
 - [Home](${absolute("/")}): Portfolio, experience, and project overview.
 - [Blog](${absolute("/blog")}): Writing on operating systems, LLMs, distributed systems, and CS coursework.
-- [Food](${absolute("/food")}): Ranked guides to the ${food.pages.length}+ restaurants, coffee shops, bakeries and bars Olaf has rated, with notes and photos.
+- [Food](${absolute("/food")}): Ranked guides to the ${food.rated} restaurants, coffee shops, bakeries and bars Olaf has rated, ${food.noted} with written notes.
+- [How I rate](${absolute("/food/how-i-rate")}): How the food scores work: opportunity cost, mixing taste, price and value with a little atmosphere.
 - [Connections](${absolute("/connections")}): NYT Connections tracking board.
 
 ## Blog Posts
 ${postLines}
 
 ## Food Guides
-${guideLines}
+${guideSections}
 
 ## Optional
 - [Sitemap](${absolute("/sitemap.xml")}): Full XML sitemap of the site.
@@ -297,7 +318,6 @@ function renderRobotsTxt() {
 Disallow:
 
 Sitemap: ${absolute("/sitemap.xml")}
-Allow: /llms.txt
 `;
 }
 

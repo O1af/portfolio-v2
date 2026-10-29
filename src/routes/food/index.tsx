@@ -56,7 +56,10 @@ function FoodHub() {
       <PageTitle>Food</PageTitle>
       <Lead>
         Everywhere I've eaten and rated since 2024, straight from my Beli. Ranked lists by city, with notes and photos
-        where I remembered to take them.
+        where I remembered to take them.{" "}
+        <Link to="/food/how-i-rate" {...stylex.props(styles.leadLink)}>
+          How I rate
+        </Link>
       </Lead>
       <dl {...stylex.props(styles.stats)}>
         {statItems.map(([value, label]) => (
@@ -124,6 +127,11 @@ function Picks({ picks, eager }: { picks: Pick[]; eager: boolean }) {
 }
 
 const styles = stylex.create({
+  leadLink: {
+    color: "var(--foreground)",
+    textDecorationLine: "underline",
+    textUnderlineOffset: "3px",
+  },
   picks: {
     display: "grid",
     gridAutoFlow: { default: "column", "@media (min-width: 640px)": "row" },
