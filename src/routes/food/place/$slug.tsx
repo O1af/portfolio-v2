@@ -6,10 +6,11 @@ import { Crumbs, FoodMain, crumbStyles } from "@/components/food/layout";
 import { Lightbox } from "@/components/food/Lightbox";
 import type { PlaceView } from "@/lib/food";
 import { getPlace } from "@/lib/food-api";
-import { cityName, photoUrl, type Photo } from "@/lib/food-core";
+import { areaPhrase, cityName, photoUrl, type Photo } from "@/lib/food-core";
 import {
   DAY_NAMES,
   WEEK,
+  describeKind,
   directionsUrl,
   displayDomain,
   formatDayHours,
@@ -37,13 +38,9 @@ export const Route = createFileRoute("/food/place/$slug")({
     if (!place) return {};
     const url = placeUrl(place.slug);
     const town = cityName(place.city);
-    const where = placeLocation(place.city, place.area, place.neighborhood);
     // "Eat Thai Ann Arbor", not "Eat Thai Ann Arbor, Ann Arbor".
     const named = place.name.toLowerCase().includes(town.toLowerCase()) ? place.name : `${place.name}, ${town}`;
-    const rank = place.guide && ` #${place.guide.rank} of ${place.guide.total} in my ${place.region.name} ${lowerLabel(place.guide.label)} guide.`;
-    const description = place.note
-      ? `${formatScore(place.score)}/10. ${truncate(place.note, 120)}`
-      : `${place.name} in ${where}: ${formatScore(place.score)}/10.${rank ?? ""}`;
+    const description = placeDescription(place);
     const crumbs = [
       place.region.hasPage
         ? { name: place.region.name, url: foodUrl(`/${place.region.slug}`) }
@@ -76,10 +73,32 @@ export const Route = createFileRoute("/food/place/$slug")({
   component: PlacePage,
 });
 
+/**
+ * Search snippet: what and where first, then what to order and the start of my note.
+ * The page itself shows the note word for word.
+ */
+function placeDescription(place: PlaceView) {
+  const town = cityName(place.city);
+  const local = place.neighborhood ?? place.area;
+  const where = local && local !== town ? `${areaPhrase(local)}, ${town}` : town;
+  const kind = describeKind(place.category, place.kind, place.cuisines);
+  const rank = place.guide
+    ? ` (#${place.guide.rank} of ${place.guide.total} in my ${place.region.name} ${lowerLabel(place.guide.label)} guide)`
+    : "";
+  const order = [...place.dishes]
+    .sort((a, b) => Number(Boolean(b.mustOrder)) - Number(Boolean(a.mustOrder)))
+    .slice(0, 2)
+    .map((d) => d.name);
+  const facts = `${kind.charAt(0).toUpperCase()}${kind.slice(1)} in ${where}, rated ${formatScore(place.score)}/10${rank}.${
+    order.length ? ` Order: ${order.join(" and ")}.` : ""
+  }`;
+  return place.note ? `${facts} “${truncate(place.note, Math.max(60, 200 - facts.length))}”` : facts;
+}
+
 /** One line for meta descriptions: notes can contain line breaks. */
 function truncate(note: string, max: number) {
   const text = note.replace(/\s+/g, " ");
-  return text.length <= max ? text : `${text.slice(0, text.lastIndexOf(" ", max))}…`;
+  return text.length <= max ? text : `${text.slice(0, text.lastIndexOf(" ", max)).replace(/[.,;:!?]+$/, "")}…`;
 }
 
 function PlacePage() {

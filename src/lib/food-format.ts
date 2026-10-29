@@ -34,6 +34,13 @@ export function placeType(category: Category, kind?: Kind, cuisines?: string[]):
 export const titleKind = (category: Category, kind?: Kind) =>
   kind === "tea" ? "tea & boba" : KIND_OF_PLACE[category].toLowerCase();
 
+/** "Thai spot", "coffee shop", "dessert spot": what the place is, for search snippets. */
+export function describeKind(category: Category, kind?: Kind, cuisines?: string[]): string {
+  if (category === "restaurants" && cuisines?.length) return `${cuisines[0]} spot`;
+  const noun = titleKind(category, kind);
+  return kind === "tea" || category === "dessert" ? `${noun} spot` : noun;
+}
+
 /** "Old West Side, Ann Arbor"; just the city when the area is the city. */
 export function placeLocation(city: string, area?: string, neighborhood?: string): string {
   const town = cityName(city);
