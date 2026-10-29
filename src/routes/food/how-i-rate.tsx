@@ -15,7 +15,7 @@ export const Route = createFileRoute("/food/how-i-rate")({
   head: ({ loaderData: stats }) => {
     if (!stats) return {};
     const url = foodUrl("/how-i-rate");
-    const description = `How I score the ${stats.places} places I've rated: basically opportunity cost, a mix of taste, price and value with a little atmosphere.`;
+    const description = `How I score the ${stats.places} places I've rated: essentially opportunity cost, a mix of taste, price and value with a little atmosphere.`;
     return {
       meta: foodMeta({ title: `How I rate food | ${personalInfo.name}`, description, url, type: "article" }),
       links: [{ rel: "canonical", href: url }],
@@ -42,24 +42,24 @@ function HowIRatePage() {
       </Crumbs>
       <PageTitle>How I rate</PageTitle>
       <Lead>
-        Every score is basically opportunity cost: for what it cost me, was this worth it compared with everything else I
-        could have eaten?
+        Every score is essentially opportunity cost: for what it cost me, was this worth it compared with everything else I
+        could have eaten? Would a $10 Chipotle bowl have tasted better and gotten me more food?
       </Lead>
 
       <Section title="What goes into a score">
-        A mix of taste, price and value, with a little bit of atmosphere. There's no formula, so the weights shift a bit
-        from place to place. I do my best.
+        A mix of taste, price and value, with a little bit of atmosphere. There's no specific formula, so the weights
+        shift a bit from place to place. I try my best.
       </Section>
 
       <Section title="Scores are relative">
         I rate each place by comparing it with the ones I've already rated in the same category. A 10 means it beat
-        everything else I've had in that category, not that it's perfect, and scores can move as I try more places.
+        everything else I've had in that category, not that it's perfect, and scores often move as I try more places.
       </Section>
 
       <Section title="By the numbers">
         {stats.places} places rated
         {stats.since && ` since ${formatMonthYear(stats.since)}`}, across {stats.regions} cities. {stats.notes} have
-        notes, and there are {stats.photos} photos. Nothing here is sponsored.
+        notes, and there are {stats.photos} photos. Nothing is sponsored; it's just for the love of the game.
       </Section>
 
       <Section title="Elsewhere">
@@ -69,7 +69,7 @@ function HowIRatePage() {
         </a>
         . Know somewhere I should try?{" "}
         <a href={`mailto:${personalInfo.email}?subject=Food%20rec`} {...stylex.props(styles.link)}>
-          Send it my way
+          Please send it my way
         </a>
         .
       </Section>
