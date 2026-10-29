@@ -8,6 +8,9 @@ const stateDir = ".indexnow";
 const currentPath = `${stateDir}/current.json`;
 const previousPath = `${stateDir}/previous.json`;
 const sitemapPath = "dist/client/sitemap.xml";
+// The fingerprints ship with the site, so the next deploy diffs against what is
+// actually live. CI caches expire after a week without use; the live site doesn't.
+const publishedPath = "indexnow.json";
 const digest = (value) => createHash("sha256").update(value).digest("hex");
 
 export function sitemapUrls(xml, host) {
@@ -87,9 +90,24 @@ async function prepare() {
   }
   const builtKey = await fs.readFile(`dist/client/${key}.txt`, "utf8");
   if (builtKey.trim() !== key) throw new Error("Key file is missing from the build.");
+  const current = JSON.stringify({ version: 1, host, sitemapHash: digest(xml), pages });
   await fs.mkdir(stateDir, { recursive: true });
-  await fs.writeFile(currentPath, JSON.stringify({ version: 1, host, sitemapHash: digest(xml), pages }));
-  console.log(`Prepared IndexNow fingerprints for ${Object.keys(pages).length} indexable pages.`);
+  await fs.writeFile(currentPath, current);
+  await fs.writeFile(path.join("dist/client", publishedPath), current);
+  await fs.rm(previousPath, { force: true });
+  const live = await liveBaseline(host);
+  if (live) await fs.writeFile(previousPath, JSON.stringify(live));
+  console.log(`Prepared IndexNow fingerprints for ${Object.keys(pages).length} indexable pages${live ? "" : " (no live baseline yet)"}.`);
+}
+
+/** Reads the fingerprints of the deployment that is live now, before it is replaced. */
+async function liveBaseline(host) {
+  const response = await fetch(`https://${host}/${publishedPath}?indexnow=${Date.now()}`, {
+    cache: "no-store", signal: AbortSignal.timeout(30000),
+  });
+  if (response.status === 404) return undefined;
+  if (!response.ok) throw new Error(`Could not read the live IndexNow baseline (HTTP ${response.status}).`);
+  return response.json();
 }
 
 export async function submitBatch(payload, fetcher = fetch, pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms))) {
@@ -109,7 +127,7 @@ export async function submitBatch(payload, fetcher = fetch, pause = (ms) => new 
     }
     if (response.status === 200 || response.status === 202) return response.status;
     const retryable = response.status === 429 || response.status >= 500;
-    if (!retryable || attempt === 2) throw new Error(`IndexNow returned HTTP ${response.status}; baseline preserved for retry.`);
+    if (!retryable || attempt === 2) throw new Error(`IndexNow returned HTTP ${response.status}.`);
     const retryAfter = response.headers.get("Retry-After");
     const delay = retryAfter && /^\d+$/.test(retryAfter)
       ? Number(retryAfter) * 1000
@@ -129,8 +147,9 @@ async function submit() {
     if (error.code !== "ENOENT") throw error;
   }
   const urls = changedUrls(current, previous);
-  // Ensure the production deployment is available before any notification or
-  // baseline update. A failed deployment must not consume the pending changes.
+  // Ensure the production deployment is live before notifying. Its fingerprints are
+  // the next baseline, so a failed notification isn't retried; the sitemap still
+  // carries those changes to crawlers.
   const keyLocation = `https://${host}/${key}.txt`;
   const keyResponse = await fetch(keyLocation, { cache: "no-store", signal: AbortSignal.timeout(30000) });
   if (!keyResponse.ok || (await keyResponse.text()).trim() !== key) {
@@ -140,7 +159,7 @@ async function submit() {
     cache: "no-store", signal: AbortSignal.timeout(30000),
   });
   if (!sitemapResponse.ok || digest(await sitemapResponse.text()) !== current.sitemapHash) {
-    throw new Error("Production sitemap does not match this build; baseline preserved.");
+    throw new Error("Production sitemap does not match this build.");
   }
   for (let offset = 0; offset < urls.length; offset += 10000) {
     const urlList = urls.slice(offset, offset + 10000);
@@ -148,12 +167,9 @@ async function submit() {
     console.log(`IndexNow received ${urlList.length} URLs (HTTP ${status}${status === 202 ? "; key validation pending" : ""}).`);
     urlList.forEach((url) => console.log(`  ${url}`));
   }
-  // Save only after every batch succeeds. The Actions cache preserves this
-  // across deployments; failures leave the old baseline available for retry.
-  await fs.copyFile(currentPath, previousPath);
   console.log(previous
     ? `${urls.length} added, changed or removed URLs notified.`
-    : "Initial baseline saved. Future content changes will notify IndexNow; existing unchanged pages were not resubmitted.");
+    : "Initial baseline published. Future content changes will notify IndexNow; existing unchanged pages were not resubmitted.");
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

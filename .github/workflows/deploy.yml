@@ -35,14 +35,7 @@ jobs:
 
       - run: pnpm build
 
-      - name: Restore last successful IndexNow baseline
-        uses: actions/cache/restore@v4
-        with:
-          path: .indexnow/previous.json
-          key: indexnow-v1-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: |
-            indexnow-v1-${{ github.ref_name }}-
-
+      # Must run before deploy: it reads the live site's fingerprints as the baseline.
       - name: Prepare IndexNow content fingerprints
         run: node scripts/indexnow.mjs prepare
 
@@ -54,9 +47,3 @@ jobs:
 
       - name: Notify IndexNow after deployment
         run: node scripts/indexnow.mjs submit
-
-      - name: Save successful IndexNow baseline
-        uses: actions/cache/save@v4
-        with:
-          path: .indexnow/previous.json
-          key: indexnow-v1-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
