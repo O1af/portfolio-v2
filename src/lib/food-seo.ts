@@ -1,7 +1,7 @@
 // Structured data and meta helpers for the food pages.
 
 import { personalInfo, siteUrl, socialUrls } from "@/components/Info";
-import { cityName, photoUrl, type Category, type Photo } from "./food-core";
+import { cityName, photoUrl, type Category, type Hours, type Photo } from "./food-core";
 import type { GuideView, PlaceView, Row } from "./food";
 import { buildSocialMeta } from "./seo";
 
@@ -19,6 +19,22 @@ const SCHEMA_TYPE: Record<Category, string> = {
   bakeries: "Bakery",
   bars: "BarOrPub",
 };
+
+/** Indexed like Date#getDay(). */
+const SCHEMA_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+/** Open all day is 00:00–23:59 in schema.org terms; repeated shifts are dropped. */
+function openingHours(hours: Hours[]) {
+  const seen = new Set<string>();
+  return hours
+    .filter((shift) => !seen.has(shift.join()) && seen.add(shift.join()))
+    .map(([day, opens, closes]) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: `https://schema.org/${SCHEMA_DAYS[day]}`,
+      opens,
+      closes: closes === "24:00" ? "23:59" : closes,
+    }));
+}
 
 export function socialImage(photo?: Photo) {
   return photo ? photoUrl(photo.id, "1200") : `${siteUrl}${personalInfo.profileImage}`;
@@ -113,6 +129,10 @@ export function placeSchema(place: PlaceView, url: string) {
       addressCountry: "US",
     },
     geo: { "@type": "GeoCoordinates", latitude: place.lat, longitude: place.lng },
+    ...(place.hours?.length &&
+      place.status !== "closed" && {
+        openingHoursSpecification: openingHours(place.hours),
+      }),
     ...(place.placeId && { hasMap: `https://www.google.com/maps/search/?api=1&query_place_id=${place.placeId}` }),
     review: {
       "@type": "Review",

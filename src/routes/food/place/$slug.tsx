@@ -107,6 +107,8 @@ function PlacePage() {
   const where = placeLocation(place.city, place.area, place.neighborhood);
   const guideName = guide && `${region.name} ${lowerLabel(guide.label)}`;
   const short = (place.note?.split(/\s+/).length ?? 0) <= 3;
+  // Without hours on file, the section is left out and the map link stands in for it.
+  const hasHours = Boolean(place.hours?.length);
 
   return (
     <FoodMain>
@@ -198,11 +200,13 @@ function PlacePage() {
 
       <Photos photos={place.photos} name={place.name} dishes={place.dishes.map((d) => d.name)} />
 
-      <div {...stylex.props(styles.facts)}>
-        <section>
-          <h2 {...stylex.props(styles.h2)}>Hours</h2>
-          <Hours hours={place.hours} />
-        </section>
+      <div {...stylex.props(styles.facts, !hasHours && styles.factsSingle)}>
+        {hasHours && (
+          <section>
+            <h2 {...stylex.props(styles.h2)}>Hours</h2>
+            <Hours hours={place.hours} />
+          </section>
+        )}
         <section>
           <h2 {...stylex.props(styles.h2)}>Links</h2>
           <div {...stylex.props(styles.links)}>
@@ -217,7 +221,7 @@ function PlacePage() {
               rel="noopener noreferrer"
               {...stylex.props(styles.linkRow)}
             >
-              Directions <span {...stylex.props(styles.linkMeta)}>Google Maps</span>
+              {hasHours ? "Directions" : "Hours & directions"} <span {...stylex.props(styles.linkMeta)}>Google Maps</span>
             </a>
             {guide && (
               <Link
@@ -336,7 +340,7 @@ function Hours({ hours }: { hours: PlaceView["hours"] }) {
   // Today depends on the visitor's clock, so it's highlighted after hydration.
   const [today, setToday] = useState<number>();
   useEffect(() => setToday(new Date().getDay()), []);
-  if (!hours?.length) return <p {...stylex.props(styles.muted, styles.factsBody)}>Hours not captured.</p>;
+  if (!hours?.length) return null;
   return (
     <dl {...stylex.props(styles.factsBody)}>
       {WEEK.map((day) => (
@@ -501,6 +505,9 @@ const styles = stylex.create({
     gridTemplateColumns: { default: "1fr", "@media (min-width: 640px)": "1fr 1fr" },
     gap: "1.5rem",
     marginTop: "2rem",
+  },
+  factsSingle: {
+    gridTemplateColumns: "1fr",
   },
   factsBody: {
     marginTop: "0.5rem",
